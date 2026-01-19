@@ -16,7 +16,7 @@ public class CreateUserProfileCommandUseCasesImpl implements CreateUserProfileCo
 
 	@Override
 	public CreateUserProfileResponseDTO execute(CreateUserProfileRequestDTO createUserProfileRequestDTO) {
-		var mappedUserProfile = mapper.mapToEntity(createUserProfileRequestDTO);
+		var mappedUserProfile = mapper.from(createUserProfileRequestDTO);
 		var savedUserProfile = repository.save(mappedUserProfile);
 		return mapper.mapToResponse(savedUserProfile);
 	}

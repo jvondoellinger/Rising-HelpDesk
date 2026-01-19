@@ -20,13 +20,13 @@ public class TicketQueryUseCasesImpl implements TicketQueryUseCases {
 
 	@Override
 	public TicketQueryResponseDTO queryById(DomainIdDTO domainIdDTO) {
-		var result = repository.queryById(DomainId.parse(domainIdDTO.value()));
+		var result = repository.queryById(DomainId.parse(domainIdDTO.id()));
 		return mapper.toQueryResponse(result);
 	}
 
 	@Override
 	public List<TicketQueryResponseDTO> queryByPagination(QueryFilter filter) {
-		var result = repository.query(QueryFilter.of(100, 0));
+		var result = repository.query(filter);
 		return mapper.toQueryCollectionResponse(result).responses();
 	}
 }

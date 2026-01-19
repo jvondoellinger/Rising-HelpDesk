@@ -1,5 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.application.shared;
 
+import com.github.jvondoellinger.agp_protocol.application.shared.id.AccessProfileIdDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.valueObjects.MentionsDTO;
 import com.github.jvondoellinger.agp_protocol.application.shared.id.QueueIdDTO;
 import com.github.jvondoellinger.agp_protocol.application.shared.id.UserProfileIdDTO;
@@ -15,5 +16,8 @@ public class DtoSharedMapper {
 	}
 	public static UserProfileIdDTO mapUserProfileIdDTO(String userId) {
 		return new UserProfileIdDTO(userId);
+	}
+	public static AccessProfileIdDTO mapAccessProfileIdDTO(String accessProfileId) {
+		return new AccessProfileIdDTO(accessProfileId);
 	}
 }

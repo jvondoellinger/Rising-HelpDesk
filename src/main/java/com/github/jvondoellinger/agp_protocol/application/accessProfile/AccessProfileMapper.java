@@ -19,7 +19,7 @@ public class AccessProfileMapper{
 
 	public CreateAccessProfileResponseDTO toCreateResponse(AccessProfile accessProfile) {
 		return new CreateAccessProfileResponseDTO(
-			   mapId(accessProfile.getDomainId()),
+			   mapQueueId(accessProfile.getDomainId()),
 			   accessProfile.getName(),
 			   permissionsDTO(accessProfile.getPermissions()),
 			   accessProfile.getCreatedAt(),

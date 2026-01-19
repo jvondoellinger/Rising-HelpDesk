@@ -1,26 +1,29 @@
 package com.github.jvondoellinger.agp_protocol.application.userProfile;
 
+import com.github.jvondoellinger.agp_protocol.application.shared.DtoSharedMapper;
 import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
 import com.github.jvondoellinger.agp_protocol.domain.DomainId;
 import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfile;
 import com.github.jvondoellinger.agp_protocol.domain.profile.UserProfile;
 import org.springframework.stereotype.Service;
 
+import static com.github.jvondoellinger.agp_protocol.application.shared.DtoSharedMapper.mapAccessProfileIdDTO;
+import static com.github.jvondoellinger.agp_protocol.application.shared.DtoSharedMapper.mapUserProfileIdDTO;
+
 @Service
-public class UserProfileMapper implements Mapper<UserProfile, CreateUserProfileRequestDTO, CreateUserProfileResponseDTO> {
-	@Override
-	public UserProfile mapToEntity(CreateUserProfileRequestDTO requestDTO) {
-		var accessProfileIdStr = requestDTO.accessProfileId().value();
+public class UserProfileMapper {
+
+	public UserProfile from(CreateUserProfileRequestDTO requestDTO) {
+		var accessProfileIdStr = requestDTO.accessProfileId().id();
 		var accessProfile = accessProfileIdOnly(accessProfileIdStr);
 		return new UserProfile(
 			accessProfile
 		);
 	}
 
-	@Override
 	public CreateUserProfileResponseDTO mapToResponse(UserProfile userProfile) {
-		var domainDtoId = new DomainIdDTO(userProfile.getUserId().value());
-		var accessProfileId = new DomainIdDTO(userProfile.getAccessProfile().getDomainId().value());
+		var domainDtoId = mapUserProfileIdDTO(userProfile.getUserId().value());
+		var accessProfileId = mapAccessProfileIdDTO(userProfile.getAccessProfile().getDomainId().value());
 
 		return new CreateUserProfileResponseDTO(
 			domainDtoId,

@@ -16,8 +16,8 @@ public class CreateQueueCommandUseCasesImpl implements CreateQueueCommandUseCase
 
 	@Override
 	public CreateQueueResponseDTO execute(CreateQueueRequestDTO createQueueRequestDTO) {
-		var mappedEntity = mapper.mapToEntity(createQueueRequestDTO);
+		var mappedEntity = mapper.from(createQueueRequestDTO);
 		var savedEntity = repository.save(mappedEntity);
-		return mapper.mapToResponse(savedEntity);
+		return mapper.toCreateResponse(savedEntity);
 	}
 }

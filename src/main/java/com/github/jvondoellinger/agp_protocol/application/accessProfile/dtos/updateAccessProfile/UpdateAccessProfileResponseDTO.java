@@ -1,6 +1,7 @@
-package com.github.jvondoellinger.agp_protocol.application.accessProfile;
+package com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.updateAccessProfile;
 
 
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.PermissionsDTO;
 import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
 
 import java.time.LocalDateTime;

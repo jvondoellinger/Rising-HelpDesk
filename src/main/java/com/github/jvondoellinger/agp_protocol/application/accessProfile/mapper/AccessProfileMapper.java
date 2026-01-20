@@ -1,5 +1,8 @@
-package com.github.jvondoellinger.agp_protocol.application.accessProfile;
+package com.github.jvondoellinger.agp_protocol.application.accessProfile.mapper;
 
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileRequestDTO;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.PermissionsDTO;
 import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfile;
 import com.github.jvondoellinger.agp_protocol.domain.valueObjects.Permission;
 import com.github.jvondoellinger.agp_protocol.domain.valueObjects.Permissions;

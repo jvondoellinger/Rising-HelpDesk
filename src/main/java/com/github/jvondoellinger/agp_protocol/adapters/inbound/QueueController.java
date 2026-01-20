@@ -1,7 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.adapters.inbound;
 
-import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.queue.dtos.createQueue.CreateQueueRequestDTO;
+import com.github.jvondoellinger.agp_protocol.application.queue.dtos.createQueue.CreateQueueResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.queue.useCases.CreateQueueCommandUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,8 +1,8 @@
 package com.github.jvondoellinger.agp_protocol.application.queue.services;
 
-import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.queue.QueueMapper;
+import com.github.jvondoellinger.agp_protocol.application.queue.dtos.createQueue.CreateQueueRequestDTO;
+import com.github.jvondoellinger.agp_protocol.application.queue.dtos.createQueue.CreateQueueResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.queue.mapper.QueueMapper;
 import com.github.jvondoellinger.agp_protocol.application.queue.useCases.CreateQueueCommandUseCase;
 import com.github.jvondoellinger.agp_protocol.domain.queue.QueueRepository;
 import lombok.AllArgsConstructor;

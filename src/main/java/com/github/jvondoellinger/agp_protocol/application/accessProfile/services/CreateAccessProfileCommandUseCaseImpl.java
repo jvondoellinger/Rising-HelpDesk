@@ -1,8 +1,8 @@
 package com.github.jvondoellinger.agp_protocol.application.accessProfile.services;
 
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.AccessProfileMapper;
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.mapper.AccessProfileMapper;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileRequestDTO;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.CreateAccessProfileCommandUseCase;
 import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfileRepository;
 import lombok.AllArgsConstructor;

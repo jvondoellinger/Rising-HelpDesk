@@ -17,4 +17,5 @@ public interface CrudsRepository<T> {
 	 * @return Readonly list
 	 */
 	List<T> query(QueryFilter filter);
+	long total();
 }

@@ -41,4 +41,9 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	public List<Interaction> query(QueryFilter filter) {
 		return JpaCrudsBridge.findBy(jpaInteractionRepository, filter, DbEntity::toDomainEntity);
 	}
+
+	@Override
+	public long total() {
+		return jpaInteractionRepository.count();
+	}
 }

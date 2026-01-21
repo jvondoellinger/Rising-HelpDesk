@@ -25,7 +25,6 @@ public class TicketRepositoryImpl implements TicketRepository {
 	@Override
 	public Ticket update(Ticket entity) {
 		return JpaCrudsBridge.save(jpaTicketRepository, new TicketDbEntity(entity), DbEntity::toDomainEntity);
-
 	}
 
 	@Override
@@ -42,5 +41,10 @@ public class TicketRepositoryImpl implements TicketRepository {
 	public List<Ticket> query(QueryFilter filter) {
 		return JpaCrudsBridge.findBy(jpaTicketRepository, filter, DbEntity::toDomainEntity);
 
+	}
+
+	@Override
+	public long total() {
+		return jpaTicketRepository.count();
 	}
 }

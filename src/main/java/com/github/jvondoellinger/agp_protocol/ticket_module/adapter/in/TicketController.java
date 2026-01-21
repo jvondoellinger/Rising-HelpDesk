@@ -4,7 +4,7 @@ import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketReq
 import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.CreateTicketCommandUseCases;
-import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.TicketQueryUseCases;
+import com.github.jvondoellinger.agp_protocol.ticket_module.application.usecases.TicketQueryUseCases;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

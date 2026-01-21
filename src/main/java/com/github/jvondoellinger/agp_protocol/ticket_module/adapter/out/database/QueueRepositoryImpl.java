@@ -44,4 +44,9 @@ public class QueueRepositoryImpl implements QueueRepository {
 	public List<Queue> query(QueryFilter filter) {
 		return JpaCrudsBridge.findBy(jpaQueueRepository, filter, DbEntity::toDomainEntity);
 	}
+
+	@Override
+	public long total() {
+		return jpaQueueRepository.count();
+	}
 }

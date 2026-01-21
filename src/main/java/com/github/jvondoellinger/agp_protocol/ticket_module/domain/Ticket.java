@@ -1,9 +1,9 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.domain;
 
+import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.valueObjects.TicketNumber;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.mention.Mentions;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.InteractionsHistory;
-import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfile;
 
 import java.time.LocalDateTime;
 
@@ -11,12 +11,12 @@ public class Ticket {
 	public Ticket(TicketNumber number,
 			    String title,
 			    InteractionsHistory history,
-			    Queue queue,
+			    QueueId queue,
 			    Mentions mentions,
 			    LocalDateTime deadline,
-			    UserProfile openedBy,
+			    UserProfileId openedBy,
 			    LocalDateTime openedOn,
-			    UserProfile lastUpdatedBy,
+			    UserProfileId lastUpdatedBy,
 			    LocalDateTime lastUpdatedOn) {
 		this.number = number;
 		this.title = title;
@@ -32,9 +32,9 @@ public class Ticket {
 
 	public Ticket(String title,
 			    InteractionsHistory history,
-			    Queue queue,
+			    QueueId queue,
 			    Mentions mentions,
-			    UserProfile openedBy,
+			    UserProfileId openedBy,
 			    LocalDateTime deadline) {
 		this.number = TicketNumber.create();
 		this.title = title;
@@ -51,14 +51,14 @@ public class Ticket {
 	private final TicketNumber number;
 	private final String title;
 	private final InteractionsHistory history;
-	private final Queue queue;
+	private final QueueId queue;
 	private final LocalDateTime deadline;
 	private final Mentions mentions;
 
 	private final LocalDateTime openedOn;
-	private final UserProfile openedBy;
+	private final UserProfileId openedBy;
 	private final LocalDateTime lastUpdatedOn;
-	private final UserProfile lastUpdatedBy;
+	private final UserProfileId lastUpdatedBy;
 
 	public TicketNumber number() {
 		return number;
@@ -69,7 +69,7 @@ public class Ticket {
 	public InteractionsHistory history() {
 		return history;
 	}
-	public Queue queue() {
+	public QueueId queue() {
 		return queue;
 	}
 	public LocalDateTime deadline() {
@@ -81,13 +81,13 @@ public class Ticket {
 	public LocalDateTime openedOn() {
 		return openedOn;
 	}
-	public UserProfile openedBy() {
+	public UserProfileId openedBy() {
 		return openedBy;
 	}
 	public LocalDateTime lastUpdatedOn() {
 		return lastUpdatedOn;
 	}
-	public UserProfile lastUpdatedBy() {
+	public UserProfileId lastUpdatedBy() {
 		return lastUpdatedBy;
 	}
 }

@@ -1,4 +1,6 @@
-package com.github.jvondoellinger.agp_protocol.shared_kernel;
+package com.github.jvondoellinger.agp_protocol.ticket_module.domain;
+
+import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 
 public class QueueId {
 	private final DomainId id;

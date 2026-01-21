@@ -4,7 +4,7 @@ import com.github.jvondoellinger.agp_protocol.application.accessProfile.mapper.A
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.CreateAccessProfileCommandUseCase;
-import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfileRepository;
+import com.github.jvondoellinger.agp_protocol.accessProfile_module.domain.AccessProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

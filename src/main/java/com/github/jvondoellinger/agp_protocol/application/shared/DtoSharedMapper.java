@@ -1,12 +1,9 @@
 package com.github.jvondoellinger.agp_protocol.application.shared;
 
 import com.github.jvondoellinger.agp_protocol.application.shared.id.AccessProfileIdDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.valueObjects.MentionsDTO;
 import com.github.jvondoellinger.agp_protocol.application.shared.id.QueueIdDTO;
 import com.github.jvondoellinger.agp_protocol.application.shared.id.UserProfileIdDTO;
-import com.github.jvondoellinger.agp_protocol.domain.DomainId;
-
-import java.util.List;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 
 public class DtoSharedMapper {
 	private DtoSharedMapper() {}

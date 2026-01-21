@@ -4,7 +4,7 @@ import com.github.jvondoellinger.agp_protocol.application.queue.dtos.createQueue
 import com.github.jvondoellinger.agp_protocol.application.queue.dtos.createQueue.CreateQueueResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.queue.mapper.QueueMapper;
 import com.github.jvondoellinger.agp_protocol.application.queue.useCases.CreateQueueCommandUseCase;
-import com.github.jvondoellinger.agp_protocol.domain.queue.QueueRepository;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

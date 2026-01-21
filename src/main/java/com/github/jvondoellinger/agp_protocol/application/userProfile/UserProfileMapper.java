@@ -1,10 +1,8 @@
 package com.github.jvondoellinger.agp_protocol.application.userProfile;
 
-import com.github.jvondoellinger.agp_protocol.application.shared.DtoSharedMapper;
-import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
-import com.github.jvondoellinger.agp_protocol.domain.DomainId;
-import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfile;
-import com.github.jvondoellinger.agp_protocol.domain.profile.UserProfile;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
+import com.github.jvondoellinger.agp_protocol.accessProfile_module.domain.AccessProfile;
+import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfile;
 import org.springframework.stereotype.Service;
 
 import static com.github.jvondoellinger.agp_protocol.application.shared.DtoSharedMapper.mapAccessProfileIdDTO;

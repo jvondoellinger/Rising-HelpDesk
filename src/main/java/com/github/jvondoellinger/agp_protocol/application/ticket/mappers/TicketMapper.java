@@ -7,12 +7,12 @@ import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketReq
 import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.CollectionTicketQueryResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryResponseDTO;
-import com.github.jvondoellinger.agp_protocol.domain.DomainId;
-import com.github.jvondoellinger.agp_protocol.domain.interaction.InteractionsHistory;
-import com.github.jvondoellinger.agp_protocol.domain.mention.Mentions;
-import com.github.jvondoellinger.agp_protocol.domain.profile.UserProfile;
-import com.github.jvondoellinger.agp_protocol.domain.queue.Queue;
-import com.github.jvondoellinger.agp_protocol.domain.ticket.Ticket;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.InteractionsHistory;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.mention.Mentions;
+import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfile;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Queue;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Ticket;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

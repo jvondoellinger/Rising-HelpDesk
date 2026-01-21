@@ -4,7 +4,7 @@ import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketReq
 import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.mappers.TicketMapper;
 import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.CreateTicketCommandUseCases;
-import com.github.jvondoellinger.agp_protocol.domain.ticket.TicketRepository;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

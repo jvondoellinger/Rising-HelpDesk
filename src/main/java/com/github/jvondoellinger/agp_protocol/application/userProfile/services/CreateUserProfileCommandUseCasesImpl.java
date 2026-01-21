@@ -4,7 +4,7 @@ import com.github.jvondoellinger.agp_protocol.application.userProfile.CreateUser
 import com.github.jvondoellinger.agp_protocol.application.userProfile.CreateUserProfileResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.userProfile.UserProfileMapper;
 import com.github.jvondoellinger.agp_protocol.application.userProfile.useCases.CreateUserProfileCommandUseCase;
-import com.github.jvondoellinger.agp_protocol.domain.profile.UserProfileRepository;
+import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

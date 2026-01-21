@@ -1,0 +1,28 @@
+package com.github.jvondoellinger.agp_protocol.shared_kernel;
+
+public class UserProfileId {
+	private final DomainId id;
+
+	private UserProfileId(String value) {
+		this.id = DomainId.parse(value);
+	}
+	private UserProfileId(DomainId id) {
+		this.id = id;
+	}
+
+	public static UserProfileId of(DomainId id) {
+		return new UserProfileId(id);
+	}
+	public static UserProfileId of(String id) {
+		return new UserProfileId(id);
+	}
+
+	private String value() {
+		return id.value();
+	}
+
+	@Override
+	public String toString() {
+		return value();
+	}
+}

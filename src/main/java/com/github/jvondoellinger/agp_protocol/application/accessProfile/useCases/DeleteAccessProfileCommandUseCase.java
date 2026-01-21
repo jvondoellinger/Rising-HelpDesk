@@ -2,7 +2,7 @@ package com.github.jvondoellinger.agp_protocol.application.accessProfile.useCase
 
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.deleteAccessProfile.DeleteAccessProfileRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.deleteAccessProfile.DeleteAccessProfileResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.shared.CommandUseCase;
+import com.github.jvondoellinger.agp_protocol.application_commons.CommandUseCase;
 
 public interface DeleteAccessProfileCommandUseCase extends CommandUseCase<DeleteAccessProfileRequestDTO, DeleteAccessProfileResponseDTO> {
 

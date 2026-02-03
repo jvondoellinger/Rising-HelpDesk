@@ -1,11 +1,11 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database;
 
-import com.github.jvondoellinger.agp_protocol.infra_commons.JpaCrudsBridge;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.JpaCrudsBridge;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.Interaction;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.InteractionRepository;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
-import com.github.jvondoellinger.agp_protocol.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure.InteractionDbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

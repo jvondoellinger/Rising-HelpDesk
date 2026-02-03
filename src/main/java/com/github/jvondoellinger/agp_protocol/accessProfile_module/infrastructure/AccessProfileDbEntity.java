@@ -1,7 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.accessProfile_module.infrastructure;
 
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.adapters.out.converter.PermissionsConverter;
-import com.github.jvondoellinger.agp_protocol.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.domain.AccessProfile;
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.domain.valueObjects.Permissions;

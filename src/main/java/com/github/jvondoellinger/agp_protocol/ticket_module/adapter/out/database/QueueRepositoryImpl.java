@@ -1,11 +1,11 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database;
 
-import com.github.jvondoellinger.agp_protocol.infra_commons.JpaCrudsBridge;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.JpaCrudsBridge;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Queue;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.QueueRepository;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
-import com.github.jvondoellinger.agp_protocol.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure.QueueDbEntity;
 import org.springframework.stereotype.Repository;
 
@@ -37,7 +37,6 @@ public class QueueRepositoryImpl implements QueueRepository {
 	@Override
 	public Queue queryById(DomainId id) {
 		return JpaCrudsBridge.findById(jpaQueueRepository, id.value(), DbEntity::toDomainEntity);
-
 	}
 
 	@Override

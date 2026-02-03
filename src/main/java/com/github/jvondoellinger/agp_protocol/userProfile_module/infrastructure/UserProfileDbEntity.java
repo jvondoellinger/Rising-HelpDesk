@@ -1,7 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure;
 
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.infrastructure.AccessProfileDbEntity;
-import com.github.jvondoellinger.agp_protocol.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfile;
 import jakarta.persistence.*;

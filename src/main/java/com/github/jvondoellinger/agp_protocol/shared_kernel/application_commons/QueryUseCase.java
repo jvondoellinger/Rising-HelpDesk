@@ -1,4 +1,4 @@
-package com.github.jvondoellinger.agp_protocol.application_commons;
+package com.github.jvondoellinger.agp_protocol.shared_kernel.application_commons;
 
 import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;

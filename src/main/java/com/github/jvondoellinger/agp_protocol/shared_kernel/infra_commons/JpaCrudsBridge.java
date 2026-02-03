@@ -1,4 +1,4 @@
-package com.github.jvondoellinger.agp_protocol.infra_commons;
+package com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;

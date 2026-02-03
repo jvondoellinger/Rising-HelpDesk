@@ -1,12 +1,12 @@
 package com.github.jvondoellinger.agp_protocol.accessProfile_module.adapters.out;
 
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.infrastructure.AccessProfileDbEntity;
-import com.github.jvondoellinger.agp_protocol.infra_commons.JpaCrudsBridge;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.JpaCrudsBridge;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.domain.AccessProfile;
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.domain.AccessProfileRepository;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
-import com.github.jvondoellinger.agp_protocol.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 

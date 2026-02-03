@@ -1,6 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.domain.valueObjects;
 
-import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainException;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,11 +26,11 @@ public class TicketNumber {
 	public static TicketNumber create() {
 		return new TicketNumber();
 	}
-
+	@FixAfter
 	public static TicketNumber parse(String n) {
 		LocalDateTime time = LocalDateTime.parse(n, formatter);
 
-		if (time.isAfter(LocalDateTime.now())) throw new DomainException("The ticket number received is invalid and could not be analyzed!");
+		if (time.isAfter(LocalDateTime.now())) throw new RuntimeException("The ticket number received is invalid and could not be analyzed!");
 
 		return new TicketNumber(n);
 	}

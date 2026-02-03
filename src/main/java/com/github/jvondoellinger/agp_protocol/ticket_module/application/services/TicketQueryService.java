@@ -1,6 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.application.services;
 
-import com.github.jvondoellinger.agp_protocol.application_commons.Pagination;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.application_commons.Pagination;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
 import com.github.jvondoellinger.agp_protocol.ticket_module.application.mappers.TicketMapper;

@@ -1,11 +1,11 @@
 package com.github.jvondoellinger.agp_protocol.userProfile_module.adapters.out;
 
-import com.github.jvondoellinger.agp_protocol.infra_commons.JpaCrudsBridge;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.JpaCrudsBridge;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfile;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfileRepository;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
-import com.github.jvondoellinger.agp_protocol.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure.UserProfileDbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

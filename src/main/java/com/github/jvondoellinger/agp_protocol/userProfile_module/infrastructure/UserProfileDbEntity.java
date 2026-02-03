@@ -1,6 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure;
 
 import com.github.jvondoellinger.agp_protocol.accessProfile_module.infrastructure.AccessProfileDbEntity;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.domain.UserProfile;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "tb_user_profile")
 @Getter
 @Setter
+@FixAfter
 public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	@Id
 	public String userId;

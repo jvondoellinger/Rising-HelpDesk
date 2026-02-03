@@ -66,10 +66,10 @@ public class Ticket {
 	public String title() {
 		return title;
 	}
-	public InteractionsHistory history() {
+	public InteractionsHistory interactionIds() {
 		return history;
 	}
-	public QueueId queue() {
+	public QueueId queueId() {
 		return queue;
 	}
 	public LocalDateTime deadline() {

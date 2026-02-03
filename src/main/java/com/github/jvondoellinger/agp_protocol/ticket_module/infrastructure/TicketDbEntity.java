@@ -1,6 +1,9 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure;
 
+import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.QueueId;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure.UserProfileDbEntity;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.InteractionsHistory;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.mention.Mentions;
@@ -21,6 +24,7 @@ import java.util.List;
 @Table(name = "tb_tickets")
 @Getter
 @Setter
+@FixAfter
 public class TicketDbEntity implements DbEntity<Ticket> {
 	@Id
 	private String number;
@@ -67,44 +71,30 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 	public TicketDbEntity(Ticket ticket) {
 		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
 			   .stream()
-			   .map(u -> u.getUserId().value())
+			   .map(UserProfileId::toString)
 			   .map(UserProfileDbEntity::foreignKey)
 			   .toList();
-		this.history = (new ArrayList<>(ticket.history().readonlyList()))
+		this.history = (new ArrayList<>(ticket.interactionIds().readonlyList()))
 			   .stream()
 			   .map(i -> i.getId().value())
 			   .map(InteractionDbEntity::foreignKey)
 			   .toList();
-		this.queue = QueueDbEntity.foreignKey(ticket.queue().getDomainId().value());
+		this.queue = QueueDbEntity.foreignKey(ticket.queueId().toString());
 		this.number = ticket.number().toString();
 		this.title = ticket.title();
 		this.deadline = ticket.deadline();
 		this.mentions = mentions;
-		this.openedBy = UserProfileDbEntity.foreignKey(ticket.openedBy().getUserId().value());
+		this.openedBy = UserProfileDbEntity.foreignKey(ticket.openedBy().toString());
 		this.openedOn = ticket.openedOn();
-		this.lastUpdatedBy = ticket.lastUpdatedBy() == null ? null : UserProfileDbEntity.foreignKey(ticket.queue().getLastUpdatedBy().toString());
+		this.lastUpdatedBy = ticket.lastUpdatedBy() == null ? null : UserProfileDbEntity.foreignKey(ticket.queueId().toString());
 		this.lastUpdatedOn = ticket.lastUpdatedOn();
 	}
 
 	protected TicketDbEntity() {}
 
 	@Override
+	@Deprecated
 	public Ticket toDomainEntity() {
-		var mentionsEntity = mentions.stream().map(DbEntity::toDomainEntity).toList();
-		var interactions = history.stream().map(DbEntity::toDomainEntity).toList();
-		var historyEntity = new InteractionsHistory(interactions);
-
-		return new Ticket(
-			   TicketNumber.parse(number),
-			   title,
-			   historyEntity,
-			   queue.toDomainEntity(),
-			   new Mentions(mentionsEntity),
-			   deadline,
-			   openedBy.toDomainEntity(),
-			   openedOn,
-			   lastUpdatedBy == null ? null : lastUpdatedBy.toDomainEntity(),
-			   lastUpdatedOn
-		);
+		return null;
 	}
 }

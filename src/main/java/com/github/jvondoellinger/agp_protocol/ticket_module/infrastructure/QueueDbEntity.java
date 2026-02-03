@@ -1,5 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure;
 
+import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure.UserProfileDbEntity;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "tb_queue")
 @Getter
 @Setter
+@FixAfter
 public class QueueDbEntity implements DbEntity<Queue> {
 	@Id
 	private String domainId;
@@ -42,11 +45,11 @@ public class QueueDbEntity implements DbEntity<Queue> {
 		this.domainId = queue.getDomainId().toString();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
-		this.createdBy = UserProfileDbEntity.foreignKey(queue.getCreatedBy().getUserId().value());
+		this.createdBy = UserProfileDbEntity.foreignKey(queue.getCreatedBy().toString());
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = queue.getUpdatedAt();
 		this.lastUpdatedBy = queue.getLastUpdatedBy() == null ?
-			   null : UserProfileDbEntity.foreignKey(queue.getLastUpdatedBy().getUserId().value());
+			   null : UserProfileDbEntity.foreignKey(queue.getLastUpdatedBy().toString());
 
 	}
 
@@ -67,10 +70,10 @@ public class QueueDbEntity implements DbEntity<Queue> {
 			   DomainId.parse(domainId),
 			   area,
 			   subarea,
-			   createdBy.toDomainEntity(),
+			   UserProfileId.of(createdBy.getUserId()),
 			   createdAt,
 			   updatedAt,
-			   lastUpdatedBy == null ? null : lastUpdatedBy.toDomainEntity()
+			   lastUpdatedBy == null ? null : UserProfileId.of(lastUpdatedBy.getUserId())
 		);
 	}
 

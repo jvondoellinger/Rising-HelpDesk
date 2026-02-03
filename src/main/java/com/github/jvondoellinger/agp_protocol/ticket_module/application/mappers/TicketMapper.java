@@ -32,7 +32,7 @@ public class TicketMapper {
 		return new TicketDetails(
 			   ticket.number(),
 			   ticket.title(),
-			   ticket.queue(),
+			   ticket.queueId(),
 			   ticket.mentions(),
 			   ticket.deadline(),
 			   ticket.openedBy(),

@@ -1,5 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure;
 
+import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.Interaction;
@@ -18,6 +20,7 @@ import java.util.List;
 @Table(name = "tb_interaction")
 @Getter
 @Setter
+@FixAfter
 public class InteractionDbEntity implements DbEntity<Interaction> {
 	@Id
 	private String domainId;
@@ -34,7 +37,7 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 		this.domainId = interaction.getId().toString();
 		this.text = interaction.getText();
 		this.visible = interaction.isVisible();
-		this.interactedBy = UserProfileDbEntity.foreignKey(interaction.getInteractedBy().getUserId().value());
+		this.interactedBy = UserProfileDbEntity.foreignKey(interaction.getInteractedBy().toString());
 		this.interactedOn = interaction.getInteractedOn();
 	}
 
@@ -55,7 +58,7 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 			   DomainId.parse(domainId),
 			   text,
 			   visible,
-			   interactedBy.toDomainEntity(),
+			   UserProfileId.of(interactedBy.getUserId()),
 			   interactedOn
 		);
 	}

@@ -3,6 +3,10 @@ package com.github.jvondoellinger.agp_protocol.shared_kernel;
 public class UserProfileId {
 	private final DomainId id;
 
+	public UserProfileId() {
+		this.id = DomainId.create();
+	}
+
 	private UserProfileId(String value) {
 		this.id = DomainId.parse(value);
 	}

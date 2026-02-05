@@ -5,6 +5,10 @@ import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 public class QueueId {
 	private final DomainId id;
 
+	public QueueId() {
+		this.id = DomainId.create();
+	}
+
 	private QueueId(String value) {
 		this.id = DomainId.parse(value);
 	}

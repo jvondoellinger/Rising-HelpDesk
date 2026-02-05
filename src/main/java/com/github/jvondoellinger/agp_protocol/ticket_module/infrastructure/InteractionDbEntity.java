@@ -2,10 +2,8 @@ package com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure;
 
 import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
-import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
-import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
+import com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database.converter.UserProfileIdFieldConverter;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.Interaction;
-import com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure.UserProfileDbEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,15 +19,17 @@ import java.util.List;
 @Getter
 @Setter
 @FixAfter
-public class InteractionDbEntity implements DbEntity<Interaction> {
+public class InteractionDbEntity {
 	@Id
 	private String domainId;
 	private String text;
 
 	private boolean visible;
 
-	@ManyToOne
-	private UserProfileDbEntity interactedBy;
+	@Column(name = "interacted_by_id")
+	@Convert(converter = UserProfileIdFieldConverter.class)
+	private UserProfileId interactedBy;
+
 	@CreationTimestamp
 	private LocalDateTime interactedOn;
 
@@ -37,12 +37,12 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 		this.domainId = interaction.getId().toString();
 		this.text = interaction.getText();
 		this.visible = interaction.isVisible();
-		this.interactedBy = UserProfileDbEntity.foreignKey(interaction.getInteractedBy().toString());
+		this.interactedBy = interaction.getInteractedBy();
 		this.interactedOn = interaction.getInteractedOn();
 	}
 
 	@PersistenceCreator
-	public InteractionDbEntity(String domainId, String text, boolean visible, UserProfileDbEntity interactedBy, LocalDateTime interactedOn) {
+	public InteractionDbEntity(String domainId, String text, boolean visible, UserProfileId interactedBy, LocalDateTime interactedOn) {
 		this.domainId = domainId;
 		this.text = text;
 		this.visible = visible;
@@ -51,17 +51,6 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 	}
 
 	protected InteractionDbEntity() {}
-
-	@Override
-	public Interaction toDomainEntity() {
-		return new Interaction(
-			   DomainId.parse(domainId),
-			   text,
-			   visible,
-			   UserProfileId.of(interactedBy.getUserId()),
-			   interactedOn
-		);
-	}
 
 	public static InteractionDbEntity foreignKey(String id) {
 		var interactionDbEntity = new InteractionDbEntity();

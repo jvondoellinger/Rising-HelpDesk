@@ -1,6 +1,5 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.application.mappers;
 
-import com.github.jvondoellinger.agp_protocol.application.ticket.valueObjects.MentionsDTO;
 import com.github.jvondoellinger.agp_protocol.ticket_module.application.commands.CreateTicketCommand;
 import com.github.jvondoellinger.agp_protocol.ticket_module.application.queries.TicketDetails;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Ticket;

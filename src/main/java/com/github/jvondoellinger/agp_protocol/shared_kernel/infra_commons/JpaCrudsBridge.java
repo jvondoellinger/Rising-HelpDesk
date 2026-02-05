@@ -22,7 +22,7 @@ public class JpaCrudsBridge {
 	public static <
 		   T,
 		   Id,
-		   E extends DbEntity<T>,
+		   E,
 		   R extends JpaRepository<E, Id>
 		   >
 	T save(
@@ -33,7 +33,7 @@ public class JpaCrudsBridge {
 		T result;
 		log.info("LOG_ID: {} |  Initializing JPA bridge to save entity {} into the database", id, entityName);
 		try {
-			result = repository.save(dbEntity).toDomainEntity();
+			result = map.apply(dbEntity);
 			log.info("LOG_ID: {} | Transaction completed successfully for entity {}", id, entityName);
 		}
 		catch (Throwable exception) {
@@ -43,13 +43,13 @@ public class JpaCrudsBridge {
 		finally {
 			log.info("LOG_ID: {} | Exiting JPA bridge after saving entity {} into the database", id, entityName);
 		}
-		return result;
+		return (T) result;
 	}
 
 	public static <
 		   T,
 		   Id,
-		   E extends DbEntity<T>,
+		   E,
 		   R extends JpaRepository<E, Id>
 		   >
 	void delete(R jpaRepository, E entity) {
@@ -59,13 +59,13 @@ public class JpaCrudsBridge {
 	public static <
 		   T,
 		   Id,
-		   E extends DbEntity<T>,
+		   E,
 		   R extends JpaRepository<E, Id>
 		   >
 	T findById(R jpaRepository, Id id, Function<E, T> map) {
 		return runQueryFunc(() -> {
 			return jpaRepository.findById(id)
-				   .map(DbEntity::toDomainEntity)
+				   .map(map)
 				   .orElse(null);
 		});
 	}
@@ -73,7 +73,7 @@ public class JpaCrudsBridge {
 	public static <
 		   T,
 		   Id,
-		   E extends DbEntity<T>,
+		   E,
 		   R extends JpaRepository<E, Id>
 		   >
 	List<T> findBy(R jpaRepository, QueryFilter filter, Function<E, T> map) {
@@ -81,7 +81,7 @@ public class JpaCrudsBridge {
 			var pageable = PageRequest.of(filter.page(), filter.size());
 			return jpaRepository
 				   .findAll(pageable)
-				   .map(DbEntity::toDomainEntity)
+				   .map(map)
 				   .toList();
 		});
 	}

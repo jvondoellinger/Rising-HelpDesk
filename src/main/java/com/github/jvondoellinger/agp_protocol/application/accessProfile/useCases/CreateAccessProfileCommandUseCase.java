@@ -1,8 +1,0 @@
-package com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases;
-
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.dtos.createAccessProfile.CreateAccessProfileResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application_commons.CommandUseCase;
-
-public interface CreateAccessProfileCommandUseCase extends CommandUseCase<CreateAccessProfileRequestDTO, CreateAccessProfileResponseDTO> {
-}

@@ -66,7 +66,7 @@ public class Ticket {
 	public String title() {
 		return title;
 	}
-	public InteractionsHistory interactionIds() {
+	public InteractionsHistory interactionHistory() {
 		return history;
 	}
 	public QueueId queueId() {

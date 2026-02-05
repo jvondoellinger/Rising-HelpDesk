@@ -1,6 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.adapter.in;
 
-import com.github.jvondoellinger.agp_protocol.ticket_module.application.dtos.CreateTicketCommand;
+import com.github.jvondoellinger.agp_protocol.ticket_module.application.commands.CreateTicketCommand;
 import com.github.jvondoellinger.agp_protocol.ticket_module.application.queries.TicketDetails;
 import com.github.jvondoellinger.agp_protocol.ticket_module.application.usecases.CreateTicketCommandUseCases;
 import com.github.jvondoellinger.agp_protocol.ticket_module.application.usecases.TicketQueryUseCases;

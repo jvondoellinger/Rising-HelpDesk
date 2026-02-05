@@ -2,13 +2,14 @@ package com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure;
 
 import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
-import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
+import com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database.converter.InteractionHistoryConverter;
+import com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database.converter.MentionsConverter;
+import com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database.converter.QueueIdFieldConverter;
+import com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database.converter.UserProfileIdFieldConverter;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.QueueId;
-import com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure.UserProfileDbEntity;
+import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Ticket;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction.InteractionsHistory;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.mention.Mentions;
-import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Ticket;
-import com.github.jvondoellinger.agp_protocol.ticket_module.domain.valueObjects.TicketNumber;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,76 +26,81 @@ import java.util.List;
 @Getter
 @Setter
 @FixAfter
-public class TicketDbEntity implements DbEntity<Ticket> {
+public class TicketDbEntity {
 	@Id
 	private String number;
 
 	private String title;
 
 	@Column(name = "interactions")
-	@ManyToMany
-	private List<InteractionDbEntity> history;
+	@Convert(converter = InteractionHistoryConverter.class)
+	private InteractionsHistory history;
 
 	private LocalDateTime deadline;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	private QueueDbEntity queue;
+	@Column(name = "queue_id")
+	@Convert(converter = QueueIdFieldConverter.class)
+	private QueueId queueId;
 
-	@ManyToMany
-	private List<UserProfileDbEntity> mentions;
+	@Column(name = "opened_by_id")
+	@Convert(converter = MentionsConverter.class)
+	private Mentions mentions;
 
 	@CreationTimestamp
 	private LocalDateTime openedOn;
-	@ManyToOne
-	private UserProfileDbEntity openedBy;
+
+	@Column(name = "opened_by_id")
+	@Convert(converter = UserProfileIdFieldConverter.class)
+	private UserProfileId openedBy;
 
 	@UpdateTimestamp
 	@Column(nullable = true)
 	private LocalDateTime lastUpdatedOn;
-	@ManyToOne
-	private UserProfileDbEntity lastUpdatedBy;
+
+	@Column(name = "last_updated_by_id")
+	@Convert(converter = UserProfileIdFieldConverter.class)
+	private UserProfileId lastUpdatedBy;
 
 	@PersistenceCreator
-	public TicketDbEntity(String number, String title, List<InteractionDbEntity> history, LocalDateTime deadline, QueueDbEntity queue, List<UserProfileDbEntity> mentions, LocalDateTime openedOn, UserProfileDbEntity openedBy, LocalDateTime lastUpdatedOn, UserProfileDbEntity lastUpdatedBy) {
+	public TicketDbEntity(String number,
+					  String title,
+					  InteractionsHistory history,
+					  LocalDateTime deadline,
+					  QueueId queueId,
+					  Mentions mentions,
+					  LocalDateTime openedOn,
+					  UserProfileId openedById,
+					  LocalDateTime lastUpdatedOn,
+					  UserProfileId lastUpdatedById) {
 		this.number = number;
 		this.title = title;
 		this.history = history;
 		this.deadline = deadline;
-		this.queue = queue;
+		this.queueId = queueId;
 		this.mentions = mentions;
 		this.openedOn = openedOn;
-		this.openedBy = openedBy;
+		this.openedBy = openedById;
 		this.lastUpdatedOn = lastUpdatedOn;
-		this.lastUpdatedBy = lastUpdatedBy;
+		this.lastUpdatedBy = lastUpdatedById;
 	}
 
 	public TicketDbEntity(Ticket ticket) {
-		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
+/*		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
 			   .stream()
 			   .map(UserProfileId::toString)
-			   .map(UserProfileDbEntity::foreignKey)
-			   .toList();
-		this.history = (new ArrayList<>(ticket.interactionIds().readonlyList()))
-			   .stream()
-			   .map(i -> i.getId().value())
-			   .map(InteractionDbEntity::foreignKey)
-			   .toList();
-		this.queue = QueueDbEntity.foreignKey(ticket.queueId().toString());
+			   .toList();*/
+		this.history = ticket.interactionHistory();
+
+		this.queueId = ticket.queueId();
 		this.number = ticket.number().toString();
 		this.title = ticket.title();
 		this.deadline = ticket.deadline();
-		this.mentions = mentions;
-		this.openedBy = UserProfileDbEntity.foreignKey(ticket.openedBy().toString());
+		this.mentions = ticket.mentions();
+		this.openedBy = ticket.openedBy();
 		this.openedOn = ticket.openedOn();
-		this.lastUpdatedBy = ticket.lastUpdatedBy() == null ? null : UserProfileDbEntity.foreignKey(ticket.queueId().toString());
+		this.lastUpdatedBy = ticket.lastUpdatedBy() == null ? null : ticket.lastUpdatedBy();
 		this.lastUpdatedOn = ticket.lastUpdatedOn();
 	}
 
 	protected TicketDbEntity() {}
-
-	@Override
-	@Deprecated
-	public Ticket toDomainEntity() {
-		return null;
-	}
 }

@@ -1,12 +1,12 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.domain.interaction;
 
-import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
+import com.github.jvondoellinger.agp_protocol.shared_kernel.InteractionId;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
 
 import java.time.LocalDateTime;
 
 public class Interaction {
-	private final DomainId id;
+	private final InteractionId id;
 	private final String text;
 
 	private final boolean visible;
@@ -14,7 +14,7 @@ public class Interaction {
 	private final UserProfileId interactedBy;
 	private final LocalDateTime interactedOn;
 
-	public Interaction(DomainId id, String text, boolean visible, UserProfileId interactedBy, LocalDateTime interactedOn) {
+	public Interaction(InteractionId id, String text, boolean visible, UserProfileId interactedBy, LocalDateTime interactedOn) {
 		this.id = id;
 		this.text = text;
 		this.visible = visible;
@@ -23,21 +23,21 @@ public class Interaction {
 	}
 
 	public Interaction(String text, boolean visible, UserProfileId interactedBy) {
-		this.id = DomainId.create();
+		this.id = new InteractionId();
 		this.text = text;
 		this.visible = visible;
 		this.interactedBy = interactedBy;
 		this.interactedOn = LocalDateTime.now();
 	}
 	public Interaction(String text, UserProfileId interactedBy) {
-		this.id = DomainId.create();
+		this.id = new InteractionId();
 		this.text = text;
 		this.visible = true;
 		this.interactedBy = interactedBy;
 		this.interactedOn = LocalDateTime.now();
 	}
 
-	public DomainId getId() {
+	public InteractionId getId() {
 		return id;
 	}
 	public String getText() {

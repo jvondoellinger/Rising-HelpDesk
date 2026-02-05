@@ -6,7 +6,7 @@ import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
 import java.time.LocalDateTime;
 
 public class Queue {
-	private final DomainId domainId;
+	private final QueueId domainId;
 	private final String area;
 	private final String subarea;
 	private final LocalDateTime createdAt;
@@ -14,14 +14,14 @@ public class Queue {
 	private final LocalDateTime updatedAt;
 	private final UserProfileId lastUpdatedBy;
 
-	public Queue(DomainId domainId,
+	public Queue(QueueId id,
 			   String area,
 			   String subarea,
 			   UserProfileId createdBy,
 			   LocalDateTime createdAt,
 			   LocalDateTime updatedAt,
 			   UserProfileId lastUpdatedBy) {
-		this.domainId = domainId;
+		this.domainId = id;
 		this.area = area;
 		this.subarea = subarea;
 		this.createdBy = createdBy;
@@ -31,7 +31,7 @@ public class Queue {
 	}
 
 	public Queue(String area, String subarea, UserProfileId createdBy) {
-		this.domainId = DomainId.create();
+		this.domainId = new QueueId();
 		this.area = area;
 		this.subarea = subarea;
 		this.createdBy = createdBy;
@@ -40,7 +40,7 @@ public class Queue {
 		this.lastUpdatedBy = null;
 	}
 
-	public DomainId getDomainId() {
+	public QueueId getDomainId() {
 		return domainId;
 	}
 	public String getArea() {

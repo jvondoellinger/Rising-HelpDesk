@@ -1,10 +1,8 @@
 package com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure;
 
+import com.github.jvondoellinger.agp_protocol.profile_module.infrastructure.UserProfileDbEntity;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.UserProfileId;
 import com.github.jvondoellinger.agp_protocol.shared_kernel.anotationTest.FixAfter;
-import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
-import com.github.jvondoellinger.agp_protocol.userProfile_module.infrastructure.UserProfileDbEntity;
-import com.github.jvondoellinger.agp_protocol.shared_kernel.DomainId;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Queue;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @FixAfter
-public class QueueDbEntity implements DbEntity<Queue> {
+public class QueueDbEntity{
 	@Id
 	private String domainId;
 
@@ -28,7 +26,7 @@ public class QueueDbEntity implements DbEntity<Queue> {
 	private String subarea;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	private UserProfileDbEntity createdBy;
+	private UserProfileId createdBy;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -38,23 +36,23 @@ public class QueueDbEntity implements DbEntity<Queue> {
 	private LocalDateTime updatedAt;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	private UserProfileDbEntity lastUpdatedBy;
+	private UserProfileId lastUpdatedBy;
 
 	protected QueueDbEntity() {}
 	public QueueDbEntity(Queue queue) {
 		this.domainId = queue.getDomainId().toString();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
-		this.createdBy = UserProfileDbEntity.foreignKey(queue.getCreatedBy().toString());
+		this.createdBy = queue.getCreatedBy();
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = queue.getUpdatedAt();
 		this.lastUpdatedBy = queue.getLastUpdatedBy() == null ?
-			   null : UserProfileDbEntity.foreignKey(queue.getLastUpdatedBy().toString());
+			   null : queue.getLastUpdatedBy();
 
 	}
 
 	@PersistenceCreator
-	public QueueDbEntity(String domainId, String area, String subarea, UserProfileDbEntity createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, UserProfileDbEntity lastUpdatedBy) {
+	public QueueDbEntity(String domainId, String area, String subarea, UserProfileId createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, UserProfileId lastUpdatedBy) {
 		this.domainId = domainId;
 		this.area = area;
 		this.subarea = subarea;
@@ -62,19 +60,6 @@ public class QueueDbEntity implements DbEntity<Queue> {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.lastUpdatedBy = lastUpdatedBy;
-	}
-
-	@Override
-	public Queue toDomainEntity() {
-		return new Queue(
-			   DomainId.parse(domainId),
-			   area,
-			   subarea,
-			   UserProfileId.of(createdBy.getUserId()),
-			   createdAt,
-			   updatedAt,
-			   lastUpdatedBy == null ? null : UserProfileId.of(lastUpdatedBy.getUserId())
-		);
 	}
 
 	public static QueueDbEntity foreignKey(String id) {

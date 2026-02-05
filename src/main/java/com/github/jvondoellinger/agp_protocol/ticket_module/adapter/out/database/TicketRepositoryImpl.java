@@ -6,8 +6,6 @@ import com.github.jvondoellinger.agp_protocol.shared_kernel.QueryFilter;
 import com.github.jvondoellinger.agp_protocol.ticket_module.adapter.out.database.mappers.TicketDbEntityMapper;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.Ticket;
 import com.github.jvondoellinger.agp_protocol.ticket_module.domain.TicketRepository;
-import com.github.jvondoellinger.agp_protocol.shared_kernel.infra_commons.DbEntity;
-import com.github.jvondoellinger.agp_protocol.ticket_module.infrastructure.TicketDbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -42,7 +42,7 @@ public class QueueDbEntity{
 
 	protected QueueDbEntity() {}
 	public QueueDbEntity(Queue queue) {
-		this.domainId = queue.getDomainId().toString();
+		this.domainId = queue.getId().toString();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
 		this.createdBy = queue.getCreatedBy();

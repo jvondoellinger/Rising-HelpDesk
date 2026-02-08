@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import java.time.LocalDateTime;
 
 public class Queue {
-	private final QueueId domainId;
+	private final QueueId id;
 	private final String area;
 	private final String subarea;
 	private final LocalDateTime createdAt;
@@ -20,7 +20,7 @@ public class Queue {
 			   LocalDateTime createdAt,
 			   LocalDateTime updatedAt,
 			   UserProfileId lastUpdatedBy) {
-		this.domainId = id;
+		this.id = id;
 		this.area = area;
 		this.subarea = subarea;
 		this.createdBy = createdBy;
@@ -30,7 +30,7 @@ public class Queue {
 	}
 
 	public Queue(String area, String subarea, UserProfileId createdBy) {
-		this.domainId = new QueueId();
+		this.id = new QueueId();
 		this.area = area;
 		this.subarea = subarea;
 		this.createdBy = createdBy;
@@ -39,8 +39,8 @@ public class Queue {
 		this.lastUpdatedBy = null;
 	}
 
-	public QueueId getDomainId() {
-		return domainId;
+	public QueueId getId() {
+		return id;
 	}
 	public String getArea() {
 		return area;

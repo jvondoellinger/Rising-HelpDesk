@@ -1,0 +1,12 @@
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/application_commons/QueryUseCase.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/InteractionId.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/UserProfileId.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/application_commons/CommandUseCase.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/application_commons/Command.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/anotationTest/FixAfter.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/DomainId.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/application_commons/Pagination.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/QueryFilter.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/DomainCollection.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/infra_commons/CrudsRepository.class
+io/github/jvondoellinger/rising_helpdesk/sharedkernel/AccessProfileId.class

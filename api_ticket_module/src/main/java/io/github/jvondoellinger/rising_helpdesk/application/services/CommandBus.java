@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.application.services;
 
-import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.Command;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandUseCase;
 import org.springframework.stereotype.Service;
@@ -9,17 +8,18 @@ import java.util.List;
 
 @Service
 public class CommandBus {
-	private final List<CommandUseCase<?,?>> useCases;
+	private final List<CommandUseCase<?,?>> handlers;
 
-	public CommandBus(List<CommandUseCase<?, ?>> useCases) {
-		this.useCases = useCases;
+	public CommandBus(List<CommandUseCase<?, ?>> handlers) {
+		this.handlers = handlers;
 	}
 
-	<I extends Command, O> O handle(I cmd) {
-		var useCase = useCases.stream()
+	<I extends Command> void handle(I cmd) {
+		var useCase = handlers.stream()
 			   .filter(x -> x.getClass().isAssignableFrom(cmd.getClass()))
 			   .findFirst()
+			   .map(u -> (CommandUseCase<I, ?>) u)
 			   .orElseThrow();
-		return ((CommandUseCase<I,O>) useCase).execute(cmd);
+		useCase.execute(cmd);
 	}
 }

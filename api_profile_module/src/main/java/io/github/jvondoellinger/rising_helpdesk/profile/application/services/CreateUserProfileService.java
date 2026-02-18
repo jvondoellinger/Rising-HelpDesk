@@ -5,6 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.User
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.UserProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.useCases.CreateUserProfileUseCase;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,10 @@ public class CreateUserProfileService implements CreateUserProfileUseCase {
 	private final UserProfileMapper mapper;
 
 	@Override
-	public UserProfileDetails execute(CreateUserProfileCommand command) {
+	public CommandResult<UserProfileDetails> execute(CreateUserProfileCommand command) {
 		var entity = mapper.from(command);
 		var result = repository.save(entity);
 
-		return mapper.details(result);
+		return new CommandResult.Success<>(mapper.details(result));
 	}
 }

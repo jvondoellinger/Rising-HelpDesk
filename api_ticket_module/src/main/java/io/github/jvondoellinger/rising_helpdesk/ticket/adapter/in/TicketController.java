@@ -1,10 +1,12 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandResult;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.usecases.CreateTicketCommandUseCases;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.usecases.TicketQueryUseCases;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class TicketController {
 	}
 
 	@PostMapping
-	public TicketDetails create(@RequestBody CreateTicketCommand requestDTO) {
-		return createTicketUseCases.execute(requestDTO);
+	public ResponseEntity<?> create(@RequestBody CreateTicketCommand requestDTO) {
+		return createTicketUseCases.execute(requestDTO).result();
 	}
 }

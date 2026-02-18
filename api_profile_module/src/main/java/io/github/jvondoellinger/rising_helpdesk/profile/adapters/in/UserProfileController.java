@@ -18,6 +18,6 @@ public class UserProfileController {
 
 	@PostMapping
 	public UserProfileDetails create(@RequestBody CreateUserProfileCommand requestDTO) {
-		return useCase.execute(requestDTO);
+		return useCase.execute(requestDTO).result();
 	}
 }

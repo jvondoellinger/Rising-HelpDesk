@@ -2,9 +2,9 @@ package io.github.jvondoellinger.rising_helpdesk.profile.adapters.in;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.dtos.CreateAccessProfileDTO;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.CreateAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.useCases.CreateAccessProfileUseCase;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects.Permission;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects.Permissions;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandBus;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/access-profile")
 @AllArgsConstructor
 public class AccessProfileController {
-	private final CommandBus bus;
+	private final CreateAccessProfileUseCase accessProfileUseCase;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -22,8 +22,12 @@ public class AccessProfileController {
 		var permissions = request.permissions().stream().map(Permission::of).toList();
 		var cmd = new CreateAccessProfileCommand(request.name(), new Permissions(permissions));
 
-		bus.dispatch(cmd);
+		var result = accessProfileUseCase.execute(cmd);
 
-		return ResponseEntity.noContent().build();
+		if (result.hasError()) {
+			return ResponseEntity.badRequest().body(result.message());
+		}
+
+		return ResponseEntity.ok(result.result());
 	}
 }

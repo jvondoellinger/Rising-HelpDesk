@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaAccessProfileRepository extends JpaRepository<AccessProfileDbEntity, String> {
+	boolean existsByName(String name);
 }

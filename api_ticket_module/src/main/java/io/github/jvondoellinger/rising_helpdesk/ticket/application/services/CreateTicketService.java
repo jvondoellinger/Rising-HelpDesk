@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandResult;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.TicketDetails;
@@ -15,7 +16,7 @@ public class CreateTicketService implements CreateTicketCommandUseCases {
 	private final TicketMapper mapper;
 
 	@Override
-	public TicketDetails execute(CreateTicketCommand request) {
+	public CommandResult<TicketDetails> execute(CreateTicketCommand request) {
 		return null;
 	}
 }

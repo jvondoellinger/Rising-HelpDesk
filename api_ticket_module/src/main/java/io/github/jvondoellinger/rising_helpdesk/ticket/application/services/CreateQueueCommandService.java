@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandResult;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.usecases.CreateQueueCommandUseCase;
@@ -13,7 +14,7 @@ public class CreateQueueCommandService implements CreateQueueCommandUseCase {
 	private final QueueRepository repository;
 
 	@Override
-	public QueueDetails execute(CreateQueueCommand request) {
+	public CommandResult<QueueDetails> execute(CreateQueueCommand request) {
 		return null;
 	}
 }

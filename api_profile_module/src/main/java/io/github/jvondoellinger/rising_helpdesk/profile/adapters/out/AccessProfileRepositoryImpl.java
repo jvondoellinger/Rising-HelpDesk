@@ -50,4 +50,9 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	public long total() {
 		return jpaAccessProfileRepository.count();
 	}
+
+	@Override
+	public boolean existsByName(String name) {
+		return jpaAccessProfileRepository.existsByName(name);
+	}
 }

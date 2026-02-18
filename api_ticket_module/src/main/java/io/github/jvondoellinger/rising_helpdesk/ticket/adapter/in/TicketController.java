@@ -25,6 +25,14 @@ public class TicketController {
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody CreateTicketCommand requestDTO) {
-		return createTicketUseCases.execute(requestDTO).result();
+
+		var result = createTicketUseCases.execute(requestDTO);
+
+		if (result instanceof CommandResult.Success<TicketDetails> success)
+			return ResponseEntity.ok(success.value());
+		else if (result instanceof CommandResult.Failure<TicketDetails> failure)
+			return ResponseEntity.badRequest().body(failure.error().getMessage());
+		else
+			return ResponseEntity.internalServerError().body("No result type found.");
 	}
 }

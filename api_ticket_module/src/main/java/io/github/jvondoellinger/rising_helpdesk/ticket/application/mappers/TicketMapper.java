@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.TicketDetails;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
 import lombok.AllArgsConstructor;

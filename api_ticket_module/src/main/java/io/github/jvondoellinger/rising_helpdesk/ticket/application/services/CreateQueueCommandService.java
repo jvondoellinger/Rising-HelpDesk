@@ -1,20 +1,19 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application_commons.CommandResult;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.QueueDetails;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.usecases.CreateQueueCommandUseCase;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CreateQueueCommandService implements CreateQueueCommandUseCase {
+public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final QueueRepository repository;
 
 	@Override
-	public CommandResult<QueueDetails> execute(CreateQueueCommand request) {
+	public Result<Void> handle(CreateQueueCommand request) {
 		return null;
 	}
 }

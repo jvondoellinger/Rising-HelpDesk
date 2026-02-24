@@ -2,6 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.TicketDbEntityMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Ticket;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
@@ -32,8 +33,8 @@ public class TicketRepositoryImpl implements TicketRepository {
 	}
 
 	@Override
-	public Ticket queryById(DomainId id) {
-		return JpaCrudsBridge2.findById(jpaTicketRepository, id.value(), mapper::toTicket);
+	public Ticket queryById(TicketId id) {
+		return JpaCrudsBridge2.findById(jpaTicketRepository, id.toString(), mapper::toTicket);
 	}
 
 	@Override

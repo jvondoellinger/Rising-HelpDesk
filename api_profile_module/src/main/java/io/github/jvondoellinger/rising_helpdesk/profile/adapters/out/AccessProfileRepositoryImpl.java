@@ -3,6 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.AccessProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	}
 
 	@Override
-	public AccessProfile queryById(DomainId id) {
+	public AccessProfile queryById(AccessProfileId id) {
 		return JpaCrudsBridge.findById(jpaAccessProfileRepository, id.value(), mapper::toAccessProfile);
 
 	}

@@ -5,6 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -32,7 +33,7 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 	}
 
 	@Override
-	public UserProfile queryById(DomainId id) {
+	public UserProfile queryById(UserProfileId id) {
 		return JpaCrudsBridge.findById(jpaUserProfileRepository, id.value(), mapper::toUserProfile);
 	}
 

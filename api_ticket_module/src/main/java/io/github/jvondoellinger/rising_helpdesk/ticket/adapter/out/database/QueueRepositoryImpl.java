@@ -2,6 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.QueueDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Queue;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
@@ -32,8 +33,8 @@ public class QueueRepositoryImpl implements QueueRepository {
 	}
 
 	@Override
-	public Queue queryById(DomainId id) {
-		return JpaCrudsBridge2.findById(jpaQueueRepository, id.value(), mapper::toQueue);
+	public Queue queryById(QueueId id) {
+		return JpaCrudsBridge2.findById(jpaQueueRepository, id.toString(), mapper::toQueue);
 	}
 
 	@Override

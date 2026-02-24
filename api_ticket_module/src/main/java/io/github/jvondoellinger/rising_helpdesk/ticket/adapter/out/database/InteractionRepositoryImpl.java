@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.InteractionId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.InteractionDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionRepository;
@@ -32,7 +33,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	}
 
 	@Override
-	public Interaction queryById(DomainId id) {
+	public Interaction queryById(InteractionId id) {
 		return JpaCrudsBridge2.findById(jpaInteractionRepository, id.value(), mapper::toInteraction);
 	}
 

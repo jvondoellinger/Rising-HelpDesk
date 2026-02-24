@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.application.services;
+package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;

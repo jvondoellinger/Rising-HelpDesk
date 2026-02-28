@@ -34,7 +34,7 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 
 	@Override
 	public UserProfile queryById(UserProfileId id) {
-		return JpaCrudsBridge.findById(jpaUserProfileRepository, id.value(), mapper::toUserProfile);
+		return JpaCrudsBridge.findById(jpaUserProfileRepository, id.toString(), mapper::toUserProfile);
 	}
 
 	@Override

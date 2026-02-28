@@ -1,12 +1,3 @@
 spring:
   application:
     name: agp-protocol
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/agp_protocol?createDatabaseIfNotExist=true
-    username: root
-    password: spring
-
-  jpa:
-    hibernate:
-      ddl-auto: update

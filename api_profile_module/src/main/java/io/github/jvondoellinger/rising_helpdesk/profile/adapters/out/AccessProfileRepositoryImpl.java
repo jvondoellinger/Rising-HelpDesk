@@ -37,7 +37,7 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 
 	@Override
 	public AccessProfile queryById(AccessProfileId id) {
-		return JpaCrudsBridge.findById(jpaAccessProfileRepository, id.value(), mapper::toAccessProfile);
+		return JpaCrudsBridge.findById(jpaAccessProfileRepository, id.toString(), mapper::toAccessProfile);
 
 	}
 

@@ -34,7 +34,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 
 	@Override
 	public Interaction queryById(InteractionId id) {
-		return JpaCrudsBridge2.findById(jpaInteractionRepository, id.value(), mapper::toInteraction);
+		return JpaCrudsBridge2.findById(jpaInteractionRepository, id.toString(), mapper::toInteraction);
 	}
 
 	@Override

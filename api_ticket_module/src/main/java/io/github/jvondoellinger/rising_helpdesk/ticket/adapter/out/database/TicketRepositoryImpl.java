@@ -6,10 +6,12 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -45,5 +47,16 @@ public class TicketRepositoryImpl implements TicketRepository {
 	@Override
 	public long total() {
 		return jpaTicketRepository.count();
+	}
+
+	@Override
+	public Optional<Ticket> findByNumber(TicketNumber number) {
+		if (number == null)
+			return Optional.empty();
+
+		var entity = jpaTicketRepository.findByNumber(number.toString()).orElse(null);
+
+		return entity == null ?
+			   Optional.empty() : Optional.of(mapper.toTicket(entity));
 	}
 }

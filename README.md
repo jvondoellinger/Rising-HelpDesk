@@ -13,68 +13,72 @@ A arquitetura foi projetada para:
 
 ---
 
-## 🏗️ Arquitetura
+## 🏗️ Arquitetura Geral
 
-A aplicação segue o fluxo:
-
-Controller → DTO (Request) → Command/Query → Bus → Handler → Persistência/Cache
-
-### 🔹 1. Camada de Entrada (Controller)
-
-- Recebe **DTOs (Requests)** via endpoints HTTP.
-- Cada rota decide se a operação será:
-  - **Command** (escrita)
-  - **Query** (leitura)
+```mermaid
+flowchart LR
+    A[Controller] --> B[DTO Request]
+    B --> C{Command ou Query?}
+    C -->|Command| D[CommandBus]
+    C -->|Query| E[QueryBus]
+    D --> F[CommandHandler]
+    E --> G[QueryHandler]
+```
 
 ---
 
 ## 📚 CQRS na Prática
 
-### ✅ Commands
-- Representam **operações de escrita**
-- Não retornam dados (apenas `Result<Void>`)
-- Enviados ao `CommandBus`
-- Processados por `CommandHandlers`
+### ✅ Fluxo de Escrita (Command)
 
-Fluxo:
+```mermaid
+flowchart TD
+    A[HTTP Request] --> B[Controller]
+    B --> C[DTO]
+    C --> D[Command]
+    D --> E[CommandBus]
+    E --> F[CommandHandler]
+    F --> G[(Master Database)]
+```
 
-Controller → Command → CommandBus → CommandHandler → Banco (Master)
-
----
-
-### 🔎 Queries
-- Representam **operações de leitura**
-- Retornam dados
-- Enviadas ao `QueryBus`
-- Processadas por `QueryHandlers`
-
-Fluxo com cache:
-
-Controller → Query → QueryBus → Redis → (Cache Miss) → ProxySQL → Replicas → Retorno + Cache Update
+**Características:**
+- Operações de escrita
+- Retorno: `Result<Void>`
+- Escritas direcionadas ao Master
 
 ---
 
-## ⚡ Estratégia de Leitura (Diferencial do Projeto)
+### 🔎 Fluxo de Leitura (Query com Cache Inteligente)
 
-O `QueryBus` implementa uma estratégia de alta performance:
+```mermaid
+flowchart TD
+    A[HTTP Request] --> B[Controller]
+    B --> C[DTO]
+    C --> D[Query]
+    D --> E[QueryBus]
+    E --> F{Cache no Redis?}
+    F -->|Sim| G[Retorna do Cache]
+    F -->|Não| H[ProxySQL]
+    H --> I[(Replicas)]
+    I --> J[Retorna Resultado]
+    J --> K[Atualiza Cache]
+    K --> L[Response]
+    G --> L
+```
 
-1. Recebe uma Query  
-2. Verifica se o objeto está no **Redis**  
-3. Caso esteja:
-   - Retorna imediatamente (cache hit)  
-4. Caso não esteja:
-   - Consulta o banco via **ProxySQL**
-   - Busca nas **réplicas**
-   - Retorna o resultado
-   - Atualiza o cache  
+**Estratégia aplicada:**
+- Cache-Aside
+- Leitura prioritária via Redis
+- Fallback para banco via ProxySQL
+- Balanceamento automático entre 2 réplicas
 
 ---
 
 ## 🧠 Cache
 
-- Padrão: **Cache-Aside**
-- Tecnologia: Redis
-- Objetivo:
+- Tecnologia: Redis  
+- Padrão: Cache-Aside  
+- Objetivos:
   - Reduzir latência
   - Diminuir carga no banco
   - Melhorar throughput de leitura
@@ -87,79 +91,45 @@ Arquitetura composta por:
 
 - 1 Master (escrita)
 - 2 Réplicas (leitura)
-- Gerenciamento via **ProxySQL**
+- Gerenciamento via ProxySQL
 
-### Estratégia:
+### Estratégia
 
 - Escritas → Master  
 - Leituras → Réplicas  
-- Balanceamento automático via ProxySQL  
+- Balanceamento automático  
 
-Isso garante:
+Benefícios:
 
-- Alta performance
-- Escalabilidade horizontal
-- Distribuição eficiente de carga
+- Alta performance  
+- Escalabilidade horizontal  
+- Melhor distribuição de carga  
 
 ---
 
 ## 🧩 Stack Tecnológica
 
-- Java
-- Spring Framework
-- Redis
-- MySQL
-- ProxySQL
-- Arquitetura baseada em CQRS
-
----
-
-## 📊 Fluxo Completo de Leitura
-
-HTTP Request  
-↓  
-DTO  
-↓  
-Query  
-↓  
-QueryBus  
-↓  
-Redis (Cache Check)  
-↓ (miss)  
-ProxySQL  
-↓  
-Replicas  
-↓  
-Retorno + Cache Update  
-
----
-
-## 📊 Fluxo Completo de Escrita
-
-HTTP Request  
-↓  
-DTO  
-↓  
-Command  
-↓  
-CommandBus  
-↓  
-CommandHandler  
-↓  
-Master Database  
+- Java  
+- Spring Framework  
+- Redis  
+- MySQL  
+- ProxySQL  
+- Arquitetura baseada em CQRS  
 
 ---
 
 ## 📦 Estrutura Conceitual de Pacotes
 
-controller/  
-dto/  
-command/  
-query/  
-bus/  
-handler/  
-repository/  
-config/  
+```
+controller/
+dto/
+command/
+query/
+bus/
+handler/
+repository/
+config/
+```
 
 ---
 

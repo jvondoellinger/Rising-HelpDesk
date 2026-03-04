@@ -2,6 +2,8 @@ package io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 
+import java.util.Objects;
+
 public class Permission {
 	private final String code;
 
@@ -23,5 +25,13 @@ public class Permission {
 
 	public String code() {
 		return code;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Permission that = (Permission) o;
+		return Objects.equals(code, that.code);
 	}
 }

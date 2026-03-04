@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -33,7 +34,8 @@ public class JpaCrudsBridge {
 		T result;
 		log.info("LOG_ID: {} |  Initializing JPA bridge to save entity {} into the database", id, entityName);
 		try {
-			result = map.apply(dbEntity);
+			var saved = repository.save(dbEntity);
+			result = map.apply(saved);
 			log.info("LOG_ID: {} | Transaction completed successfully for entity {}", id, entityName);
 		}
 		catch (Throwable exception) {

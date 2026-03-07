@@ -1,10 +1,12 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects;
 
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class Permissions extends DomainCollection<Permission> {
 	public Permissions(List<Permission> permissions) {
 		super(permissions);

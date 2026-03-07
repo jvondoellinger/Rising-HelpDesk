@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.AccessProfileDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 import org.springframework.stereotype.Service;

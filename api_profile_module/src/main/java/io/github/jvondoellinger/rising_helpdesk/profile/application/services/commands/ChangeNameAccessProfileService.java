@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.profile.application.services.co
 
 import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.ChangeNameAccessProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.ChangeNameAccessProfileHandler;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;

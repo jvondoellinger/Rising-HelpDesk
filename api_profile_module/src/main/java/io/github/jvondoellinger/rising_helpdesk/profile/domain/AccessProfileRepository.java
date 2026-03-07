@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.domain;
 
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.infrastructure.CrudsRepository;
 

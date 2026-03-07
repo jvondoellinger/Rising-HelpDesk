@@ -16,7 +16,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.com
 import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.RemovePermissionsAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.query.FindAccessProfileByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.FindAccessProfileByIdQuery;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects.Permission;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects.Permissions;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 
@@ -55,7 +55,7 @@ public class AccessProfileController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> create(@RequestBody CreateAccessProfileRequest request) {
         var permissions = request.permissions().stream().map(Permission::of).toList();
-        var cmd = new CreateAccessProfileCommand(request.name(), new Permissions(permissions));
+        var cmd = new CreateAccessProfileCommand(request.name(), permissions);
 
         return accessProfileUseCase.handle(cmd)
                 .fold(

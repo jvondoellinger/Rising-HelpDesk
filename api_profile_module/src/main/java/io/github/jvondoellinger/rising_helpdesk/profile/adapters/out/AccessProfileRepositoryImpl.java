@@ -1,10 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.AccessProfileDbMapper;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

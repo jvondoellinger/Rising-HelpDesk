@@ -3,8 +3,9 @@ package io.github.jvondoellinger.rising_helpdesk.profile.application.services.co
 import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.RemovePermissionsAccessProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.RemovePermissionsAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.PermissionMapper;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,9 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 			return new Result.Failure<>(new KernelException("No access found on persistence."));
 		}
 
-		var permissions = mapper.from(cmd.permissions());
+		var permissions = cmd.permissions().values().stream().map(Permission::of).toList();
 
-		if (persistedProfile.getPermissions().equals(permissions)) {
+		if (persistedProfile.hasAllPermissions(permissions)) {
 			return new Result.Failure<>(new KernelException("Permissions already granted."));
 		}
 

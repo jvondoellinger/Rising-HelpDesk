@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.infrastructure;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.converter.PermissionsConverter;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects.Permissions;
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.converter.PermissionListConverter;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_access_profile")
@@ -23,8 +24,8 @@ public class AccessProfileDbEntity {
 	@Column(unique = true)
 	private String name;
 
-	@Convert(converter = PermissionsConverter.class)
-	private Permissions permissions;
+	@Convert(converter = PermissionListConverter.class)
+	private List<Permission> permissions;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -43,7 +44,7 @@ public class AccessProfileDbEntity {
 	}
 
 	@PersistenceCreator
-	public AccessProfileDbEntity(String domainId, String name, Permissions permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public AccessProfileDbEntity(String domainId, String name, List<Permission> permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.domainId = domainId;
 		this.name = name;
 		this.permissions = permissions;

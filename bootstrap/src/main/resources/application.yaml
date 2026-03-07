@@ -1,11 +1,11 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   application:
     name: agp-protocol
   datasource:
-    url: jdbc:mysql://localhost:6033/RisingHelpDeskDB?createDatabaseIfNotExist=true&transactionIsolation=READ_COMMITTED
+    url: jdbc:mysql://localhost:6033/RisingHelpDeskDB?createDatabaseIfNotExist=true
     username: proxysql_user
     password: secret123
 logging:

@@ -16,14 +16,14 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public Result<Void> handle(CreateAccessProfileCommand command) {
-		var alreadyExists = repository.existsByName(command.name());
+	public Result<Void> handle(CreateAccessProfileCommand cmd) {
+		var alreadyExists = repository.existsByName(cmd.name());
 
 		if (alreadyExists) {
 			return new Result.Failure<>(KernelException.conflict("Access Profile already registered."));
 		}
 
-		var ap = mapper.from(command);
+		var ap = mapper.from(cmd);
 		var result = repository.save(ap);
 		var mapped= mapper.details(result);
 

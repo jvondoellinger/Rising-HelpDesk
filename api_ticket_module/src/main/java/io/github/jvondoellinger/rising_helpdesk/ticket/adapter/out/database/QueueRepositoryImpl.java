@@ -38,6 +38,11 @@ public class QueueRepositoryImpl implements QueueRepository {
 	}
 
 	@Override
+	public boolean existsById(QueueId queueId) {
+		return jpaQueueRepository.existsById(queueId.toString());
+	}
+
+	@Override
 	public List<Queue> query(QueryFilter filter) {
 		return JpaCrudsBridge2.findBy(jpaQueueRepository, filter, mapper::toQueue);
 	}

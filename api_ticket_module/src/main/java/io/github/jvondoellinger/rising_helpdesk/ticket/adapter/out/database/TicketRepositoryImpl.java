@@ -40,6 +40,11 @@ public class TicketRepositoryImpl implements TicketRepository {
 	}
 
 	@Override
+	public boolean existsById(TicketId ticketId) {
+		return jpaTicketRepository.existsById(ticketId.toString());
+	}
+
+	@Override
 	public List<Ticket> query(QueryFilter filter) {
 		return JpaCrudsBridge2.findBy(jpaTicketRepository, filter, mapper::toTicket);
 	}

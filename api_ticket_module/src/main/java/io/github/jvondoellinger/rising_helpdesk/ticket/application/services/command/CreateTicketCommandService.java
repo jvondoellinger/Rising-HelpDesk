@@ -15,7 +15,7 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	private final TicketMapper mapper;
 
 	@Override
-	public Result<Void> handle(CreateTicketCommand request) {
+	public Result<Void> handle(CreateTicketCommand cmd) {
 		return null;
 	}
 }

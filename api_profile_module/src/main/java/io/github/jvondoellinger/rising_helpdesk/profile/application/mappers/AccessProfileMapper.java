@@ -12,6 +12,6 @@ public class AccessProfileMapper {
 	}
 
 	public AccessProfileDetails details(AccessProfile accessProfile) {
-		return new AccessProfileDetails(accessProfile.getId(), accessProfile.getCreatedAt(), accessProfile.getUpdatedAt());
+		return new AccessProfileDetails(accessProfile.getId(), accessProfile.getPermissions(), accessProfile.getCreatedAt(), accessProfile.getUpdatedAt());
 	}
 }

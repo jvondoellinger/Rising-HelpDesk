@@ -38,6 +38,11 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	}
 
 	@Override
+	public boolean existsById(InteractionId interactionId) {
+		return jpaInteractionRepository.existsById(interactionId.toString());
+	}
+
+	@Override
 	public List<Interaction> query(QueryFilter filter) {
 		return JpaCrudsBridge2.findBy(jpaInteractionRepository, filter, mapper::toInteraction);
 	}

@@ -38,6 +38,11 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 	}
 
 	@Override
+	public boolean existsById(UserProfileId id) {
+		return jpaUserProfileRepository.existsById(id.toString());
+	}
+
+	@Override
 	public List<UserProfile> query(QueryFilter filter) {
 		return JpaCrudsBridge.findBy(jpaUserProfileRepository, filter, mapper::toUserProfile);
 	}

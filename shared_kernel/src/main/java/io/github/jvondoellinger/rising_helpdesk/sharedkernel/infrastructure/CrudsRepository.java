@@ -9,6 +9,8 @@ public interface CrudsRepository<T, ID> {
 	void delete(T entity);
 	T queryById(ID id);
 
+	boolean existsById(ID id);
+
 	/**
 	 *
 	 * @param filter

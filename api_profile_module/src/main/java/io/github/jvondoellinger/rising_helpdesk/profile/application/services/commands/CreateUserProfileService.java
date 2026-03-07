@@ -15,8 +15,8 @@ public class CreateUserProfileService implements CreateUserProfileHandler {
 	private final UserProfileMapper mapper;
 
 	@Override
-	public Result<Void> handle(CreateUserProfileCommand command) {
-		var entity = mapper.from(command);
+	public Result<Void> handle(CreateUserProfileCommand cmd) {
+		var entity = mapper.from(cmd);
 		var result = repository.save(entity);
 
 		return new Result.Success<>(null);

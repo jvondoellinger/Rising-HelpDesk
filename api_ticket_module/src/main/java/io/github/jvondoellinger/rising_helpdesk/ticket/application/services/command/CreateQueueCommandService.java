@@ -13,7 +13,7 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final QueueRepository repository;
 
 	@Override
-	public Result<Void> handle(CreateQueueCommand request) {
+	public Result<Void> handle(CreateQueueCommand cmd) {
 		return null;
 	}
 }

@@ -1,40 +1,45 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.application.services.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.ChangeNameAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.ChangeNameAccessProfileCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.AddPermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.AddPermissionsAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
-
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class ChangeNameAccessProfileCommandService implements ChangeNameAccessProfileCommandHandler {
+public class AddPermissionsAccessProfileService implements AddPermissionsAccessProfileHandler {
 	private final AccessProfileRepository repository;
+	private final PermissionMapper mapper;
 
 	@Override
-	public Result<Void> handle(ChangeNameAccessProfileCommand cmd) {
+	public Result<Void> handle(AddPermissionsAccessProfileCommand cmd) {
 		var persistedProfile = repository.queryById(cmd.id());
 
 		if (persistedProfile == null) {
 			return new Result.Failure<>(new KernelException("No access found on persistence."));
 		}
-		if (repository.existsByName(cmd.name())) {
-			return new Result.Failure<>(new KernelException("Already exists a profile with this name!"));
-		}
 
+		var permissions = mapper.from(cmd.permissions());
+
+		if (persistedProfile.getPermissions().equals(permissions)) {
+			return new Result.Failure<>(new KernelException("Permissions already granted."));
+		}
 
 		var newValue = new AccessProfile(
 			   persistedProfile.getId(),
-			   cmd.name() ,
-			   persistedProfile.getPermissions(),
+			   persistedProfile.getName() ,
+			   permissions,
 			   persistedProfile.getCreatedAt(),
 			   LocalDateTime.now()
 		);
+
 		repository.save(newValue); // Atualiza no banco de dados
 
 		return new Result.Success<>(null);

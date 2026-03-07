@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.application.dtos.Permiss
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
 
-public record ChangePermissionsAccessProfileCommand(
+public record RemovePermissionsAccessProfileCommand(
 	   AccessProfileId id,
 	   PermissionsDTO permissions
 ) implements Command {

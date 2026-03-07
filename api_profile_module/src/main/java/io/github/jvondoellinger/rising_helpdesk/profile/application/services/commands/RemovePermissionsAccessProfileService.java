@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.application.services.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.ChangePermissionsAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.ChangePermissionsAccessProfileCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.RemovePermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.RemovePermissionsAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class ChangePermissionsAccessProfileCommandService implements ChangePermissionsAccessProfileCommandHandler {
+public class RemovePermissionsAccessProfileService implements RemovePermissionsAccessProfileHandler {
 	private final AccessProfileRepository repository;
 	private final PermissionMapper mapper;
 
 	@Override
-	public Result<Void> handle(ChangePermissionsAccessProfileCommand cmd) {
+	public Result<Void> handle(RemovePermissionsAccessProfileCommand cmd) {
 		var persistedProfile = repository.queryById(cmd.id());
 
 		if (persistedProfile == null) {

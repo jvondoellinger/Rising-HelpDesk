@@ -86,7 +86,6 @@ public class AccessProfileController {
                         success -> ResponseEntity.accepted().build(),
                         failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
                 );
-
     }
 
     @PatchMapping("/permissions/add")

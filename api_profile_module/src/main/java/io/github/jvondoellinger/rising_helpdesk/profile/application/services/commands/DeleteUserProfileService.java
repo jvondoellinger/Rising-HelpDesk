@@ -32,4 +32,9 @@ public class DeleteUserProfileService implements DeleteUserProfileHandler {
 
         return new Result.Success<>(null);
     }
+
+    @Override
+    public Class<DeleteUserProfileCommand> getType() {
+        return DeleteUserProfileCommand.class;
+    }
 }

@@ -26,4 +26,9 @@ public class DeleteAccessProfileService implements DeleteAccessProfileHandler {
 
 		return new Result.Success<>(null);
 	}
+
+	@Override
+	public Class<DeleteAccessProfileCommand> getType() {
+		return DeleteAccessProfileCommand.class;
+	}
 }

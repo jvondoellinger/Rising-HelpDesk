@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.CreateTicketCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateTicketCommandHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

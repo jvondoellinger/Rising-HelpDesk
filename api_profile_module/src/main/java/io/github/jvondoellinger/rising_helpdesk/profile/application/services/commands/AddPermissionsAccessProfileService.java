@@ -52,4 +52,9 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 
 		return new Result.Success<>(null);
 	}
+
+	@Override
+	public Class<AddPermissionsAccessProfileCommand> getType() {
+		return AddPermissionsAccessProfileCommand.class;
+	}
 }

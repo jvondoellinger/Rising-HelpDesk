@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.FindTicketByNumberQueryHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByNumberQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByNumberQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;

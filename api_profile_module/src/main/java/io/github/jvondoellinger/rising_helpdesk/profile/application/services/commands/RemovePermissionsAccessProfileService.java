@@ -44,4 +44,9 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 
 		return new Result.Success<>(null);
 	}
+
+	@Override
+	public Class<RemovePermissionsAccessProfileCommand> getType() {
+		return RemovePermissionsAccessProfileCommand.class;
+	}
 }

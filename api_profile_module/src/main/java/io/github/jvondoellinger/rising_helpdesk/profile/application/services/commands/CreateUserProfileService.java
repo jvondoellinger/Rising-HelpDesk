@@ -21,4 +21,9 @@ public class CreateUserProfileService implements CreateUserProfileHandler {
 
 		return new Result.Success<>(null);
 	}
+
+	@Override
+	public Class<CreateUserProfileCommand> getType() {
+		return CreateUserProfileCommand.class;
+	}
 }

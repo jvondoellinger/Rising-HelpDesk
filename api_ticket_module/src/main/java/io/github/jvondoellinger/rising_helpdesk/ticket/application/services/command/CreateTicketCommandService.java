@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.com
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.CreateTicketCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateTicketCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +17,10 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	@Override
 	public Result<Void> handle(CreateTicketCommand cmd) {
 		return null;
+	}
+
+	@Override
+	public Class<CreateTicketCommand> getType() {
+		return CreateTicketCommand.class;
 	}
 }

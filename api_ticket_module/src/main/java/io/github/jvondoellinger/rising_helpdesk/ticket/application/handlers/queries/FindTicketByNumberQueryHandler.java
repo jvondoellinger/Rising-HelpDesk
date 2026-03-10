@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers;
+package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.QueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;

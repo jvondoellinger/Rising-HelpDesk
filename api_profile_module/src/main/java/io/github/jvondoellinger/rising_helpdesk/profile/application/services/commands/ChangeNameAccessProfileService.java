@@ -39,4 +39,9 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 
 		return new Result.Success<>(null);
 	}
+
+	@Override
+	public Class<ChangeNameAccessProfileCommand> getType() {
+		return ChangeNameAccessProfileCommand.class;
+	}
 }

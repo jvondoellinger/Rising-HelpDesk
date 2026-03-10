@@ -29,4 +29,9 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 
 		return new Result.Success<Void>(null);
 	}
+
+	@Override
+	public Class<CreateAccessProfileCommand> getType() {
+		return CreateAccessProfileCommand.class;
+	}
 }

@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.com
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.CreateQueueCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,5 +15,10 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	@Override
 	public Result<Void> handle(CreateQueueCommand cmd) {
 		return null;
+	}
+
+	@Override
+	public Class<CreateQueueCommand> getType() {
+		return CreateQueueCommand.class;
 	}
 }

@@ -17,4 +17,9 @@ class FindAccessProfileByNameService implements FindAccessProfileByNameQueryHand
 	public Result<AccessProfileDetails> handle(FindAccessProfileByNameQuery query) {
 		return null;
 	}
+
+	@Override
+	public Class<FindAccessProfileByNameQuery> getQueryType() {
+		return FindAccessProfileByNameQuery.class;
+	}
 }

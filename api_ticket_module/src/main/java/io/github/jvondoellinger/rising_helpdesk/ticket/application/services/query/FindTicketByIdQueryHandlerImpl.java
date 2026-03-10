@@ -30,4 +30,9 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 
 		return new Result.Success<>(details);
 	}
+
+	@Override
+	public Class<FindTicketByIdQuery> getQueryType() {
+		return FindTicketByIdQuery.class;
+	}
 }

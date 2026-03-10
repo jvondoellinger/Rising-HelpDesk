@@ -26,4 +26,9 @@ public class FindAccessProfileByIdQueryService implements FindAccessProfileByIdQ
 		var mapped = mapper.details(current);
 		return new Result.Success<>(mapped);
 	}
+
+	@Override
+	public Class<FindAccessProfileByIdQuery> getQueryType() {
+		return FindAccessProfileByIdQuery.class;
+	}
 }

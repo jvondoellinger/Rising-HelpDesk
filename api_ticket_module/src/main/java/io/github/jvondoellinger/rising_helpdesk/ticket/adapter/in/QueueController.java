@@ -8,6 +8,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.Delet
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByPaginationQuery;
 import lombok.AllArgsConstructor;
 
@@ -64,8 +65,12 @@ public class QueueController {
     }
 
     @GetMapping
-    public ResponseEntity<?> get(@RequestParam("offset") int offset, @RequestParam int limit) {
-        var result = queryBus.send(new FindTicketByPaginationQuery(offset,limit));
-        return ResponseEntity.ok(result);
+    public ResponseEntity<?> get(@RequestParam("offset") int offset, @RequestParam("limit") int limit) {
+        return queryBus
+                .send(new FindQueueByPaginationQuery(offset,limit))
+                .fold(
+                success -> ResponseEntity.ok(success.value()),
+                faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
+        );
     }
 }

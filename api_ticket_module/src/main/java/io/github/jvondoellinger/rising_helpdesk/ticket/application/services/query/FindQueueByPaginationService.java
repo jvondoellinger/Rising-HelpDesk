@@ -35,6 +35,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
 
         List<Queue> queues = null;
         Long total = null;
+
         try {
             queues = callQueue.get();
             total = callTotal.get();
@@ -50,5 +51,10 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
         var pagination = new Pagination<>(details, page, size, total);
 
         return new Result.Success<>(pagination);
+    }
+
+    @Override
+    public Class<FindQueueByPaginationQuery> getQueryType() {
+        return FindQueueByPaginationQuery.class;
     }
 }

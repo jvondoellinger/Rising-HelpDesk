@@ -31,4 +31,9 @@ public class FindTicketByNumberQueryHandlerImpl
 		var details = mapper.details(result);
 		return new Result.Success<>(details);
 	}
+
+	@Override
+	public Class<FindTicketByNumberQuery> getQueryType() {
+		return FindTicketByNumberQuery.class;
+	}
 }

@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.queries;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 
-public record FindTicketsByAuthorQuery(String author) implements Query<Pagination<TicketDetails>> {
+public record FindQueueByAuthorQuery(String author) implements Query<Pagination<QueueDetails>> {
 }

@@ -18,7 +18,7 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	}
 
 	@Override
-	public Class<CreateQueueCommand> getType() {
+	public Class<CreateQueueCommand> getCommandType() {
 		return CreateQueueCommand.class;
 	}
 }

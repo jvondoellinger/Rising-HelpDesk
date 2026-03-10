@@ -23,7 +23,7 @@ public class CreateUserProfileService implements CreateUserProfileHandler {
 	}
 
 	@Override
-	public Class<CreateUserProfileCommand> getType() {
+	public Class<CreateUserProfileCommand> getCommandType() {
 		return CreateUserProfileCommand.class;
 	}
 }

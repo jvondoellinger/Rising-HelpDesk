@@ -31,7 +31,7 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 	}
 
 	@Override
-	public Class<CreateAccessProfileCommand> getType() {
+	public Class<CreateAccessProfileCommand> getCommandType() {
 		return CreateAccessProfileCommand.class;
 	}
 }

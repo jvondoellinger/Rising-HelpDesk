@@ -46,7 +46,7 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 	}
 
 	@Override
-	public Class<RemovePermissionsAccessProfileCommand> getType() {
+	public Class<RemovePermissionsAccessProfileCommand> getCommandType() {
 		return RemovePermissionsAccessProfileCommand.class;
 	}
 }

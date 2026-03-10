@@ -41,7 +41,7 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 	}
 
 	@Override
-	public Class<ChangeNameAccessProfileCommand> getType() {
+	public Class<ChangeNameAccessProfileCommand> getCommandType() {
 		return ChangeNameAccessProfileCommand.class;
 	}
 }

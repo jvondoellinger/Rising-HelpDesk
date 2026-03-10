@@ -54,7 +54,7 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 	}
 
 	@Override
-	public Class<AddPermissionsAccessProfileCommand> getType() {
+	public Class<AddPermissionsAccessProfileCommand> getCommandType() {
 		return AddPermissionsAccessProfileCommand.class;
 	}
 }

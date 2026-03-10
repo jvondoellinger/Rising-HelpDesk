@@ -1,34 +1,71 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueCommandMapper;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeAreaRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeSubareaRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.CreateQueueRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.DeleteQueueRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.bus.CommandBus;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByPaginationQuery;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/queue")
 @AllArgsConstructor
 public class QueueController {
-	private final CreateQueueCommandHandler useCase;
-	private final CommandBus bus;
+    private final QueueCommandMapper mapper;
+    private final QueryBus queryBus;
+    private final CommandBus commandBus;
 
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody CreateQueueCommand requestDTO) {
-		return null;
-	}
+    @PostMapping
+    public ResponseEntity<?> createQueue(@RequestBody CreateQueueRequest request) {
+        var cmd = mapper.from(request);
+        return commandBus
+                .send(cmd)
+                .fold(
+                        success -> ResponseEntity.accepted().build(),
+                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                );
+    }
+    @DeleteMapping
+    public ResponseEntity<?> deleteQueue(@RequestBody DeleteQueueRequest request) {
+        var cmd = mapper.from(request);
+        return commandBus
+                .send(cmd)
+                .fold(
+                        success -> ResponseEntity.accepted().build(),
+                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                );
+    }
+    @PatchMapping("/area")
+    public ResponseEntity<?> changeQueueArea(@RequestBody ChangeAreaRequest request) {
+        var cmd = mapper.from(request);
+        return commandBus
+                .send(cmd)
+                .fold(
+                        success -> ResponseEntity.accepted().build(),
+                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                );
+    }
+    @PatchMapping("/subarea")
+    public ResponseEntity<?> changeQueueSubarea(@RequestBody ChangeSubareaRequest request) {
+        var cmd = mapper.from(request);
+        return commandBus
+                .send(cmd)
+                .fold(
+                        success -> ResponseEntity.accepted().build(),
+                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                );
+    }
 
-	// Remover posteriormente
-	@PostMapping("/test")
-	public ResponseEntity<?> test() {
-
-
-		return ResponseEntity.accepted().body(bus.send(new CreateQueueCommand("Tets,", "Test", null)));
-	}
+    @GetMapping
+    public ResponseEntity<?> get(@RequestParam("offset") int offset, @RequestParam int limit) {
+        var result = queryBus.send(new FindTicketByPaginationQuery(offset,limit));
+        return ResponseEntity.ok(result);
+    }
 }

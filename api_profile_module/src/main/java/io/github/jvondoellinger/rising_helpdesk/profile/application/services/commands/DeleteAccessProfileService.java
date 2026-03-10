@@ -28,7 +28,7 @@ public class DeleteAccessProfileService implements DeleteAccessProfileHandler {
 	}
 
 	@Override
-	public Class<DeleteAccessProfileCommand> getType() {
+	public Class<DeleteAccessProfileCommand> getCommandType() {
 		return DeleteAccessProfileCommand.class;
 	}
 }

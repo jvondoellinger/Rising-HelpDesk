@@ -34,7 +34,7 @@ public class DeleteUserProfileService implements DeleteUserProfileHandler {
     }
 
     @Override
-    public Class<DeleteUserProfileCommand> getType() {
+    public Class<DeleteUserProfileCommand> getCommandType() {
         return DeleteUserProfileCommand.class;
     }
 }

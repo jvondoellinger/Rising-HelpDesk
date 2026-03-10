@@ -6,23 +6,22 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class CommandBus {
+public class CommandBusImpl {
     private final HashMap<Class<Command>, CommandHandler<Command>> hashMap;
 
-    public CommandBus(List<CommandHandler<? extends Command>> handlers) {
+    public CommandBusImpl(List<CommandHandler<? extends Command>> handlers) {
         hashMap = new HashMap<>();
 
         System.out.println("Inicializando a injenção de handlers no CommandBus...");
         handlers.forEach(x -> {
             var handler = (CommandHandler<Command>) x;
-            hashMap.put(handler.getType(), handler);
+            hashMap.put(handler.getCommandType(), handler);
 
-            System.out.println("- Adicionando handler: " + x.getType().getName());
+            System.out.println("- Adicionando handler: " + x.getCommandType().getName());
         });
         System.out.println("CommandBus pronto para uso!");
     }

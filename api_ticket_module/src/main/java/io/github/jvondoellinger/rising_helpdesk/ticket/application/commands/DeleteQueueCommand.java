@@ -9,7 +9,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command
  * @param queueId ID da fila
  * @param agentId ID do usuario que esrtá disparando o evento
  */
-public record DeleteTicketQueueCommand(
+public record DeleteQueueCommand(
 	   QueueId queueId,
 	   UserProfileId agentId)  implements Command {
 }

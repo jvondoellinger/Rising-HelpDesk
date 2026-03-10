@@ -20,7 +20,7 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	}
 
 	@Override
-	public Class<CreateTicketCommand> getType() {
+	public Class<CreateTicketCommand> getCommandType() {
 		return CreateTicketCommand.class;
 	}
 }

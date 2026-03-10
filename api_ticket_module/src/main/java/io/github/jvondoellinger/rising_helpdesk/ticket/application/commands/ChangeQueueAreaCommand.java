@@ -4,5 +4,5 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command
 
 import java.util.UUID;
 
-public record ChangeSubareaQueueCommand(UUID id, String subarea, UUID updatedBy) implements Command {
+public record ChangeQueueAreaCommand(UUID id, String area, UUID updatedBy) implements Command {
 }

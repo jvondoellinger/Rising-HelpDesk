@@ -8,12 +8,15 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.Delet
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByPaginationQuery;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/queue")
@@ -72,5 +75,15 @@ public class QueueController {
                 success -> ResponseEntity.ok(success.value()),
                 faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
         );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        return queryBus
+                .send(new FindQueueByIdQuery(QueueId.of(id.toString())))
+                .fold(
+                        success -> ResponseEntity.ok(success.value()),
+                        faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
+                );
     }
 }

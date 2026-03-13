@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaQueueRepository extends JpaRepository<QueueDbEntity, String> {
+    boolean existsByArea(String area);
 }

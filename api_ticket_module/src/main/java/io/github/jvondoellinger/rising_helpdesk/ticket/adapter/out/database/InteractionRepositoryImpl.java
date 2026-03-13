@@ -1,15 +1,18 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.InteractionId;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.InteractionDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.InteractionDbEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.function.Function;
 
 @Repository
 @AllArgsConstructor
@@ -43,12 +46,21 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	}
 
 	@Override
-	public List<Interaction> query(QueryFilter filter) {
-		return JpaCrudsBridge2.findBy(jpaInteractionRepository, filter, mapper::toInteraction);
+	public Pagination<Interaction> query(QueryFilter filter) {
+		return paginationFunc(filter, jpaInteractionRepository::findAll);
 	}
 
 	@Override
 	public long total() {
 		return jpaInteractionRepository.count();
+	}
+
+	private Pagination<Interaction> paginationFunc(QueryFilter filter, Function<PageRequest, Page<InteractionDbEntity>> function) {
+		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
+		var interaction = page.get()
+				.map(mapper::toInteraction)
+				.toList();
+
+		return new Pagination<>(interaction, page.getNumber(), page.getSize(), page.getTotalPages());
 	}
 }

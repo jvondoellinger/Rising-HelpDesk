@@ -46,11 +46,12 @@ public class QueueDbEntity{
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
 		this.createdBy = queue.getCreatedBy();
+
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = queue.getUpdatedAt();
 		this.lastUpdatedBy = queue.getLastUpdatedBy() == null ?
 			   null : queue.getLastUpdatedBy();
-
+		System.out.println("VALOR NESSA BUCETA " + createdBy.toString());
 	}
 
 	@PersistenceCreator
@@ -62,11 +63,5 @@ public class QueueDbEntity{
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.lastUpdatedBy = lastUpdatedBy;
-	}
-
-	public static QueueDbEntity foreignKey(String id) {
-		var queueDbEntity = new QueueDbEntity();
-		queueDbEntity.setDomainId(id);
-		return queueDbEntity;
 	}
 }

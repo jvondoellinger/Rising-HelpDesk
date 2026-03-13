@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.TicketDbEntityMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketId;
@@ -7,11 +8,16 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
+import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Repository
 @AllArgsConstructor
@@ -45,8 +51,8 @@ public class TicketRepositoryImpl implements TicketRepository {
 	}
 
 	@Override
-	public List<Ticket> query(QueryFilter filter) {
-		return JpaCrudsBridge2.findBy(jpaTicketRepository, filter, mapper::toTicket);
+	public Pagination<Ticket> query(QueryFilter filter) {
+		return paginationFunc(filter, jpaTicketRepository::findAll);
 	}
 
 	@Override
@@ -63,5 +69,20 @@ public class TicketRepositoryImpl implements TicketRepository {
 
 		return entity == null ?
 			   Optional.empty() : Optional.of(mapper.toTicket(entity));
+	}
+
+	@Override
+	public Pagination<Ticket> findByAuthor(String tenantId, QueryFilter filter) {
+		return paginationFunc(filter,
+				pageRequest -> jpaTicketRepository.findByOpenedById(tenantId, pageRequest));
+	}
+
+	private Pagination<Ticket> paginationFunc(QueryFilter filter, Function<PageRequest, Page<TicketDbEntity>> function) {
+		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
+		var tickets = page.get()
+				.map(mapper::toTicket)
+				.toList();
+
+		return new Pagination<>(tickets, page.getNumber(), page.getSize(), page.getTotalPages());
 	}
 }

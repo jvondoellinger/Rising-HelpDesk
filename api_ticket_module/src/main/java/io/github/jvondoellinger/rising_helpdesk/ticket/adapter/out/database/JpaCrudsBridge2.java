@@ -30,9 +30,10 @@ public class JpaCrudsBridge2 {
 	) {
 		String id = generateLogId();
 		String entityName = dbEntity.getClass().getSimpleName();
-		T result;
+		T result = null;
 		log.info("LOG_ID: {} |  Initializing JPA bridge to save entity {} into the database", id, entityName);
 		try {
+			repository.save(dbEntity);
 			result = map.apply(dbEntity);
 			log.info("LOG_ID: {} | Transaction completed successfully for entity {}", id, entityName);
 		}

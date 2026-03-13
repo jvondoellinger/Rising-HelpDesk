@@ -29,6 +29,7 @@ public class QueueController {
     @PostMapping
     public ResponseEntity<?> createQueue(@RequestBody CreateQueueRequest request) {
         var cmd = mapper.from(request);
+
         return commandBus
                 .send(cmd)
                 .fold(

@@ -84,12 +84,7 @@ public class TicketDbEntity {
 	}
 
 	public TicketDbEntity(Ticket ticket) {
-/*		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
-			   .stream()
-			   .map(UserProfileId::toString)
-			   .toList();*/
 		this.history = ticket.interactionHistory();
-
 		this.queueId = ticket.queueId();
 		this.number = ticket.number().toString();
 		this.title = ticket.title();

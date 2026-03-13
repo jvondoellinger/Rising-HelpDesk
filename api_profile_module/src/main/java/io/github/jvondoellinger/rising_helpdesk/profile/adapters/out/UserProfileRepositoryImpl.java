@@ -3,12 +3,17 @@ package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.UserProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.UserProfileDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.function.Function;
 
 
 @Repository
@@ -43,12 +48,21 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 	}
 
 	@Override
-	public List<UserProfile> query(QueryFilter filter) {
-		return JpaCrudsBridge.findBy(jpaUserProfileRepository, filter, mapper::toUserProfile);
+	public Pagination<UserProfile> query(QueryFilter filter) {
+		return paginationFunc(filter, jpaUserProfileRepository::findAll);
 	}
 
 	@Override
 	public long total() {
 		return jpaUserProfileRepository.count();
+	}
+
+	private Pagination<UserProfile> paginationFunc(QueryFilter filter, Function<PageRequest, Page<UserProfileDbEntity>> function) {
+		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
+		var userprofiles = page.get()
+				.map(mapper::toUserProfile)
+				.toList();
+
+		return new Pagination<>(userprofiles, page.getNumber(), page.getSize(), page.getTotalPages());
 	}
 }

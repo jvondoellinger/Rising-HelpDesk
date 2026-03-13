@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers;
 
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Queue;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,10 @@ import java.util.List;
 
 @Service
 public class QueueMapper {
+    public Queue from(CreateQueueCommand cmd) {
+        return new Queue(cmd.area(), cmd.subarea(), cmd.createdBy());
+    }
+
     public QueueDetails details(Queue queue) {
         return new QueueDetails(
                 queue.getId(),

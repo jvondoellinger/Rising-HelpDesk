@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
+package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
 import org.springframework.data.domain.Page;

@@ -2,10 +2,10 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueCommandMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueResponseMapper;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeAreaRequest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeSubareaRequest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.CreateQueueRequest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.DeleteQueueRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeAreaRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeSubareaRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.CreateQueueRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.DeleteQueueRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByIdQuery;
@@ -72,10 +72,10 @@ public class QueueController {
 
     @GetMapping
     public ResponseEntity<?> get(
-            @RequestParam(value = "offset", defaultValue = "0") int offset,
+            @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "100") int limit) {
         return queryBus
-                .send(new FindQueueByPaginationQuery(offset,limit))
+                .send(new FindQueueByPaginationQuery(page,limit))
                 .fold(
                 success -> {
                     var responsePagination = responseMapper.from(success.value());

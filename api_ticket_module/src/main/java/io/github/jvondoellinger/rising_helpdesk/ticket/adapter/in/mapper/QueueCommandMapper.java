@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeAreaRequest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeSubareaRequest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.CreateQueueRequest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.DeleteQueueRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeAreaRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeSubareaRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.CreateQueueRequest;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.DeleteQueueRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueSubareaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;

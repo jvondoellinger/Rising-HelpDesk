@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaQueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.QueueDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;

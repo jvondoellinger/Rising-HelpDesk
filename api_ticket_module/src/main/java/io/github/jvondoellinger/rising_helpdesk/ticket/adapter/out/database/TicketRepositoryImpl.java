@@ -1,21 +1,19 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaTicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.TicketDbEntityMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 

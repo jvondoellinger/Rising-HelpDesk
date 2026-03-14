@@ -19,7 +19,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
 
     @Override
     public Result<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
-        var queuePagination = repository.query(QueryFilter.of(query.size(), query.page()));
+        var queuePagination = repository.query(QueryFilter.of(query.limit(), query.page()));
 
         var details = queuePagination
                 .items()

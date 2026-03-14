@@ -18,8 +18,8 @@ public class QueueMapper {
                 queue.getId(),
                 queue.getArea(),
                 queue.getSubarea(),
-                queue.getCreatedBy(),
                 queue.getCreatedAt(),
+                queue.getCreatedBy(),
                 queue.getUpdatedAt(),
                 queue.getLastUpdatedBy()
         );

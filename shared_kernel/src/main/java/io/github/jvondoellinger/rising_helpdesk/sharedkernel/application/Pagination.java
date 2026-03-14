@@ -8,10 +8,4 @@ public record Pagination<T>(
 	   int size,
 	   int totalPages
 ) {
-	public boolean empty() {
-		return  items == null ||
-				items.isEmpty() ||
-				size == 0 ||
-				totalPages == 0;
-	}
 }

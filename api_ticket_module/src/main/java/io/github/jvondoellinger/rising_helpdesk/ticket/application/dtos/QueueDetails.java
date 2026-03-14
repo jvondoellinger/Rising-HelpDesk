@@ -9,8 +9,8 @@ public record QueueDetails(
 	   QueueId domainId,
 	   String area,
 	   String subarea,
-	   UserProfileId createdBy,
 	   LocalDateTime createdAt,
+	   UserProfileId createdBy,
 	   LocalDateTime updatedAt,
 	   UserProfileId lastUpdatedBy
 ) {

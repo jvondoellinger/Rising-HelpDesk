@@ -1,16 +1,17 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueCommandMapper;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeAreaRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ChangeSubareaRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.CreateQueueRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.DeleteQueueRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
-
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
+
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,14 @@ import java.util.UUID;
 @RequestMapping("/api/queue")
 @AllArgsConstructor
 public class QueueController {
-    private final QueueCommandMapper mapper;
+    private final QueueCommandMapper commandMapper;
+    private final QueueResponseMapper responseMapper;
     private final QueryBus queryBus;
     private final CommandBus commandBus;
 
     @PostMapping
     public ResponseEntity<?> createQueue(@RequestBody CreateQueueRequest request) {
-        var cmd = mapper.from(request);
+        var cmd = commandMapper.from(request);
 
         return commandBus
                 .send(cmd)
@@ -39,7 +41,7 @@ public class QueueController {
     }
     @DeleteMapping
     public ResponseEntity<?> deleteQueue(@RequestBody DeleteQueueRequest request) {
-        var cmd = mapper.from(request);
+        var cmd = commandMapper.from(request);
         return commandBus
                 .send(cmd)
                 .fold(
@@ -49,7 +51,7 @@ public class QueueController {
     }
     @PatchMapping("/area")
     public ResponseEntity<?> changeQueueArea(@RequestBody ChangeAreaRequest request) {
-        var cmd = mapper.from(request);
+        var cmd = commandMapper.from(request);
         return commandBus
                 .send(cmd)
                 .fold(
@@ -59,7 +61,7 @@ public class QueueController {
     }
     @PatchMapping("/subarea")
     public ResponseEntity<?> changeQueueSubarea(@RequestBody ChangeSubareaRequest request) {
-        var cmd = mapper.from(request);
+        var cmd = commandMapper.from(request);
         return commandBus
                 .send(cmd)
                 .fold(
@@ -69,11 +71,16 @@ public class QueueController {
     }
 
     @GetMapping
-    public ResponseEntity<?> get(@RequestParam("offset") int offset, @RequestParam("limit") int limit) {
+    public ResponseEntity<?> get(
+            @RequestParam(value = "offset", defaultValue = "0") int offset,
+            @RequestParam(value = "limit", defaultValue = "100") int limit) {
         return queryBus
                 .send(new FindQueueByPaginationQuery(offset,limit))
                 .fold(
-                success -> ResponseEntity.ok(success.value()),
+                success -> {
+                    var responsePagination = responseMapper.from(success.value());
+                    return ResponseEntity.ok(responsePagination);
+                },
                 faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
         );
     }
@@ -83,7 +90,10 @@ public class QueueController {
         return queryBus
                 .send(new FindQueueByIdQuery(QueueId.of(id.toString())))
                 .fold(
-                        success -> ResponseEntity.ok(success.value()),
+                        success -> {
+                            var response = responseMapper.from(success.value());
+                            return ResponseEntity.ok(response);
+                        },
                         faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
                 );
     }

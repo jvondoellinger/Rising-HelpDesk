@@ -1,6 +1,7 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain;
+package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 
 import java.time.LocalDateTime;
 

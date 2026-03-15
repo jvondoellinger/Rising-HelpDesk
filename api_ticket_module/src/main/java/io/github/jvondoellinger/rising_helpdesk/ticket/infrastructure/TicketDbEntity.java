@@ -1,13 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.InteractionHistoryConverter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.MentionsConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.QueueIdFieldConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.UserProfileIdFieldConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Ticket;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.mention.Mentions;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
@@ -18,6 +16,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_tickets")
@@ -26,6 +25,7 @@ import java.time.LocalDateTime;
 @FixAfter
 public class TicketDbEntity {
 	@Id
+	@FixAfter
 	private String number;
 
 	private String title;
@@ -40,10 +40,10 @@ public class TicketDbEntity {
 	@Convert(converter = QueueIdFieldConverter.class)
 	private QueueId queueId;
 
-	@Column
+	@OneToMany(mappedBy = "tb_ticket")
+	private List<MentionDbEntity> mentions;
 
-	@Convert(converter = MentionsConverter.class)
-	private Mentions mentions;
+	// OneToMany para MençõesDbEntity e o hibernate gera um JOIN
 
 	@CreationTimestamp
 	private LocalDateTime openedOn;
@@ -66,7 +66,7 @@ public class TicketDbEntity {
 					  InteractionsHistory history,
 					  LocalDateTime deadline,
 					  QueueId queueId,
-					  Mentions mentions,
+					  List<MentionDbEntity>  mentions,
 					  LocalDateTime openedOn,
 					  UserProfileId openedById,
 					  LocalDateTime lastUpdatedOn,

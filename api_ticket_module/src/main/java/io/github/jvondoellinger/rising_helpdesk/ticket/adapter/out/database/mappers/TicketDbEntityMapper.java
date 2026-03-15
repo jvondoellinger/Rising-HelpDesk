@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Ticket;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ public class TicketDbEntityMapper {
 	public TicketDbEntity from(Ticket ticket) {
 		var mentions = ticket.mentions();
 		var history = ticket.interactionHistory();
-
 		var number = ticket.number().toString();
 		var title = ticket.title();
 		var deadline = ticket.deadline();

@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Queue;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.QueueDbEntity;
 import org.springframework.stereotype.Service;

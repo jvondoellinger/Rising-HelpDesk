@@ -6,7 +6,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDe
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByIdQuery;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketRepository;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

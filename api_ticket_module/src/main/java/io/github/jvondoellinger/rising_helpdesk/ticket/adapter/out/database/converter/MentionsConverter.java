@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.mention.Mentions;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mentions;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

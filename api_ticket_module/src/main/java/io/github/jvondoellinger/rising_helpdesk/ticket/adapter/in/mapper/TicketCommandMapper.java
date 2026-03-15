@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket.CreateTicketRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.mention.Mentions;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mentions;
 import org.springframework.stereotype.Service;
 
 @Service

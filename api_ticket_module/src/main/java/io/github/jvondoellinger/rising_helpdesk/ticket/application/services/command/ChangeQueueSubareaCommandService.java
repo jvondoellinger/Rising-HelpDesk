@@ -5,9 +5,9 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueSubareaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueSubareaCommandHandler;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Queue;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueRepository;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.UserProfileIdFieldConverter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.Queue;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;

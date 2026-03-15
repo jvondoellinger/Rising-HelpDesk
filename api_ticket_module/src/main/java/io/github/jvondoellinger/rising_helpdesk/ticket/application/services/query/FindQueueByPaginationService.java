@@ -7,7 +7,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDet
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueRepository;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

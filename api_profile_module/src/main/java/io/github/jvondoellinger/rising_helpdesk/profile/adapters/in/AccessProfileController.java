@@ -51,8 +51,7 @@ public class AccessProfileController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> create(@RequestBody CreateAccessProfileRequest request) {
-        var permissions = request.permissions().stream().map(Permission::of).toList();
-        var cmd = new CreateAccessProfileCommand(request.name(), permissions);
+        var cmd = new CreateAccessProfileCommand(request.name(), request.permissionIds());
 
         return accessProfileUseCase.handle(cmd)
                 .fold(

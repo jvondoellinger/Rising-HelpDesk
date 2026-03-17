@@ -19,7 +19,7 @@ public class PermissionRepositoryImpl implements PermissionRepository {
     @Override
     public Permission save(Permission entity) {
         var dbEntity = new PermissionDbEntity();
-        dbEntity.setId(entity.getId());
+
         dbEntity.setPermission(entity.getCode());
         dbEntity.setCreatedAt(dbEntity.getCreatedAt());
 

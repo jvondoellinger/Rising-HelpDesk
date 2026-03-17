@@ -4,9 +4,10 @@ import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permissi
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
 
 import java.util.List;
+import java.util.UUID;
 
 public record CreateAccessProfileCommand(
 	   String name,
-	   List<Permission> permissions
+	   List<UUID> permissions
 ) implements Command {
 }

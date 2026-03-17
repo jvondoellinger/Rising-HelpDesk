@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccessProfileMapper {
-	public AccessProfile from(CreateAccessProfileCommand command) {
-		var permissions = command.permissions().stream().map(x -> new Permission(x, null, null)).toList();
-
+	public AccessProfile from(CreateAccessProfileCommand command)  {
+		var permissions = command.permissions()
+			   .stream()
+			   .map(x -> new Permission(x, null, null))
+			   .toList();
 		return new AccessProfile(command.name(), permissions);
 	}
 

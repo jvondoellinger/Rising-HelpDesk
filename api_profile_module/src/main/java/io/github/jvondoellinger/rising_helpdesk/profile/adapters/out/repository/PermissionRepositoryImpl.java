@@ -1,12 +1,13 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.repository;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.jpaRepositories.JpaPermissionRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.PermissionDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.PermissionRepository;
-import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.PermissionDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -15,46 +16,62 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PermissionRepositoryImpl implements PermissionRepository {
     private final JpaPermissionRepository jpaPermissionRepository;
+    private final PermissionDbMapper dbMapper;
 
     @Override
     public Permission save(Permission entity) {
-        var dbEntity = new PermissionDbEntity();
+        var dbEntity = dbMapper.from(entity);
+        var persisted = jpaPermissionRepository.save(dbEntity);
 
-        dbEntity.setPermission(entity.getCode());
-        dbEntity.setCreatedAt(dbEntity.getCreatedAt());
-
-        jpaPermissionRepository.save(dbEntity);
-
-        return entity;
+        return dbMapper.toPermission(persisted);
     }
 
     @Override
     public Permission update(Permission entity) {
-        return null;
+        var current = jpaPermissionRepository.findById(entity.getId());
+
+        if (current.isEmpty()) {
+            return null;
+        }
+
+        var mapped = dbMapper.from(entity);
+        var updated = jpaPermissionRepository.save(mapped);
+
+        return dbMapper.toPermission(updated);
     }
 
     @Override
     public void delete(Permission entity) {
-
+        jpaPermissionRepository.deleteById(entity.getId());
     }
 
     @Override
     public Permission queryById(UUID uuid) {
-        return null;
+        var dbEntity = jpaPermissionRepository.findById(uuid);
+
+        if (dbEntity.isEmpty()) {
+            return null;
+        }
+
+        return dbMapper.toPermission(dbEntity.get());
     }
 
     @Override
     public boolean existsById(UUID uuid) {
-        return false;
+        return jpaPermissionRepository.existsById(uuid);
     }
 
     @Override
     public Pagination<Permission> query(QueryFilter filter) {
-        return null;
+        var pageable = PageRequest.of(filter.page(), filter.size());
+        var entities = jpaPermissionRepository.findAll(pageable);
+        var permissionsList = entities.stream().map(dbMapper::toPermission).toList();
+
+        return new Pagination<>(permissionsList, entities.getNumber(), entities.getSize(), entities.getTotalPages());
     }
 
     @Override
     public long total() {
-        return 0;
+        return jpaPermissionRepository.count();
     }
 }

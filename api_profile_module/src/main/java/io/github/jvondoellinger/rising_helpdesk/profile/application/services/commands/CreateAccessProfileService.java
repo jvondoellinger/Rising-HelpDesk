@@ -30,13 +30,15 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 			return new Result.Failure<>(KernelException.conflict("Access Profile already registered."));
 		}
 
+		System.out.println(cmd.permissions().size());
+		System.out.println(cmd.permissions().get(0));
 		var match = cmd
 			   .permissions()
 			   .stream()
 			   .allMatch(permissionRepository::existsById);
 
 		// REMOVE BEFORE
-		if (match) {
+		if (!match) {
 			return new Result.Failure<>(KernelException.conflict("Any permission has registered."));
 		}
 

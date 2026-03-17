@@ -1,12 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.AccessProfileDbMapper;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.AccessProfileDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.UserProfileDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;
@@ -14,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Repository
@@ -42,12 +39,12 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	}
 
 	@Override
-	public AccessProfile queryById(AccessProfileId id) {
+	public AccessProfile queryById(UUID id) {
 		return JpaCrudsBridge.findById(jpaAccessProfileRepository, id.toString(), mapper::toAccessProfile);
 	}
 
 	@Override
-	public boolean existsById(AccessProfileId accessProfileId) {
+	public boolean existsById(UUID accessProfileId) {
 		return jpaAccessProfileRepository.existsById(accessProfileId.toString());
 	}
 

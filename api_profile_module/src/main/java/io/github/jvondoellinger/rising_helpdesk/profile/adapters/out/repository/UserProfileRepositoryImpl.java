@@ -2,17 +2,16 @@ package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.UserProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.UserProfileDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+
+import java.util.UUID;
 import java.util.function.Function;
 
 
@@ -38,12 +37,12 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 	}
 
 	@Override
-	public UserProfile queryById(UserProfileId id) {
+	public UserProfile queryById(UUID id) {
 		return JpaCrudsBridge.findById(jpaUserProfileRepository, id.toString(), mapper::toUserProfile);
 	}
 
 	@Override
-	public boolean existsById(UserProfileId id) {
+	public boolean existsById(UUID id) {
 		return jpaUserProfileRepository.existsById(id.toString());
 	}
 

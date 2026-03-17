@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.domain;
+package io.github.jvondoellinger.rising_helpdesk.profile.domain.repository;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.infrastructure.CrudsRepository;

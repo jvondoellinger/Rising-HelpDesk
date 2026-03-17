@@ -1,13 +1,13 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.application.queries;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public record AccessProfileDetails(
-	   AccessProfileId accessProfileId,
+	   UUID accessProfileId,
 	   List<Permission> permissions,
 	   LocalDateTime createdAt,
 	   LocalDateTime updatedAt

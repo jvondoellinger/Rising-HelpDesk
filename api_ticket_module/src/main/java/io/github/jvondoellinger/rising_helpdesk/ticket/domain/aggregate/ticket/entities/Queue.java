@@ -1,64 +1,68 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
-
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Queue {
-	private final QueueId id;
-	private final String area;
-	private final String subarea;
-	private final LocalDateTime createdAt;
-	private final UserProfileId createdBy;
-	private final LocalDateTime updatedAt;
-	private final UserProfileId lastUpdatedBy;
+    private final UUID id;
+    private final String area;
+    private final String subarea;
+    private final LocalDateTime createdAt;
+    private final UUID createdBy;
+    private final LocalDateTime updatedAt;
+    private final UUID lastUpdatedBy;
 
-	public Queue(QueueId id,
-			   String area,
-			   String subarea,
-			   UserProfileId createdBy,
-			   LocalDateTime createdAt,
-			   LocalDateTime updatedAt,
-			   UserProfileId lastUpdatedBy) {
-		this.id = id;
-		this.area = area;
-		this.subarea = subarea;
-		this.createdBy = createdBy;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.lastUpdatedBy = lastUpdatedBy;
-	}
+    public Queue(UUID id,
+                 String area,
+                 String subarea,
+                 UUID createdBy,
+                 LocalDateTime createdAt,
+                 LocalDateTime updatedAt,
+                 UUID lastUpdatedBy) {
+        this.id = id;
+        this.area = area;
+        this.subarea = subarea;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
 
-	public Queue(String area, String subarea, UserProfileId createdBy) {
-		this.id = new QueueId();
-		this.area = area;
-		this.subarea = subarea;
-		this.createdBy = createdBy;
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = null;
-		this.lastUpdatedBy = null;
-	}
+    public Queue(String area, String subarea, UUID createdBy) {
+        this.id = UUID.randomUUID();
+        this.area = area;
+        this.subarea = subarea;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = null;
+        this.lastUpdatedBy = null;
+    }
 
-	public QueueId getId() {
-		return id;
-	}
-	public String getArea() {
-		return area;
-	}
-	public String getSubarea() {
-		return subarea;
-	}
-	public UserProfileId getCreatedBy() {
-		return createdBy;
-	}
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-	public UserProfileId getLastUpdatedBy() {
-		return lastUpdatedBy;
-	}
+    public UUID getId() {
+        return id;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public String getSubarea() {
+        return subarea;
+    }
+
+    public UUID getCreatedBy() {
+        return createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public UUID getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
 }

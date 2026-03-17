@@ -1,8 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mentions;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,17 +22,16 @@ public class MentionDbEntity {
     @ManyToOne
     @JoinColumn(name = "number")
     private TicketDbEntity ticket;
-    private UserProfileId userProfileId;
+    private UUID userProfileId;
 
     @CreationTimestamp
     private LocalDateTime mentionedAt;
 
-    public MentionDbEntity(Mentions mentions) {
-        uuid = mentions.getId();
+    public MentionDbEntity() {
     }
 
     @PersistenceCreator
-    public MentionDbEntity(UUID uuid, TicketDbEntity ticket, UserProfileId userProfileId, LocalDateTime mentionedAt) {
+    public MentionDbEntity(UUID uuid, TicketDbEntity ticket, UUID userProfileId, LocalDateTime mentionedAt) {
         this.uuid = uuid;
         this.ticket = ticket;
         this.userProfileId = userProfileId;

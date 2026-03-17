@@ -1,8 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.UserProfileIdFieldConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +11,7 @@ import org.springframework.data.annotation.PersistenceCreator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_interaction")
@@ -21,20 +20,19 @@ import java.util.List;
 @FixAfter
 public class InteractionDbEntity {
 	@Id
-	private String domainId;
+	private UUID id;
 	private String text;
 
 	private boolean visible;
 
 	@Column(name = "interacted_by_id")
-	@Convert(converter = UserProfileIdFieldConverter.class)
-	private UserProfileId interactedBy;
+	private UUID interactedBy;
 
 	@CreationTimestamp
 	private LocalDateTime interactedOn;
 
 	public InteractionDbEntity(Interaction interaction) {
-		this.domainId = interaction.getId().toString();
+		this.id = interaction.getId();
 		this.text = interaction.getText();
 		this.visible = interaction.isVisible();
 		this.interactedBy = interaction.getInteractedBy();
@@ -42,32 +40,13 @@ public class InteractionDbEntity {
 	}
 
 	@PersistenceCreator
-	public InteractionDbEntity(String domainId, String text, boolean visible, UserProfileId interactedBy, LocalDateTime interactedOn) {
-		this.domainId = domainId;
+	public InteractionDbEntity(UUID id, String text, boolean visible, UUID interactedBy, LocalDateTime interactedOn) {
+		this.id = id;
 		this.text = text;
 		this.visible = visible;
 		this.interactedBy = interactedBy;
 		this.interactedOn = interactedOn;
 	}
 
-	protected InteractionDbEntity() {}
-
-	public static InteractionDbEntity foreignKey(String id) {
-		var interactionDbEntity = new InteractionDbEntity();
-		interactionDbEntity.setDomainId(id);
-		return interactionDbEntity;
-	}
-
-	public static List<InteractionDbEntity> foreignKey(List<String> ids) {
-		var interactions = new ArrayList<InteractionDbEntity>();
-
-		InteractionDbEntity interactionDbEntity;
-
-		for (var id : ids) {
-			interactionDbEntity = new InteractionDbEntity();
-			interactionDbEntity.setDomainId(id);
-		}
-
-		return interactions;
-	}
+	public InteractionDbEntity() {}
 }

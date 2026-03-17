@@ -1,8 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.infrastructure;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.converter.AccessProfileIdFieldConverter;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user_profile")
@@ -20,10 +19,9 @@ import java.time.LocalDateTime;
 @FixAfter
 public class UserProfileDbEntity {
 	@Id
-	public String userId;
+	public UUID userId;
 
-	@Convert(converter = AccessProfileIdFieldConverter.class)
-	public AccessProfileId accessProfile;
+	public UUID accessProfile;
 
 	@CreationTimestamp
 	public LocalDateTime createdAt;
@@ -33,26 +31,20 @@ public class UserProfileDbEntity {
 	public LocalDateTime updatedAt;
 
 	public UserProfileDbEntity(UserProfile user) {
-		this.userId = user.getUserId().toString();
+		this.userId = user.getUserId();
 		this.accessProfile = user.getAccessProfile();
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
 	}
 
 	@PersistenceCreator
-	public UserProfileDbEntity(String userId, AccessProfileId accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public UserProfileDbEntity(UUID userId, UUID accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.userId = userId;
 		this.accessProfile = accessProfile;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
 
-	protected UserProfileDbEntity() {
-	}
-
-	public static UserProfileDbEntity foreignKey(String id) {
-		var userProfileDbEntity = new UserProfileDbEntity();
-		userProfileDbEntity.setUserId(id);
-		return userProfileDbEntity;
+	public UserProfileDbEntity() {
 	}
 }

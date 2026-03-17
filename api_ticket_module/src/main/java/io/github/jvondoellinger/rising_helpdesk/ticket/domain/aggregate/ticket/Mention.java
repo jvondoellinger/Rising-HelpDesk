@@ -25,4 +25,16 @@ public class Mention {
 		this.userId = userId;
 		this.mentionedAt = mentionedAt;
 	}
+
+	public LocalDateTime getMentionedAt() {
+		return mentionedAt;
+	}
+
+	public UUID getUserId() {
+		return userId;
+	}
+
+	public UUID getId() {
+		return id;
+	}
 }

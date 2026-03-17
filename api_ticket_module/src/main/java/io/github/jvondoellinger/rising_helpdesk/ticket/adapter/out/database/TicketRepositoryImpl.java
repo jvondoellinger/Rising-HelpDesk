@@ -4,7 +4,6 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Paginat
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaTicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.TicketDbEntityMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.TicketId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Repository
@@ -39,12 +39,12 @@ public class TicketRepositoryImpl implements TicketRepository {
 	}
 
 	@Override
-	public Ticket queryById(TicketId id) {
+	public Ticket queryById(UUID id) {
 		return JpaCrudsBridge2.findById(jpaTicketRepository, id.toString(), mapper::toTicket);
 	}
 
 	@Override
-	public boolean existsById(TicketId ticketId) {
+	public boolean existsById(UUID ticketId) {
 		return jpaTicketRepository.existsById(ticketId.toString());
 	}
 
@@ -72,7 +72,7 @@ public class TicketRepositoryImpl implements TicketRepository {
 	@Override
 	public Pagination<Ticket> findByAuthor(String tenantId, QueryFilter filter) {
 		return paginationFunc(filter,
-				pageRequest -> jpaTicketRepository.findByOpenedById(tenantId, pageRequest));
+				pageRequest -> jpaTicketRepository.findByOpenedBy(tenantId, pageRequest));
 	}
 
 	private Pagination<Ticket> paginationFunc(QueryFilter filter, Function<PageRequest, Page<TicketDbEntity>> function) {

@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.application.commands;
+package io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.application.dtos.PermissionsDTO;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;

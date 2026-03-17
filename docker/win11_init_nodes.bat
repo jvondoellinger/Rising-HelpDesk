@@ -1,24 +1,28 @@
-#!/bin/bash
+@echo off
 
-NODE_LIST=("mysql_master" "mysql_repl_1" "mysql_repl_2")
+set MYSQL_USER=proxysql_user
+set MYSQL_PASS=secret123
 
-MYSQL_USER="proxysql_user"
-MYSQL_PASS="secret123"
+echo Iniciando verificacao dos nodes...
+echo.
 
-echo "Iniciando verificação dos nodes..."
+for %%N in (mysql_master mysql_repl_1 mysql_repl_2) do (
 
-for NODE in "${NODE_LIST[@]}"; do
-    echo "Conectando ao node: $NODE"
+    echo Conectando ao node: %%N
 
-    mysql -h "$NODE" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e "SELECT @@hostname, NOW();"
+    docker exec %%N mysql -u %MYSQL_USER% -p%MYSQL_PASS% -e "SELECT @@hostname, NOW();"
 
-    if [ $? -ne 0 ]; then
-        echo "Erro ao conectar no node $NODE"
-    fi
+    if errorlevel 1 (
+        echo Erro ao conectar no node %%N
+    )
 
-    echo "--------------------------------"
-done
+    echo --------------------------------
+)
 
-echo "Entrando no container ProxySQL..."
+echo Entrando no container ProxySQL...
 
-docker exec -it proxysql bash -c "mysql -u admin -padmin -h 127.0.0.1 -P 6032"
+docker exec -it proxysql mysql -u admin -padmin -h 127.0.0.1 -P 6032
+
+echo.
+echo Script executado com sucesso.
+pause

@@ -1,5 +1,7 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.repository;
 
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.repository.helper.JpaCrudsBridge;
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.jpaRepositories.JpaUserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.UserProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.UserProfileRepository;

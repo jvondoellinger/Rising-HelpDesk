@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.InteractionId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaInteractionRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.InteractionDbMapper;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
 import java.util.function.Function;
 
 @Repository
@@ -37,12 +37,12 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	}
 
 	@Override
-	public Interaction queryById(InteractionId id) {
+	public Interaction queryById(UUID id) {
 		return JpaCrudsBridge2.findById(jpaInteractionRepository, id.toString(), mapper::toInteraction);
 	}
 
 	@Override
-	public boolean existsById(InteractionId interactionId) {
+	public boolean existsById(UUID interactionId) {
 		return jpaInteractionRepository.existsById(interactionId.toString());
 	}
 

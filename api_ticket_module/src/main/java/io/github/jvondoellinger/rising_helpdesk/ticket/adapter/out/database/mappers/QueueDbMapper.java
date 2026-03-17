@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.QueueDbEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ public class QueueDbMapper {
 
 	public Queue toQueue(QueueDbEntity entity) {
 		return new Queue(
-			   QueueId.of(entity.getDomainId()),
+			   entity.getId(),
 			   entity.getArea(),
 			   entity.getSubarea(),
 			   entity.getCreatedBy(),

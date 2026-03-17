@@ -2,11 +2,11 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.con
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.InteractionId;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 @Converter
 public class InteractionHistoryConverter implements AttributeConverter<InteractionsHistory, String> {
@@ -32,7 +32,7 @@ public class InteractionHistoryConverter implements AttributeConverter<Interacti
 			   .filter(s -> !s.isBlank())
 			   .map(s ->
 				   new Interaction(
-						 InteractionId.of(s),
+						   UUID.fromString(s),
 						 null,
 						 true,
 						 null,

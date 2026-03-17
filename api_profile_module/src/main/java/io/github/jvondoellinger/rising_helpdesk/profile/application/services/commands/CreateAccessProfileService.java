@@ -1,9 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.application.services.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.CreateAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.CreateAccessProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.AccessProfileMapper;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.CreateAccessProfileHandler;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.CreateAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import lombok.AllArgsConstructor;

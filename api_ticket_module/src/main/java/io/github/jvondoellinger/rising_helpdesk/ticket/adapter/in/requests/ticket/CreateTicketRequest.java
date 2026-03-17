@@ -1,14 +1,12 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.MentionsResponse;
-
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record CreateTicketRequest(
         String title,
-        String queueId,
-        MentionsResponse mentions,
+        UUID queueId,
         LocalDateTime deadline,
-        String openedBy
+        UUID openedBy
 ) {
 }

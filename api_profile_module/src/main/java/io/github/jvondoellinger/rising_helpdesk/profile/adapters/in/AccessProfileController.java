@@ -5,20 +5,18 @@ import io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.request.AddA
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.request.ChangeAccessProfileNameRequest;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.request.CreateAccessProfileRequest;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.request.RemoveAccessProfilePermissionRequest;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.AddPermissionsAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.ChangeNameAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.CreateAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.RemovePermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.AddPermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.ChangeNameAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.CreateAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.RemovePermissionsAccessProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.dtos.PermissionsDTO;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.AddPermissionsAccessProfileHandler;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.ChangeNameAccessProfileHandler;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.CreateAccessProfileHandler;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.RemovePermissionsAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.AddPermissionsAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.ChangeNameAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.CreateAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.RemovePermissionsAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.query.FindAccessProfileByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.FindAccessProfileByIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.valueObjects.Permissions;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.AccessProfileId;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,8 +39,7 @@ public class AccessProfileController {
 
     @GetMapping
     public ResponseEntity<?> search(@RequestParam UUID id) {
-        var value = AccessProfileId.of(id.toString());
-        var query = new FindAccessProfileByIdQuery(value);
+        var query = new FindAccessProfileByIdQuery(id);
         var result = findAccessProfileByIdQueryHandler.handle(query);
 
         return result.fold(
@@ -66,7 +63,7 @@ public class AccessProfileController {
 
     @PutMapping("/name")
     public ResponseEntity<?> changeNameAccessProfile(@RequestBody ChangeAccessProfileNameRequest request) {
-        var cmd = new ChangeNameAccessProfileCommand(AccessProfileId.of(request.id()), request.name());
+        var cmd = new ChangeNameAccessProfileCommand(request.id(), request.name());
 
         return changeNameAccessProfileHandler.handle(cmd)
                 .fold(
@@ -79,7 +76,7 @@ public class AccessProfileController {
     @PatchMapping("/permissions/remove")
     public ResponseEntity<?> removePermissionAccessProfile(@RequestBody RemoveAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
-        var cmd = new RemovePermissionsAccessProfileCommand(AccessProfileId.of(request.id().toString()), permissions);
+        var cmd = new RemovePermissionsAccessProfileCommand(request.id(), permissions);
 
         return removePermissionsAccessProfileHandler.handle(cmd)
                 .fold(
@@ -91,7 +88,7 @@ public class AccessProfileController {
     @PatchMapping("/permissions/add")
     public ResponseEntity<?> addPermissionAccessProfile(@RequestBody AddAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
-        var cmd = new AddPermissionsAccessProfileCommand(AccessProfileId.of(request.id().toString()), permissions);
+        var cmd = new AddPermissionsAccessProfileCommand(request.id(), permissions);
 
         return addAccessProfileNamePermissionRequest.handle(cmd)
                 .fold(

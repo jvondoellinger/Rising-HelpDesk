@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.adapters.in;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.CreateUserProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.userprofile.CreateUserProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.userprofile.CreateUserProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.UserProfileDetails;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.CreateUserProfileHandler;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

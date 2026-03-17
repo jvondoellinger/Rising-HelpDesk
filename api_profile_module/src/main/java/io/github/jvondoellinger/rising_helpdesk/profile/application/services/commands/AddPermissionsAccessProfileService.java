@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.application.services.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.AddPermissionsAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.AddPermissionsAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.AddPermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.AddPermissionsAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;

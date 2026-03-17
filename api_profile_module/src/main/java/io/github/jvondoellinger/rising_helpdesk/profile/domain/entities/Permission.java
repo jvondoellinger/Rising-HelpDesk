@@ -2,16 +2,25 @@ package io.github.jvondoellinger.rising_helpdesk.profile.domain.entities;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Permission {
 	private final UUID id;
 	private final String code;
+	private final LocalDateTime createdAt;
 
 	private Permission(String code) {
-		this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID();
 		this.code = code;
+		this.createdAt = LocalDateTime.now();
+	}
+
+	public Permission(UUID id, String code, LocalDateTime createdAt) {
+		this.id = id;
+		this.code = code;
+		this.createdAt = createdAt;
 	}
 
 	@FixAfter
@@ -29,11 +38,14 @@ public class Permission {
 		return new Permission(code.toUpperCase());
 	}
 
-	public UUID id() {
+	public UUID getId() {
 		return id;
 	}
-	public String code() {
+	public String getCode() {
 		return code;
+	}
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 
 	@Override

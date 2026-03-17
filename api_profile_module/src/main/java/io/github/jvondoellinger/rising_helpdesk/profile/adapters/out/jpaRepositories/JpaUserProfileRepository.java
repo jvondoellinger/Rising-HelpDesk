@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.jpaRepositories;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.UserProfileDbEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

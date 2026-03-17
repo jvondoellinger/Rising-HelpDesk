@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.application.commands;
+package io.github.jvondoellinger.rising_helpdesk.profile.application.commands.userprofile;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
 

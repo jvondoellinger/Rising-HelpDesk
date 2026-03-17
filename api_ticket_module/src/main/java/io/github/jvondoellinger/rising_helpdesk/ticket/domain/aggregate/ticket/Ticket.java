@@ -1,28 +1,30 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mentions;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class Ticket {
-	public Ticket(TicketNumber number,
-			    String title,
-			    InteractionsHistory history,
-			    QueueId queue,
-			    Mentions mentions,
-			    LocalDateTime deadline,
-			    UserProfileId openedBy,
-			    LocalDateTime openedOn,
-			    UserProfileId lastUpdatedBy,
-			    LocalDateTime lastUpdatedOn) {
-		this.number = number;
+	public Ticket(UUID id,
+				  TicketNumber number,
+                  String title,
+                  InteractionsHistory history,
+                  UUID queueId,
+                  List<Mention> mentions,
+                  LocalDateTime deadline,
+                  UUID openedBy,
+                  LocalDateTime openedOn,
+                  UUID lastUpdatedBy,
+                  LocalDateTime lastUpdatedOn) {
+        this.id = id;
+        this.number = number;
 		this.title = title;
 		this.history = history;
-		this.queue = queue;
+		this.queueId = queueId;
 		this.openedBy = openedBy;
 		this.lastUpdatedBy = lastUpdatedBy;
 		this.deadline = deadline;
@@ -32,63 +34,73 @@ public class Ticket {
 	}
 
 	public Ticket(String title,
-			    InteractionsHistory history,
-			    QueueId queue,
-			    Mentions mentions,
-			    UserProfileId openedBy,
-			    LocalDateTime deadline) {
-		this.number = TicketNumber.create();
+                  InteractionsHistory history,
+                  UUID queueId,
+                  UUID openedBy,
+                  LocalDateTime deadline) {
+        this.id = UUID.randomUUID();
+        this.number = TicketNumber.create();
 		this.title = title;
-		this.queue = queue;
+		this.queueId = queueId;
 		this.openedBy = openedBy;
 		this.deadline = deadline;
-		this.mentions = mentions;
+		this.mentions = new ArrayList<>();
 		this.history = history;
 		this.openedOn = LocalDateTime.now();
 		this.lastUpdatedOn = null;
 		this.lastUpdatedBy = null;
 	}
 
+	private final UUID id;
 	private final TicketNumber number;
 	private final String title;
 	private final InteractionsHistory history;
-	private final QueueId queue;
+	private final UUID queueId;
 	private final LocalDateTime deadline;
-	private final Mentions mentions;
+	private final List<Mention> mentions;
 
 	private final LocalDateTime openedOn;
-	private final UserProfileId openedBy;
+	private final UUID openedBy;
 	private final LocalDateTime lastUpdatedOn;
-	private final UserProfileId lastUpdatedBy;
+	private final UUID lastUpdatedBy;
 
-	public TicketNumber number() {
+
+	public void addMention(Mention mention) {
+		mentions.add(mention);
+	}
+
+	// !Getters
+	public UUID getId() {
+		return id;
+	}
+	public TicketNumber getNumber() {
 		return number;
 	}
-	public String title() {
+	public String getTitle() {
 		return title;
 	}
-	public InteractionsHistory interactionHistory() {
+	public InteractionsHistory getHistory() {
 		return history;
 	}
-	public QueueId queueId() {
-		return queue;
+	public UUID getQueueId() {
+		return queueId;
 	}
-	public LocalDateTime deadline() {
+	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-	public Mentions mentions() {
-		return mentions;
+	public List<Mention> getMentions() {
+		return List.copyOf(mentions); // Tornando imutavel pelo getter (eviantado gambiarra)
 	}
-	public LocalDateTime openedOn() {
+	public LocalDateTime getOpenedOn() {
 		return openedOn;
 	}
-	public UserProfileId openedBy() {
+	public UUID getOpenedBy() {
 		return openedBy;
 	}
-	public LocalDateTime lastUpdatedOn() {
+	public LocalDateTime getLastUpdatedOn() {
 		return lastUpdatedOn;
 	}
-	public UserProfileId lastUpdatedBy() {
+	public UUID getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
 }

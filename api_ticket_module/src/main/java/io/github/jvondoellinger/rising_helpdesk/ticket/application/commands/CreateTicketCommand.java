@@ -1,17 +1,14 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mentions;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record CreateTicketCommand(
 	   String title,
-	   QueueId queueId,
-	   Mentions mentions,
+	   UUID queueId,
 	   LocalDateTime deadline,
-	   UserProfileId openedBy
+	   UUID openedBy
 ) implements Command {
 }

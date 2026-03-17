@@ -11,7 +11,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_access_profile")
@@ -19,13 +21,19 @@ import java.util.List;
 @Setter
 public class AccessProfileDbEntity {
 	@Id
-	private String domainId;
+	private UUID id;
 
 	@Column(unique = true)
 	private String name;
 
-	@Convert(converter = PermissionListConverter.class)
-	private List<Permission> permissions;
+	// Gera o DDL que cria uma tabela relacionando accessprofile com permission
+	@ManyToMany
+	@JoinTable(
+			name = "tb_access_profile_permissions",
+			joinColumns = @JoinColumn(name = "access_profile_id"),
+			inverseJoinColumns = @JoinColumn(name = "permission_id")
+	)
+	private List<PermissionDbEntity> permissions;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -34,30 +42,22 @@ public class AccessProfileDbEntity {
 	@Column(nullable = true)
 	private LocalDateTime updatedAt;
 
-	public AccessProfileDbEntity(AccessProfile profile) {
-		this.domainId = profile.getId().toString();
-		this.name = profile.getName();
-		this.permissions = profile.getPermissions();
-
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
-	}
-
 	@PersistenceCreator
-	public AccessProfileDbEntity(String domainId, String name, List<Permission> permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.domainId = domainId;
+	public AccessProfileDbEntity(UUID id, String name, List<PermissionDbEntity> permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.id = id;
 		this.name = name;
 		this.permissions = permissions;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
 
-	protected AccessProfileDbEntity() {
+	public AccessProfileDbEntity() {
 	}
 
-	public static AccessProfileDbEntity foreignKey(String id) {
-		var accessProfileDbEntity = new AccessProfileDbEntity();
-		accessProfileDbEntity.setDomainId(id);
-		return accessProfileDbEntity;
+	public void addPermission(PermissionDbEntity permissionDbEntity) {
+		if (permissions == null) {
+			permissions = new ArrayList<>();
+		}
+		permissions.add(permissionDbEntity);
 	}
 }

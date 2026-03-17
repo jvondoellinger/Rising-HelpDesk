@@ -1,21 +1,21 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mentions;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 public record TicketDetails(
 	   TicketNumber ticketNumber,
 	   String title,
-	   QueueId queueId,
-	   Mentions mentions,
+	   UUID queueId,
+	   List<Mention> mentions,
 	   LocalDateTime deadline,
-	   UserProfileId openedBy,
+	   UUID openedBy,
 	   LocalDateTime openedOn,
-	   UserProfileId lastUpdatedBy,
+	   UUID lastUpdatedBy,
 	   LocalDateTime lastUpdatedOn
 ) {
 }

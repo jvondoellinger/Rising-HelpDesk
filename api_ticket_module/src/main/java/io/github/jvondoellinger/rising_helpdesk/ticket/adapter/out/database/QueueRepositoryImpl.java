@@ -4,7 +4,6 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Paginat
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaQueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.QueueDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.QueueDbEntity;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
 import java.util.function.Function;
 
 @Repository
@@ -37,12 +37,12 @@ public class QueueRepositoryImpl implements QueueRepository {
 	}
 
 	@Override
-	public Queue queryById(QueueId id) {
+	public Queue queryById(UUID id) {
 		return JpaCrudsBridge2.findById(jpaQueueRepository, id.toString(), mapper::toQueue);
 	}
 
 	@Override
-	public boolean existsById(QueueId queueId) {
+	public boolean existsById(UUID queueId) {
 		return jpaQueueRepository.existsById(queueId.toString());
 	}
 

@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.repository.helper;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;

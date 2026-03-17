@@ -10,7 +10,6 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.QueueId;
 
 import lombok.AllArgsConstructor;
 
@@ -88,13 +87,13 @@ public class QueueController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         return queryBus
-                .send(new FindQueueByIdQuery(QueueId.of(id.toString())))
+                .send(new FindQueueByIdQuery(id))
                 .fold(
                         success -> {
                             var response = responseMapper.from(success.value());
                             return ResponseEntity.ok(response);
                         },
-                        faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
                 );
     }
 }

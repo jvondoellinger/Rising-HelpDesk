@@ -49,12 +49,12 @@ public class TicketController {
         return null;
     }
 
-    @DeleteMapping("/mention")
+    @PostMapping("/mention")
     public ResponseEntity<?> addMention(@RequestBody CreateTicketCommand requestDTO) {
         return null;
     }
 
-    @PostMapping
+    @DeleteMapping("/mention")
     public ResponseEntity<?> removeMention(@RequestBody CreateTicketCommand requestDTO) {
         return null;
     }

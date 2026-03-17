@@ -7,6 +7,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Intera
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +18,6 @@ public class TicketMapper {
 			   command.title(),
 			   new InteractionsHistory(),
 			   command.queueId(),
-			   command.mentions(),
 			   command.openedBy(),
 			   command.deadline()
 		);
@@ -29,14 +29,14 @@ public class TicketMapper {
 
 	public TicketDetails details(Ticket ticket) {
 		return new TicketDetails(
-			   ticket.number(),
-			   ticket.title(),
-			   ticket.queueId(),
-			   ticket.mentions(),
-			   ticket.deadline(),
-			   ticket.openedBy(),
-			   ticket.openedOn(),
-			   ticket.lastUpdatedBy(),
-			   ticket.lastUpdatedOn());
+			   ticket.getNumber(),
+			   ticket.getTitle(),
+			   ticket.getQueueId(),
+			   ticket.getMentions(),
+			   ticket.getDeadline(),
+			   ticket.getOpenedBy(),
+			   ticket.getOpenedOn(),
+			   ticket.getLastUpdatedBy(),
+			   ticket.getLastUpdatedOn());
 	}
 }

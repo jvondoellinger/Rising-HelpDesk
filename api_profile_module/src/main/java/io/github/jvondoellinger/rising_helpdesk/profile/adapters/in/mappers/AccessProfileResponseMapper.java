@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccessProfileResponseMapper {
 	public AccessProfileResponse from(AccessProfileDetails details) {
-		var p = details.permissions().stream().map(Permission::code).toList();
+		var p = details.permissions().stream().map(Permission::getCode).toList();
 		return new AccessProfileResponse(details.accessProfileId().toString(), p, details.createdAt(), details.updatedAt());
 	}
 }

@@ -1,8 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.UserProfileIdFieldConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.UserProfileId;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_queue")
@@ -20,14 +19,13 @@ import java.time.LocalDateTime;
 @FixAfter
 public class QueueDbEntity{
 	@Id
-	private String domainId;
+	private UUID id;
 
 	private String area;
 	private String subarea;
 
 	@Column(name = "created_by")
-	@Convert(converter = UserProfileIdFieldConverter.class)
-	private UserProfileId createdBy;
+	private UUID createdBy;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -37,12 +35,11 @@ public class QueueDbEntity{
 	private LocalDateTime updatedAt;
 
 	@Column(name = "last_updated_by")
-	@Convert(converter = UserProfileIdFieldConverter.class)
-	private UserProfileId lastUpdatedBy;
+	private UUID lastUpdatedBy;
 
 	protected QueueDbEntity() {}
 	public QueueDbEntity(Queue queue) {
-		this.domainId = queue.getId().toString();
+		this.id = queue.getId();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
 		this.createdBy = queue.getCreatedBy();
@@ -51,12 +48,11 @@ public class QueueDbEntity{
 		this.updatedAt = queue.getUpdatedAt();
 		this.lastUpdatedBy = queue.getLastUpdatedBy() == null ?
 			   null : queue.getLastUpdatedBy();
-		System.out.println("VALOR NESSA BUCETA " + createdBy.toString());
 	}
 
 	@PersistenceCreator
-	public QueueDbEntity(String domainId, String area, String subarea, UserProfileId createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, UserProfileId lastUpdatedBy) {
-		this.domainId = domainId;
+	public QueueDbEntity(UUID id, String area, String subarea, UUID createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, UUID lastUpdatedBy) {
+		this.id = id;
 		this.area = area;
 		this.subarea = subarea;
 		this.createdBy = createdBy;

@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.que
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.AccessProfileMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.AccessProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.FindAccessProfileByIdQuery;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import lombok.AllArgsConstructor;

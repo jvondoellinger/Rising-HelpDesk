@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface JpaTicketRepository extends JpaRepository<TicketDbEntity, String> {
 	Optional<TicketDbEntity> findByNumber(String protocolNumber);
-	Page<TicketDbEntity> findByOpenedById(String openedById, Pageable pageable);
+	Page<TicketDbEntity> findByOpenedBy(String openedById, Pageable pageable);
 }

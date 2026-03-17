@@ -1,11 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.application.services.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.RemovePermissionsAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.RemovePermissionsAccessProfileHandler;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile.RemovePermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.commands.accessprofile.RemovePermissionsAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
+import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import lombok.AllArgsConstructor;

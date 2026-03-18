@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.jpaReposito
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.AccessProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.AccessProfileDbEntity;
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities.AccessProfileDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;

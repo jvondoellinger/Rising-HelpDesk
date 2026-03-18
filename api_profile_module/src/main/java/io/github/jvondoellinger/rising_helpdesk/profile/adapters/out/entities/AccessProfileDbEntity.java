@@ -1,8 +1,5 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.converter.PermissionListConverter;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +31,9 @@ public class AccessProfileDbEntity {
 			inverseJoinColumns = @JoinColumn(name = "permission_id")
 	)
 	private List<PermissionDbEntity> permissions;
+
+	@OneToMany(mappedBy = "accessProfile")
+	private List<UserProfileDbEntity> userProfileDbEntities;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;

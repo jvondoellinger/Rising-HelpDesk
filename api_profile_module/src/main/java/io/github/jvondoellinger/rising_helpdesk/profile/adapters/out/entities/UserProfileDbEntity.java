@@ -1,6 +1,5 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.UserProfile;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,7 +20,9 @@ public class UserProfileDbEntity {
 	@Id
 	public UUID userId;
 
-	public UUID accessProfile;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "accessprofile_id", nullable = false)
+	public AccessProfileDbEntity accessProfile;
 
 	@CreationTimestamp
 	public LocalDateTime createdAt;
@@ -30,15 +31,8 @@ public class UserProfileDbEntity {
 	@Column(nullable = true)
 	public LocalDateTime updatedAt;
 
-	public UserProfileDbEntity(UserProfile user) {
-		this.userId = user.getUserId();
-		this.accessProfile = user.getAccessProfile();
-		this.createdAt = user.getCreatedAt();
-		this.updatedAt = user.getUpdatedAt();
-	}
-
 	@PersistenceCreator
-	public UserProfileDbEntity(UUID userId, UUID accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public UserProfileDbEntity(UUID userId, AccessProfileDbEntity accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.userId = userId;
 		this.accessProfile = accessProfile;
 		this.createdAt = createdAt;

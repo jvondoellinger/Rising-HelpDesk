@@ -2,8 +2,8 @@ package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.AccessProfileDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.profile.infrastructure.PermissionDbEntity;
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities.AccessProfileDbEntity;
+import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities.PermissionDbEntity;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

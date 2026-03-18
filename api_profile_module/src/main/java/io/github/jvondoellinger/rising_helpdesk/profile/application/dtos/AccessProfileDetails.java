@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.application.queries;
+package io.github.jvondoellinger.rising_helpdesk.profile.application.dtos;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 

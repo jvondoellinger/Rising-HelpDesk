@@ -1,9 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.sharedkernel.infrastructure;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-
-import java.util.List;
 
 public interface CrudsRepository<T, ID> {
 	T save(T entity);
@@ -18,6 +16,6 @@ public interface CrudsRepository<T, ID> {
 	 * @param filter
 	 * @return Readonly list
 	 */
-	Pagination<T> query(QueryFilter filter);
+	Pagination<T> query(PaginationFilter filter);
 	long total();
 }

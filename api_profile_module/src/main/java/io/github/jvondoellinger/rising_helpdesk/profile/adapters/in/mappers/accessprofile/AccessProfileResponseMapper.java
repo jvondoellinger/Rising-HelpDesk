@@ -1,7 +1,7 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.mappers;
+package io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.mappers.accessprofile;
 
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.in.response.AccessProfileResponse;
-import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.AccessProfileDetails;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.dtos.AccessProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 
 import org.springframework.stereotype.Service;

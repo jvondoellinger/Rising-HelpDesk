@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.domain;
+package io.github.jvondoellinger.rising_helpdesk.profile.domain.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,8 +17,8 @@ public class UserProfile {
 		this.updatedAt = updatedAt;
 	}
 
-	public UserProfile(UUID accessProfile) {
-		this.userId = UUID.randomUUID();
+	public UserProfile(UUID userId, UUID accessProfile) {
+		this.userId = userId;
 		this.accessProfile = accessProfile;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = null;

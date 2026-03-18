@@ -32,22 +32,23 @@ public class AccessProfile implements AggregateRoot {
 
 	public boolean hasPermission(Permission permission) {
 		return permissions.stream()
-				.anyMatch(x ->
-						x.getId()
-						.equals(permission.getId())
-				);
+			   .anyMatch(x ->
+					 x.getId()
+						    .equals(permission.getId())
+			   );
 	}
 
 	public boolean hasAllPermissions(List<Permission> permissions) {
 		// Pega todos os nomes das permissões desse AccessProfile e põe num Set<>
 		var currentPermissions = this.permissions
-				.stream()
-				.map(Permission::getId).collect(Collectors.toSet());
+			   .stream()
+			   .map(Permission::getId)
+			   .collect(Collectors.toSet());
 
 		// Pega todos nomes das permissões do parametro e campara elas com os dá existem
 		return permissions.stream()
-				.map(Permission::getId)
-				.allMatch(currentPermissions::contains);
+			   .map(Permission::getId)
+			   .allMatch(currentPermissions::contains);
 	}
 
 	// !Getters

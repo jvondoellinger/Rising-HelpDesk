@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.InteractionDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.InteractionDbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,7 +47,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	}
 
 	@Override
-	public Pagination<Interaction> query(QueryFilter filter) {
+	public Pagination<Interaction> query(PaginationFilter filter) {
 		return paginationFunc(filter, jpaInteractionRepository::findAll);
 	}
 
@@ -56,7 +56,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 		return jpaInteractionRepository.count();
 	}
 
-	private Pagination<Interaction> paginationFunc(QueryFilter filter, Function<PageRequest, Page<InteractionDbEntity>> function) {
+	private Pagination<Interaction> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<InteractionDbEntity>> function) {
 		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
 		var interaction = page.get()
 				.map(mapper::toInteraction)

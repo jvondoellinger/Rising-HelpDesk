@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.jpaReposito
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.PermissionDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.PermissionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -62,7 +62,7 @@ public class PermissionRepositoryImpl implements PermissionRepository {
     }
 
     @Override
-    public Pagination<Permission> query(QueryFilter filter) {
+    public Pagination<Permission> query(PaginationFilter filter) {
         var pageable = PageRequest.of(filter.page(), filter.size());
         var entities = jpaPermissionRepository.findAll(pageable);
         var permissionsList = entities.stream().map(dbMapper::toPermission).toList();

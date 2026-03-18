@@ -6,7 +6,7 @@ import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.Acc
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.entities.AccessProfileDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -51,7 +51,7 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	}
 
 	@Override
-	public Pagination<AccessProfile> query(QueryFilter filter) {
+	public Pagination<AccessProfile> query(PaginationFilter filter) {
 		return paginationFunc(filter, jpaAccessProfileRepository::findAll);
 
 	}
@@ -66,7 +66,7 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 		return jpaAccessProfileRepository.existsByName(name);
 	}
 
-	private Pagination<AccessProfile> paginationFunc(QueryFilter filter, Function<PageRequest, Page<AccessProfileDbEntity>> function) {
+	private Pagination<AccessProfile> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<AccessProfileDbEntity>> function) {
 		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
 		var accessprofile = page.get()
 				.map(mapper::toAccessProfile)

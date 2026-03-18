@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.QueueDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.QueueDbEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,7 +47,7 @@ public class QueueRepositoryImpl implements QueueRepository {
 	}
 
 	@Override
-	public Pagination<Queue> query(QueryFilter filter) {
+	public Pagination<Queue> query(PaginationFilter filter) {
 		return paginationFunc(filter, jpaQueueRepository::findAll);
 	}
 
@@ -61,7 +61,7 @@ public class QueueRepositoryImpl implements QueueRepository {
 		return jpaQueueRepository.existsByArea(area);
 	}
 
-	private Pagination<Queue> paginationFunc(QueryFilter filter, Function<PageRequest, Page<QueueDbEntity>> function) {
+	private Pagination<Queue> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<QueueDbEntity>> function) {
 		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
 		var queue = page.get()
 				.map(mapper::toQueue)

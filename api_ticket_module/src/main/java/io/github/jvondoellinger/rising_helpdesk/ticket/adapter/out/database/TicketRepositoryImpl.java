@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.TicketDbEntityMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
 import lombok.AllArgsConstructor;
@@ -49,7 +49,7 @@ public class TicketRepositoryImpl implements TicketRepository {
 	}
 
 	@Override
-	public Pagination<Ticket> query(QueryFilter filter) {
+	public Pagination<Ticket> query(PaginationFilter filter) {
 		return paginationFunc(filter, jpaTicketRepository::findAll);
 	}
 
@@ -70,12 +70,12 @@ public class TicketRepositoryImpl implements TicketRepository {
 	}
 
 	@Override
-	public Pagination<Ticket> findByAuthor(String tenantId, QueryFilter filter) {
+	public Pagination<Ticket> findByAuthor(String tenantId, PaginationFilter filter) {
 		return paginationFunc(filter,
 				pageRequest -> jpaTicketRepository.findByOpenedBy(tenantId, pageRequest));
 	}
 
-	private Pagination<Ticket> paginationFunc(QueryFilter filter, Function<PageRequest, Page<TicketDbEntity>> function) {
+	private Pagination<Ticket> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<TicketDbEntity>> function) {
 		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
 		var tickets = page.get()
 				.map(mapper::toTicket)

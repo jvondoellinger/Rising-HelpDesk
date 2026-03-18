@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -77,7 +77,7 @@ public class JpaCrudsBridge2 {
 		   E,
 		   R extends JpaRepository<E, Id>
 		   >
-	List<T> findBy(R jpaRepository, QueryFilter filter, Function<E, T> map) {
+	List<T> findBy(R jpaRepository, PaginationFilter filter, Function<E, T> map) {
 		return runQueryFunc(() -> {
 			var pageable = PageRequest.of(filter.page(), filter.size());
 			return jpaRepository

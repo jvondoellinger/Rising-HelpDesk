@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
@@ -19,7 +19,7 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
 
     @Override
     public Result<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
-        var tks = repository.findByAuthor(query.author(), QueryFilter.of(query.size(), query.page()));
+        var tks = repository.findByAuthor(query.author(), PaginationFilter.of(query.size(), query.page()));
         var details = tks.items().stream().map(mapper::details).toList();
         var pagination = new Pagination<>(details, tks.page(), tks.size(), tks.totalPages());
 

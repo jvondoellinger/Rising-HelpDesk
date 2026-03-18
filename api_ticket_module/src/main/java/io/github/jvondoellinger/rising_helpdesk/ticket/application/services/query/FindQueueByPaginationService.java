@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.QueryFilter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
@@ -19,7 +19,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
 
     @Override
     public Result<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
-        var queuePagination = repository.query(QueryFilter.of(query.limit(), query.page()));
+        var queuePagination = repository.query(PaginationFilter.of(query.limit(), query.page()));
 
         var details = queuePagination
                 .items()

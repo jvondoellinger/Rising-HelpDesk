@@ -1,5 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.profile.application.queries;
+package io.github.jvondoellinger.rising_helpdesk.profile.application.queries.accessprofile;
 
+import io.github.jvondoellinger.rising_helpdesk.profile.application.dtos.AccessProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
 
 import java.util.UUID;

@@ -10,5 +10,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserProfileRepository extends CrudsRepository<UserProfile, UUID> {
-	Optional<Pagination<UserProfile>> findByAccessProfileId(UUID accessProfileId, PaginationFilter filter);
+	Pagination<UserProfile> findByAccessProfileId(UUID accessProfileId, PaginationFilter filter);
 }

@@ -37,7 +37,7 @@ public class TicketResponseMapper {
                 .map(this::from)
                 .toList();
 
-        return new Pagination<>(responseItems, detailsPagination.page(), detailsPagination.size(), detailsPagination.totalPages());
+        return Pagination.of(responseItems, detailsPagination.page(), detailsPagination.totalPages());
     }
 
 }

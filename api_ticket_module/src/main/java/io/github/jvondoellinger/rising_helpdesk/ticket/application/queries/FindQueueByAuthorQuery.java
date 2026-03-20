@@ -4,5 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Paginat
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 
-public record FindQueueByAuthorQuery(String author) implements Query<Pagination<QueueDetails>> {
+import java.util.UUID;
+
+public record FindQueueByAuthorQuery(UUID authorId, int page, int size) implements Query<Pagination<QueueDetails>> {
 }

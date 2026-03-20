@@ -4,5 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Paginat
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 
-public record FindTicketsByAuthorQuery(String author, int page, int size) implements Query<Pagination<TicketDetails>> {
+import java.util.UUID;
+
+public record FindTicketsByAuthorQuery(UUID author, int page, int size) implements Query<Pagination<TicketDetails>> {
 }

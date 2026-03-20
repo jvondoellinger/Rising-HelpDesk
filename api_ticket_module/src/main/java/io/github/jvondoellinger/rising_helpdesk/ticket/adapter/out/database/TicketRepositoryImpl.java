@@ -7,15 +7,12 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.T
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
-import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Repository
 @AllArgsConstructor
@@ -24,33 +21,49 @@ public class TicketRepositoryImpl implements TicketRepository {
 	private final TicketDbEntityMapper mapper;
 
 	@Override
-	public Ticket save(Ticket entity) {
-		return JpaCrudsBridge2.save(jpaTicketRepository, mapper.from(entity), mapper::toTicket);
+	public void save(Ticket entity) {
+		var dbEntity = mapper.from(entity);
+
+		jpaTicketRepository.save(dbEntity);
 	}
 
 	@Override
-	public Ticket update(Ticket entity) {
-		return JpaCrudsBridge2.save(jpaTicketRepository, mapper.from(entity), mapper::toTicket);
+	public void update(Ticket entity) {
+		var dbEntity = mapper.from(entity);
+
+		jpaTicketRepository.save(dbEntity);
 	}
 
 	@Override
 	public void delete(Ticket entity) {
-		JpaCrudsBridge2.delete(jpaTicketRepository, mapper.from(entity));
+		jpaTicketRepository.deleteById(entity.getId());
 	}
 
 	@Override
-	public Ticket queryById(UUID id) {
-		return JpaCrudsBridge2.findById(jpaTicketRepository, id.toString(), mapper::toTicket);
+	public Optional<Ticket> findById(UUID id) {
+		var optional = jpaTicketRepository.findById(id);
+
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var entity = optional.get();
+		return Optional.of(mapper.toTicket(entity));
 	}
 
 	@Override
-	public boolean existsById(UUID ticketId) {
-		return jpaTicketRepository.existsById(ticketId.toString());
+	public boolean existsById(UUID id) {
+		return jpaTicketRepository.existsById(id);
 	}
 
 	@Override
-	public Pagination<Ticket> query(PaginationFilter filter) {
-		return paginationFunc(filter, jpaTicketRepository::findAll);
+	public Pagination<Ticket> findByPagination(PaginationFilter filter) {
+		var pageable = PageRequest.of(filter.page(), filter.size());
+		var page = jpaTicketRepository.findAll(pageable);
+		var items = page.stream()
+			   .map(mapper::toTicket)
+			   .toList();
+		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 
 	@Override
@@ -63,24 +76,25 @@ public class TicketRepositoryImpl implements TicketRepository {
 		if (number == null)
 			return Optional.empty();
 
-		var entity = jpaTicketRepository.findByNumber(number.toString()).orElse(null);
+		var optional = jpaTicketRepository.findByNumber(number.toString());
 
-		return entity == null ?
-			   Optional.empty() : Optional.of(mapper.toTicket(entity));
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var ticket = optional.get();
+
+		return Optional.of(mapper.toTicket(ticket));
 	}
 
 	@Override
-	public Pagination<Ticket> findByAuthor(String tenantId, PaginationFilter filter) {
-		return paginationFunc(filter,
-				pageRequest -> jpaTicketRepository.findByOpenedBy(tenantId, pageRequest));
-	}
+	public Pagination<Ticket> findByAuthorId(UUID tenantId, PaginationFilter filter) {
+		var request = PageRequest.of(filter.page(), filter.size());
+		var page = jpaTicketRepository.findByOpenedBy(tenantId, request);
+		var items = page.stream()
+			   .map(mapper::toTicket)
+			   .toList();
 
-	private Pagination<Ticket> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<TicketDbEntity>> function) {
-		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
-		var tickets = page.get()
-				.map(mapper::toTicket)
-				.toList();
-
-		return new Pagination<>(tickets, page.getNumber(), page.getSize(), page.getTotalPages());
+		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 }

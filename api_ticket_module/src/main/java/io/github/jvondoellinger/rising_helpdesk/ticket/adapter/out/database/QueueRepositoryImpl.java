@@ -6,14 +6,12 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mapp
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.QueueDbEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Repository
 @AllArgsConstructor
@@ -22,33 +20,49 @@ public class QueueRepositoryImpl implements QueueRepository {
 	private final QueueDbMapper mapper;
 
 	@Override
-	public Queue save(Queue entity) {
-		return JpaCrudsBridge2.save(jpaQueueRepository, mapper.from(entity), mapper::toQueue);
+	public void save(Queue entity) {
+		var dbEntity = mapper.from(entity);
+
+		jpaQueueRepository.save(dbEntity);
 	}
 
 	@Override
-	public Queue update(Queue entity) {
-		return JpaCrudsBridge2.save(jpaQueueRepository, mapper.from(entity), mapper::toQueue);
+	public void update(Queue entity) {
+		var dbEntity = mapper.from(entity);
+
+		jpaQueueRepository.save(dbEntity);
 	}
 
 	@Override
 	public void delete(Queue entity) {
-		JpaCrudsBridge2.delete(jpaQueueRepository, mapper.from(entity));
+		jpaQueueRepository.deleteById(entity.getId());
 	}
 
 	@Override
-	public Queue queryById(UUID id) {
-		return JpaCrudsBridge2.findById(jpaQueueRepository, id.toString(), mapper::toQueue);
+	public Optional<Queue> findById(UUID id) {
+		var optional = jpaQueueRepository.findById(id);
+
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var queue = optional.get();
+		return Optional.of(mapper.toQueue(queue));
 	}
 
 	@Override
 	public boolean existsById(UUID queueId) {
-		return jpaQueueRepository.existsById(queueId.toString());
+		return jpaQueueRepository.existsById(queueId);
 	}
 
 	@Override
-	public Pagination<Queue> query(PaginationFilter filter) {
-		return paginationFunc(filter, jpaQueueRepository::findAll);
+	public Pagination<Queue> findByPagination(PaginationFilter filter) {
+		var request = PageRequest.of(filter.page(), filter.size());
+		var page = jpaQueueRepository.findAll(request);
+		var items = page.stream()
+			   .map(mapper::toQueue)
+			   .toList();
+		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 
 	@Override
@@ -61,12 +75,37 @@ public class QueueRepositoryImpl implements QueueRepository {
 		return jpaQueueRepository.existsByArea(area);
 	}
 
-	private Pagination<Queue> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<QueueDbEntity>> function) {
-		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
-		var queue = page.get()
-				.map(mapper::toQueue)
-				.toList();
+	@Override
+	public Optional<Queue> findByArea(String area) {
+		var optional = jpaQueueRepository.findByArea(area);
 
-		return new Pagination<>(queue, page.getNumber(), page.getSize(), page.getTotalPages());
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var queue = optional.get();
+		return Optional.of(mapper.toQueue(queue));
+	}
+
+	@Override
+	public Optional<Queue> findBySubarea(String subarea) {
+		var optional = jpaQueueRepository.findBySubarea(subarea);
+
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var queue = optional.get();
+		return Optional.of(mapper.toQueue(queue));
+	}
+
+	@Override
+	public Pagination<Queue> findByAuthor(UUID authorId, PaginationFilter filter) {
+		var pageable = PageRequest.of(filter.page(), filter.size());
+		var page = jpaQueueRepository.findByAuthor(authorId, pageable);
+		var items = page.stream()
+			   .map(mapper::toQueue)
+			   .toList();
+		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 }

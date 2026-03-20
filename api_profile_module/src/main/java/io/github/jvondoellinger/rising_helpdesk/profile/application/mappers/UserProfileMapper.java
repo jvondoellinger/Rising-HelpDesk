@@ -15,11 +15,12 @@ public class UserProfileMapper {
 	public UserProfileDetails details(UserProfile userProfile) {
 		return new UserProfileDetails(userProfile.getUserId(), userProfile.getAccessProfile(), userProfile.getCreatedAt(), userProfile.getUpdatedAt());
 	}
+
 	public Pagination<UserProfileDetails> detailsPagination(Pagination<UserProfile> userProfilePagination) {
 		var items = userProfilePagination.items()
 			   .stream()
 			   .map(this::details)
 			   .toList();
-		return new Pagination<>(items, userProfilePagination.page(), userProfilePagination.size(), userProfilePagination.totalPages());
+		return Pagination.of(items, userProfilePagination.page(), userProfilePagination.totalPages());
 	}
 }

@@ -14,39 +14,40 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaCommandHandler {
-    private final QueueRepository repository;
+	private final QueueRepository repository;
 
-    @Override
-    public Result<Void> handle(ChangeQueueSubareaCommand cmd) {
-        var persisted = repository.queryById(cmd.id());
+	@Override
+	public Result<Void> handle(ChangeQueueSubareaCommand cmd) {
+		var optional = repository.findById(cmd.id());
 
-        if (persisted == null) {
-            return new Result.Failure<>(new KernelException("No queue found with this ID."));
-        }
+		if (optional.isEmpty()) {
+			return new Result.Success<>(null);
+		}
 
-        var subarea = cmd.subarea();
+		var queue = optional.get();
+		var subarea = cmd.subarea();
 
-        if (persisted.getArea().equals(subarea)) {
-            return new Result.Failure<>(new KernelException("The queue already has this area."));
-        }
+		if (queue.getArea().equals(subarea)) {
+			return new Result.Failure<>(new KernelException("The queue already has this area."));
+		}
 
-        var updated = new Queue(
-                persisted.getId(),
-                persisted.getArea(),
-                subarea,
-                persisted.getCreatedBy(),
-                persisted.getUpdatedAt(),
-                LocalDateTime.now(),
-                cmd.updatedBy()
-        );
+		var updated = new Queue(
+			   queue.getId(),
+			   queue.getArea(),
+			   subarea,
+			   queue.getCreatedBy(),
+			   queue.getUpdatedAt(),
+			   LocalDateTime.now(),
+			   cmd.updatedBy()
+		);
 
-        repository.save(updated);
+		repository.save(updated);
 
-        return new Result.Success<>(null);
-    }
+		return new Result.Success<>(null);
+	}
 
-    @Override
-    public Class<ChangeQueueSubareaCommand> getCommandType() {
-        return ChangeQueueSubareaCommand.class;
-    }
+	@Override
+	public Class<ChangeQueueSubareaCommand> getCommandType() {
+		return ChangeQueueSubareaCommand.class;
+	}
 }

@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
@@ -27,5 +28,13 @@ public class QueueMapper {
 
     public List<QueueDetails> details(List<Queue> queues) {
         return queues.stream().map(this::details).toList();
+    }
+
+    public Pagination<QueueDetails> detailsPagination(Pagination<Queue> queuePagination) {
+        return Pagination.of(
+                details(queuePagination.items()),
+                queuePagination.page(),
+                queuePagination.totalPages()
+        );
     }
 }

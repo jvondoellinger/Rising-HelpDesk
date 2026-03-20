@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class CreateAccessProfileService implements CreateAccessProfileHandler {
 	private final AccessProfileRepository repository;
 	private final PermissionRepository permissionRepository;
-
 	private final AccessProfileMapper mapper;
 
 	@Override
@@ -30,28 +29,20 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 			return new Result.Failure<>(KernelException.conflict("Access Profile already registered."));
 		}
 
-		System.out.println(cmd.permissions().size());
-		System.out.println(cmd.permissions().get(0));
 		var match = cmd
 			   .permissions()
 			   .stream()
 			   .allMatch(permissionRepository::existsById);
 
-		// REMOVE BEFORE
 		if (!match) {
-			return new Result.Failure<>(KernelException.conflict("Any permission has registered."));
+			return new Result.Failure<>(KernelException.conflict("One or more permissions were not registered."));
 		}
 
-		var item = permissionRepository.queryById(cmd.permissions().get(0));
-		var test= new ArrayList<Permission>();
-		test.add(item);
-		var accessprofile = new AccessProfile(cmd.name(), test);
-		// REMOVE BEFORE
-
-		var result = repository.save(accessprofile);
-		var mapped= mapper.details(result);
+		var accessprofile = mapper.from(cmd);
+		repository.save(accessprofile);
 
 		return new Result.Success<Void>(null);
+
 	}
 
 	@Override

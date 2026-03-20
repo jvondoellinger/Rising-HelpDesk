@@ -27,9 +27,8 @@ public class AccessProfileMapper {
 			   .map(this::details)
 			   .toList();
 
-		return new Pagination<>(list,
+		return Pagination.of(list,
 			   accessProfilePagination.page(),
-			   accessProfilePagination.size(),
 			   accessProfilePagination.totalPages());
 	}
 }

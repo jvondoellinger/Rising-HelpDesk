@@ -5,7 +5,6 @@ import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.com
 import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.profile.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@FixAfter // reduzir codigo duplicado na hora de atualizar as permissoes!
 @Service
 @AllArgsConstructor
 public class AddPermissionsAccessProfileService implements AddPermissionsAccessProfileHandler {
@@ -24,27 +24,24 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 	@FixAfter
 	// As permissoes devem ser validadas no repositorio
 	public Result<Void> handle(AddPermissionsAccessProfileCommand cmd) {
-		var persistedProfile = repository.queryById(cmd.id());
+		var optional = repository.findById(cmd.id());
 
-		if (persistedProfile == null) {
+		if (optional.isEmpty()) {
 			return new Result.Failure<>(new KernelException("No access found on persistence."));
 		}
 
-		var permissions = cmd.permissions()
-				.values()
-				.stream()
-				.map(Permission::of)
-				.toList();
+		var accessprofile = optional.get();
+		var permissions = mapper.from(cmd.permissions());
 
-		if (persistedProfile.hasAllPermissions(permissions)) {
+		if (accessprofile.hasAllPermissions(permissions)) {
 			return new Result.Failure<>(new KernelException("Permissions already granted."));
 		}
 
 		var newValue = new AccessProfile(
-			   persistedProfile.getId(),
-			   persistedProfile.getName() ,
+			   accessprofile.getId(),
+			   accessprofile.getName(),
 			   permissions,
-			   persistedProfile.getCreatedAt(),
+			   accessprofile.getCreatedAt(),
 			   LocalDateTime.now()
 		);
 

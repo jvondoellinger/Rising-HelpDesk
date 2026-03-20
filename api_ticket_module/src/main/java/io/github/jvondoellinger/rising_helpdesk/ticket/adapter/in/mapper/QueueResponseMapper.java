@@ -24,6 +24,6 @@ public final class QueueResponseMapper {
         var items = details.items();
         var responses = items.stream().map(this::from).toList();
 
-        return new Pagination<>(responses, details.page(), details.size(), details.totalPages());
+        return Pagination.of(responses, details.page(), details.totalPages());
     }
 }

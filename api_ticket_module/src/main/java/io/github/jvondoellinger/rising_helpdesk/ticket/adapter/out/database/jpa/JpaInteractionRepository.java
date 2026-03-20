@@ -4,6 +4,8 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.Interactio
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface JpaInteractionRepository extends JpaRepository<InteractionDbEntity, String> {
+public interface JpaInteractionRepository extends JpaRepository<InteractionDbEntity, UUID> {
 }

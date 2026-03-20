@@ -15,7 +15,7 @@ public class QueueDbMapper {
 			   entity.getId(),
 			   entity.getArea(),
 			   entity.getSubarea(),
-			   entity.getCreatedBy(),
+			   entity.getAuthor(),
 			   entity.getCreatedAt(),
 			   entity.getUpdatedAt(),
 			   entity.getLastUpdatedBy()

@@ -19,15 +19,15 @@ public class PermissionDbEntity {
     private UUID id;
 
     @Column(unique = true)
-    private String permission;
+    private String code;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @PersistenceCreator
-    public PermissionDbEntity(UUID id, String permission, LocalDateTime createdAt) {
+    public PermissionDbEntity(UUID id, String code, LocalDateTime createdAt) {
         this.id = id;
-        this.permission = permission;
+        this.code = code;
         this.createdAt = createdAt;
     }
 

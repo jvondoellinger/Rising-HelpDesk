@@ -22,13 +22,15 @@ public class DeleteUserProfileService implements DeleteUserProfileHandler {
             return new Result.Failure<>(new KernelException("ID is blank."));
         }
 
-        var persistedUser = repository.queryById(id);
+        var optional = repository.findById(id);
 
-        if (persistedUser == null) {
+        if (optional.isEmpty()) {
             return new Result.Failure<>(new KernelException("User does not exist!"));
         }
 
-        repository.delete(persistedUser);
+        var userprofile = optional.get();
+
+        repository.delete(userprofile);
 
         return new Result.Success<>(null);
     }

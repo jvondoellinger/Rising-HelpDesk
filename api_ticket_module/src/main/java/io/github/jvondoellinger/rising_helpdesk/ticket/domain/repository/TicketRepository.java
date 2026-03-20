@@ -11,5 +11,5 @@ import java.util.UUID;
 
 public interface TicketRepository extends CrudsRepository<Ticket, UUID> {
 	Optional<Ticket> findByNumber(TicketNumber number);
-	Pagination<Ticket> findByAuthor(String tenantId, PaginationFilter filter);
+	Pagination<Ticket> findByAuthorId(UUID tenantId, PaginationFilter filter);
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -22,46 +23,53 @@ public class InteractionRepositoryImpl implements InteractionRepository {
 	private final InteractionDbMapper mapper;
 
 	@Override
-	public Interaction save(Interaction entity) {
-		return JpaCrudsBridge2.save(jpaInteractionRepository, mapper.from(entity), mapper::toInteraction);
+	public void save(Interaction entity) {
+		var dbEntity = mapper.from(entity);
+
+		jpaInteractionRepository.save(dbEntity);
 	}
 
 	@Override
-	public Interaction update(Interaction entity) {
-		return JpaCrudsBridge2.save(jpaInteractionRepository, mapper.from(entity), mapper::toInteraction);
+	public void update(Interaction entity) {
+		var dbEntity = mapper.from(entity);
+
+		jpaInteractionRepository.save(dbEntity);
 	}
 
 	@Override
 	public void delete(Interaction entity) {
-		JpaCrudsBridge2.delete(jpaInteractionRepository, mapper.from(entity));
+		jpaInteractionRepository.deleteById(entity.getId());
 	}
 
 	@Override
-	public Interaction queryById(UUID id) {
-		return JpaCrudsBridge2.findById(jpaInteractionRepository, id.toString(), mapper::toInteraction);
+	public Optional<Interaction> findById(UUID id) {
+		var optional = jpaInteractionRepository.findById(id);
+
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var interaction = optional.get();
+		return Optional.of(mapper.toInteraction(interaction));
 	}
 
 	@Override
 	public boolean existsById(UUID interactionId) {
-		return jpaInteractionRepository.existsById(interactionId.toString());
+		return jpaInteractionRepository.existsById(interactionId);
 	}
 
 	@Override
-	public Pagination<Interaction> query(PaginationFilter filter) {
-		return paginationFunc(filter, jpaInteractionRepository::findAll);
+	public Pagination<Interaction> findByPagination(PaginationFilter filter) {
+		var request = PageRequest.of(filter.page(), filter.size());
+		var page = jpaInteractionRepository.findAll(request);
+		var items = page.stream()
+			   .map(mapper::toInteraction)
+			   .toList();
+		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 
 	@Override
 	public long total() {
 		return jpaInteractionRepository.count();
-	}
-
-	private Pagination<Interaction> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<InteractionDbEntity>> function) {
-		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
-		var interaction = page.get()
-				.map(mapper::toInteraction)
-				.toList();
-
-		return new Pagination<>(interaction, page.getNumber(), page.getSize(), page.getTotalPages());
 	}
 }

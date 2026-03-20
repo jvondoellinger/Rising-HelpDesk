@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.repository;
 
-import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.repository.helper.JpaCrudsBridge;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.jpaRepositories.JpaAccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.profile.adapters.out.mappers.AccessProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.aggregate.AccessProfile;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -23,37 +23,44 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	private final AccessProfileDbMapper mapper;
 
 	@Override
-	public AccessProfile save(AccessProfile entity) {
-		return JpaCrudsBridge.save(
-			   jpaAccessProfileRepository,
-			   mapper.from(entity),
-			   mapper::toAccessProfile);
+	public void save(AccessProfile entity) {
+
 	}
 
 	@Override
-	public AccessProfile update(AccessProfile entity) {
-		return JpaCrudsBridge.save(jpaAccessProfileRepository, mapper.from(entity), mapper::toAccessProfile);
+	public void update(AccessProfile entity) {
 	}
 
 	@Override
 	public void delete(AccessProfile entity) {
-		JpaCrudsBridge.delete(jpaAccessProfileRepository, mapper.from(entity));
 	}
 
 	@Override
-	public AccessProfile queryById(UUID id) {
-		return JpaCrudsBridge.findById(jpaAccessProfileRepository, id.toString(), mapper::toAccessProfile);
+	public Optional<AccessProfile> findById(UUID id) {
+		var optional = jpaAccessProfileRepository.findById(id);
+
+		if (optional.isEmpty()) {
+			return Optional.empty();
+		}
+
+		var accessProfile = optional.get();
+
+		return Optional.of(mapper.toAccessProfile(accessProfile));
 	}
 
 	@Override
 	public boolean existsById(UUID accessProfileId) {
-		return jpaAccessProfileRepository.existsById(accessProfileId.toString());
+		return jpaAccessProfileRepository.existsById(accessProfileId);
 	}
 
 	@Override
-	public Pagination<AccessProfile> query(PaginationFilter filter) {
-		return paginationFunc(filter, jpaAccessProfileRepository::findAll);
-
+	public Pagination<AccessProfile> findByPagination(PaginationFilter filter) {
+		var pageable = PageRequest.of(filter.page(), filter.size());
+		var page = jpaAccessProfileRepository.findAll(pageable);
+		var items = page.stream()
+			   .map(mapper::toAccessProfile)
+			   .toList();
+		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 
 	@Override
@@ -64,14 +71,5 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	@Override
 	public boolean existsByName(String name) {
 		return jpaAccessProfileRepository.existsByName(name);
-	}
-
-	private Pagination<AccessProfile> paginationFunc(PaginationFilter filter, Function<PageRequest, Page<AccessProfileDbEntity>> function) {
-		var page = function.apply(PageRequest.of(filter.page(), filter.size()));
-		var accessprofile = page.get()
-				.map(mapper::toAccessProfile)
-				.toList();
-
-		return new Pagination<>(accessprofile, page.getNumber(), page.getSize(), page.getTotalPages());
 	}
 }

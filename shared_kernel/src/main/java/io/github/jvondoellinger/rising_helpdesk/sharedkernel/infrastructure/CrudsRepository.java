@@ -3,11 +3,13 @@ package io.github.jvondoellinger.rising_helpdesk.sharedkernel.infrastructure;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 
+import java.util.Optional;
+
 public interface CrudsRepository<T, ID> {
-	T save(T entity);
-	T update(T entity);
+	void save(T entity);
+	void update(T entity);
 	void delete(T entity);
-	T queryById(ID id);
+	Optional<T> findById(ID id);
 
 	boolean existsById(ID id);
 
@@ -16,6 +18,6 @@ public interface CrudsRepository<T, ID> {
 	 * @param filter
 	 * @return Readonly list
 	 */
-	Pagination<T> query(PaginationFilter filter);
+	Pagination<T> findByPagination(PaginationFilter filter);
 	long total();
 }

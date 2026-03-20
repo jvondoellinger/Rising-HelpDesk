@@ -25,8 +25,14 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 			return new Result.Failure<>(new KernelException("ID is blank."));
 		}
 
-		var result = repository.queryById(id);
-		var details = mapper.details(result);
+		var optional = repository.findById(id);
+
+		if (optional.isEmpty()) {
+			return new Result.Success<>(null);
+		}
+
+		var ticket = optional.get();
+		var details = mapper.details(ticket);
 
 		return new Result.Success<>(details);
 	}

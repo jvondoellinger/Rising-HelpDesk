@@ -33,7 +33,7 @@ public class AccessProfileDbMapper {
                 .getPermissions()
                 .stream()
                 .map(permissionDbEntity ->
-                        new Permission(permissionDbEntity.getId(), permissionDbEntity.getPermission(), permissionDbEntity.getCreatedAt())
+                        new Permission(permissionDbEntity.getId(), permissionDbEntity.getCode(), permissionDbEntity.getCreatedAt())
                 )
                 .toList();
 

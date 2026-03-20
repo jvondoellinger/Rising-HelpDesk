@@ -8,10 +8,17 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Paginat
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class PermissionMapper {
+	public List<Permission> from(PermissionsDTO dto) {
+		return dto.values()
+			   .stream()
+			   .map(Permission::of)
+			   .toList();
+	}
 
 	public PermissionDetails details(Permission permission) {
 		return new PermissionDetails(
@@ -26,7 +33,7 @@ public class PermissionMapper {
 			   .stream()
 			   .map(this::details)
 			   .toList();
-		return new Pagination<>(items, permission.page(), permission.size(), permission.totalPages());
+		return Pagination.of(items, permission.page(), permission.totalPages());
 	}
 }
 

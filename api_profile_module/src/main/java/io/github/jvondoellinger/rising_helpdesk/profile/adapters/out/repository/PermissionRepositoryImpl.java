@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -19,25 +20,23 @@ public class PermissionRepositoryImpl implements PermissionRepository {
     private final PermissionDbMapper dbMapper;
 
     @Override
-    public Permission save(Permission entity) {
+    public void save(Permission entity) {
         var dbEntity = dbMapper.from(entity);
-        var persisted = jpaPermissionRepository.save(dbEntity);
 
-        return dbMapper.toPermission(persisted);
+        jpaPermissionRepository.save(dbEntity);
     }
 
     @Override
-    public Permission update(Permission entity) {
+    public void update(Permission entity) {
         var current = jpaPermissionRepository.findById(entity.getId());
 
         if (current.isEmpty()) {
-            return null;
+            return;
         }
 
         var mapped = dbMapper.from(entity);
-        var updated = jpaPermissionRepository.save(mapped);
 
-        return dbMapper.toPermission(updated);
+        jpaPermissionRepository.save(mapped);
     }
 
     @Override
@@ -46,14 +45,15 @@ public class PermissionRepositoryImpl implements PermissionRepository {
     }
 
     @Override
-    public Permission queryById(UUID uuid) {
-        var dbEntity = jpaPermissionRepository.findById(uuid);
+    public Optional<Permission> findById(UUID uuid) {
+        var optional = jpaPermissionRepository.findById(uuid);
 
-        if (dbEntity.isEmpty()) {
-            return null;
+        if (optional.isEmpty()) {
+            return Optional.empty();
         }
+        var permission = optional.get();
 
-        return dbMapper.toPermission(dbEntity.get());
+        return Optional.of(dbMapper.toPermission(permission));
     }
 
     @Override
@@ -62,16 +62,30 @@ public class PermissionRepositoryImpl implements PermissionRepository {
     }
 
     @Override
-    public Pagination<Permission> query(PaginationFilter filter) {
+    public Pagination<Permission> findByPagination(PaginationFilter filter) {
         var pageable = PageRequest.of(filter.page(), filter.size());
         var entities = jpaPermissionRepository.findAll(pageable);
-        var permissionsList = entities.stream().map(dbMapper::toPermission).toList();
+        var permissionsList = entities.stream()
+                .map(dbMapper::toPermission)
+                .toList();
 
-        return new Pagination<>(permissionsList, entities.getNumber(), entities.getSize(), entities.getTotalPages());
+        return Pagination.of(permissionsList, entities.getNumber(), entities.getTotalPages());
     }
 
     @Override
     public long total() {
         return jpaPermissionRepository.count();
+    }
+
+    @Override
+    public Optional<Permission> findByCode(String code) {
+        var optional = jpaPermissionRepository.findByCode(code);
+
+        if (optional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        var entity = optional.get();
+        return Optional.of(dbMapper.toPermission(entity));
     }
 }

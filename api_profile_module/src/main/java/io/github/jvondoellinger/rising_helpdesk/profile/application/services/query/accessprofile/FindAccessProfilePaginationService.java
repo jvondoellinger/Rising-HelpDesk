@@ -24,7 +24,7 @@ public final class FindAccessProfilePaginationService implements FindAccessProfi
 			return new Result.Failure<>(new KernelException("Size or page number cannot be smaller 0."));
 		}
 
-		var pagination = repository.query(PaginationFilter.of(query.size(),query.page()));
+		var pagination = repository.findByPagination(PaginationFilter.of(query.size(),query.page()));
 		var paginationMapped = mapper.detailsPagination(pagination);
 
 		return new Result.Success<>(paginationMapped);

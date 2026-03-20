@@ -24,8 +24,8 @@ public class QueueDbEntity{
 	private String area;
 	private String subarea;
 
-	@Column(name = "created_by")
-	private UUID createdBy;
+	@Column(name = "author")
+	private UUID author;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
@@ -42,7 +42,7 @@ public class QueueDbEntity{
 		this.id = queue.getId();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
-		this.createdBy = queue.getCreatedBy();
+		this.author = queue.getCreatedBy();
 
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = queue.getUpdatedAt();
@@ -51,11 +51,11 @@ public class QueueDbEntity{
 	}
 
 	@PersistenceCreator
-	public QueueDbEntity(UUID id, String area, String subarea, UUID createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, UUID lastUpdatedBy) {
+	public QueueDbEntity(UUID id, String area, String subarea, UUID author, LocalDateTime createdAt, LocalDateTime updatedAt, UUID lastUpdatedBy) {
 		this.id = id;
 		this.area = area;
 		this.subarea = subarea;
-		this.createdBy = createdBy;
+		this.author = author;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.lastUpdatedBy = lastUpdatedBy;

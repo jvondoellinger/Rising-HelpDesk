@@ -17,10 +17,15 @@ public class FindUserProfileByUserIdService implements FindUserProfileByUserIdHa
 
 	@Override
 	public Result<UserProfileDetails> handle(FindUserProfileByUserIdQuery query) {
-		var persistence = repository.queryById(query.userId());
-		var mapped = mapper.details(persistence);
+		var optional = repository.findById(query.userId());
 
-		return new Result.Success<>(mapped);
+		if (optional.isEmpty()) {
+			return new Result.Success<>(null);
+		}
+		var userprofile = optional.get();
+		var details = mapper.details(userprofile);
+
+		return new Result.Success<>(details);
 	}
 
 	@Override

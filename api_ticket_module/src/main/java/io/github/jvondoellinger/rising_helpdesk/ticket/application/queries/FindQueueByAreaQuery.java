@@ -5,5 +5,5 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDet
 
 import java.util.UUID;
 
-public record FindQueueByAreaQuery(UUID id) implements Query<QueueDetails> {
+public record FindQueueByAreaQuery(String area) implements Query<QueueDetails> {
 }

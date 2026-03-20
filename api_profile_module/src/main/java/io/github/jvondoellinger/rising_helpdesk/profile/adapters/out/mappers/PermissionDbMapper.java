@@ -17,7 +17,7 @@ public final class PermissionDbMapper {
 	public Permission toPermission(PermissionDbEntity dbEntity) {
 		return new Permission(
 			   dbEntity.getId(),
-			   dbEntity.getPermission(),
+			   dbEntity.getCode(),
 			   dbEntity.getCreatedAt()
 		);
 	}

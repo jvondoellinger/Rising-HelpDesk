@@ -18,24 +18,26 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 
 	@Override
 	public Result<Void> handle(ChangeNameAccessProfileCommand cmd) {
-		var persistedProfile = repository.queryById(cmd.id());
+		var optional = repository.findById(cmd.id());
 
-		if (persistedProfile == null) {
+		if (optional.isEmpty()) {
 			return new Result.Failure<>(new KernelException("No access found on persistence."));
 		}
+
 		if (repository.existsByName(cmd.name())) {
 			return new Result.Failure<>(new KernelException("Already exists a profile with this name!"));
 		}
 
-
-		var newValue = new AccessProfile(
-			   persistedProfile.getId(),
+		var accessprofile = optional.get();
+		var updated = new AccessProfile(
+			   accessprofile.getId(),
 			   cmd.name() ,
-			   persistedProfile.getPermissions(),
-			   persistedProfile.getCreatedAt(),
+			   accessprofile.getPermissions(),
+			   accessprofile.getCreatedAt(),
 			   LocalDateTime.now()
 		);
-		repository.save(newValue); // Atualiza no banco de dados
+
+		repository.save(updated);
 
 		return new Result.Success<>(null);
 	}

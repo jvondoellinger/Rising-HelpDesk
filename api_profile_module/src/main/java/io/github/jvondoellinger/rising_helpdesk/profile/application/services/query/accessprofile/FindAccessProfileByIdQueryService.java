@@ -18,12 +18,14 @@ public class FindAccessProfileByIdQueryService implements FindAccessProfileByIdQ
 
 	@Override
 	public Result<AccessProfileDetails> handle(FindAccessProfileByIdQuery query) {
-		var current = repository.queryById(query.id());
-		if (current == null) {
-			return new Result.Failure<>(new KernelException("ID not found."));
+		var optional = repository.findById(query.id());
+
+		if (optional.isEmpty()) {
+			return new Result.Success<>(null);
 		}
 
-		var mapped = mapper.details(current);
+		var accessprofile = optional.get();
+		var mapped = mapper.details(accessprofile);
 		return new Result.Success<>(mapped);
 	}
 

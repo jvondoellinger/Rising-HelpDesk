@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface JpaTicketRepository extends JpaRepository<TicketDbEntity, String> {
+public interface JpaTicketRepository extends JpaRepository<TicketDbEntity, UUID> {
 	Optional<TicketDbEntity> findByNumber(String protocolNumber);
-	Page<TicketDbEntity> findByOpenedBy(String openedById, Pageable pageable);
+	Page<TicketDbEntity> findByOpenedBy(UUID openedBy, Pageable pageable);
 }

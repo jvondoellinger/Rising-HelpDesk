@@ -18,24 +18,26 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
 
     @Override
     public Result<Void> handle(ChangeQueueAreaCommand cmd) {
-        var persisted = repository.queryById(cmd.id());
+        var optional = repository.findById(cmd.id());
 
-        if (persisted == null) {
+        if (optional.isEmpty()) {
             return new Result.Failure<>(new KernelException("No queue found with this ID."));
         }
 
+        var queue = optional.get();
         var area = cmd.area();
 
-        if (persisted.getArea().equals(area)) {
+
+        if (queue.getArea().equals(area)) {
             return new Result.Failure<>(new KernelException("The queue already has this area."));
         }
 
         var updated = new Queue(
-                persisted.getId(),
+                queue.getId(),
                 area,
-                persisted.getSubarea(),
-                persisted.getCreatedBy(),
-                persisted.getUpdatedAt(),
+                queue.getSubarea(),
+                queue.getCreatedBy(),
+                queue.getUpdatedAt(),
                 LocalDateTime.now(),
                 cmd.updatedBy()
         );

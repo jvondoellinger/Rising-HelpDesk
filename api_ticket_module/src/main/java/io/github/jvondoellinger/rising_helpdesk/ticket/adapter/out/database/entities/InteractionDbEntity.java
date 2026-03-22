@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,13 +28,8 @@ public class InteractionDbEntity {
 	@CreationTimestamp
 	private LocalDateTime interactedOn;
 
-	public InteractionDbEntity(Interaction interaction) {
-		this.id = interaction.getId();
-		this.text = interaction.getText();
-		this.visible = interaction.isVisible();
-		this.interactedBy = interaction.getInteractedBy();
-		this.interactedOn = interaction.getInteractedOn();
-	}
+	@ManyToOne
+	private TicketDbEntity ticket;
 
 	@PersistenceCreator
 	public InteractionDbEntity(UUID id, String text, boolean visible, UUID interactedBy, LocalDateTime interactedOn) {

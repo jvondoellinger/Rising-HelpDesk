@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.InteractionHistoryConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
@@ -21,71 +20,75 @@ import java.util.UUID;
 @Setter
 @FixAfter
 public class TicketDbEntity {
-    @Id
+	@Id
 	private UUID id;
 
-    private String number;
+	private String number;
 
-    private String title;
+	private String title;
 
-    @Column(name = "interactions")
-    @Convert(converter = InteractionHistoryConverter.class)
-    private InteractionsHistory history;
+	@OneToMany(mappedBy = "ticket")
+	private List<InteractionDbEntity> interactions;
 
-    private LocalDateTime deadline;
+	private LocalDateTime deadline;
 
-    @Column(name = "queue")
-    private String queueId;
+	@Column(name = "queue")
+	private String queueId;
 
 	// OneToMany para MençõesDbEntity e o hibernate gera um JOIN
 	@OneToMany(mappedBy = "ticket")
 	private List<MentionDbEntity> mentions;
 
+	@CreationTimestamp
+	private LocalDateTime openedOn;
 
-    @CreationTimestamp
-    private LocalDateTime openedOn;
+	@Column(name = "opened_by")
+	private String openedBy;
 
-    @Column(name = "opened_by")
-    private String openedBy;
+	@UpdateTimestamp
+	@Column(nullable = true)
+	private LocalDateTime lastUpdatedOn;
 
-    @UpdateTimestamp
-    @Column(nullable = true)
-    private LocalDateTime lastUpdatedOn;
+	@Column(name = "last_updated_by")
+	private String lastUpdatedBy;
 
-    @Column(name = "last_updated_by")
-    private String lastUpdatedBy;
+	@PersistenceCreator
+	public TicketDbEntity(UUID id,
+					  String number,
+					  String title,
+					  List<InteractionDbEntity> interactions,
+					  LocalDateTime deadline,
+					  UUID queueId,
+					  List<MentionDbEntity> mentions,
+					  LocalDateTime openedOn,
+					  UUID openedById,
+					  LocalDateTime lastUpdatedOn,
+					  UUID lastUpdatedById) {
+		this.number = number;
+		this.title = title;
+		this.interactions = interactions;
+		this.deadline = deadline;
+		this.queueId = queueId.toString();
+		this.mentions = mentions;
+		this.openedOn = openedOn;
+		this.openedBy = openedById.toString();
+		this.lastUpdatedOn = lastUpdatedOn;
+		this.lastUpdatedBy = lastUpdatedById.toString();
+	}
 
-    @PersistenceCreator
-    public TicketDbEntity(UUID id,
-						  String number,
-                          String title,
-                          InteractionsHistory history,
-                          LocalDateTime deadline,
-                          UUID queueId,
-                          List<MentionDbEntity> mentions,
-                          LocalDateTime openedOn,
-                          UUID openedById,
-                          LocalDateTime lastUpdatedOn,
-                          UUID lastUpdatedById) {
-        this.number = number;
-        this.title = title;
-        this.history = history;
-        this.deadline = deadline;
-        this.queueId = queueId.toString();
-        this.mentions = mentions;
-        this.openedOn = openedOn;
-        this.openedBy = openedById.toString();
-        this.lastUpdatedOn = lastUpdatedOn;
-        this.lastUpdatedBy = lastUpdatedById.toString();
-    }
-
-    public TicketDbEntity() {
-    }
+	public TicketDbEntity() {
+	}
 
 	public void addMentions(MentionDbEntity mentionDbEntity) {
 		if (mentions == null)
 			mentions = new ArrayList<>();
 
 		mentions.add(mentionDbEntity);
+	}
+	public void addInteraction(InteractionDbEntity interactionDbEntity) {
+		if (mentions == null)
+			mentions = new ArrayList<>();
+
+		this.interactions.add(interactionDbEntity);
 	}
 }

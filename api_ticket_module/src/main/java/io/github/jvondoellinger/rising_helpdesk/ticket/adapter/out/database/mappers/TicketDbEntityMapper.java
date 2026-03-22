@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Mention;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.InteractionDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.MentionDbEntity;
@@ -13,9 +13,9 @@ import java.util.UUID;
 public class TicketDbEntityMapper {
     public TicketDbEntity from(Ticket ticket) {
         var ticketDbEntity = new TicketDbEntity();
+
         ticketDbEntity.setId(ticket.getId());
         ticketDbEntity.setTitle(ticket.getTitle());
-        ticketDbEntity.setHistory(ticket.getHistory());
         ticketDbEntity.setNumber(ticket.getNumber().toString());
         ticketDbEntity.setDeadline(ticket.getDeadline());
         ticketDbEntity.setQueueId(ticket.getQueueId().toString());
@@ -24,12 +24,17 @@ public class TicketDbEntityMapper {
         ticketDbEntity.setLastUpdatedBy(ticket.getLastUpdatedBy() == null ? null : ticket.getLastUpdatedBy().toString());
         ticketDbEntity.setLastUpdatedOn(ticket.getLastUpdatedOn());
 
-        // OBS: Não adicionar o Ticket em setTicket, pode trazer bugs/inconsistencias!
+        // !! OBS: Não adicionar o Ticket em setTicket, pode trazer bugs/inconsistencias!
+        for (var interaction : ticket.getInteractionIds()) {
+            var interactionDbEntity = new InteractionDbEntity();
+
+            interactionDbEntity.setId(interaction);
+            ticketDbEntity.addInteraction(interactionDbEntity);
+        }
         for (var mention : ticket.getMentions()) {
             var mentionDbEntity = new MentionDbEntity();
-            mentionDbEntity.setMentionedAt(mentionDbEntity.getMentionedAt());
-            mentionDbEntity.setUserProfileId(mention.getUserId());
 
+            mentionDbEntity.setId(mention);
             ticketDbEntity.addMentions(mentionDbEntity);
         }
 
@@ -40,14 +45,18 @@ public class TicketDbEntityMapper {
         var mentionDomain = dbEntity
                 .getMentions()
                 .stream()
-                .map(mentionDbEntity -> new Mention(mentionDbEntity.getId(), mentionDbEntity.getUserProfileId(), mentionDbEntity.getMentionedByUserId(), mentionDbEntity.getMentionedAt()))
+                .map(MentionDbEntity::getId)
                 .toList();
-
+        var interactions = dbEntity
+                .getInteractions()
+                .stream()
+                .map(InteractionDbEntity::getId)
+                .toList();
         return new Ticket(
                 dbEntity.getId(),
                 TicketNumber.parse(dbEntity.getNumber()),
                 dbEntity.getTitle(),
-                dbEntity.getHistory(),
+                interactions,
                 UUID.fromString(dbEntity.getQueueId()),
                 mentionDomain,
                 dbEntity.getDeadline(),

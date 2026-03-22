@@ -12,9 +12,9 @@ public class Ticket {
 	public Ticket(UUID id,
 			    TicketNumber number,
 			    String title,
-			    InteractionsHistory history,
+			    List<UUID> interactionIds,
 			    UUID queueId,
-			    List<Mention> mentions,
+			    List<UUID> mentions,
 			    LocalDateTime deadline,
 			    UUID openedBy,
 			    LocalDateTime openedOn,
@@ -23,7 +23,7 @@ public class Ticket {
 		this.id = id;
 		this.number = number;
 		this.title = title;
-		this.history = history;
+		this.interactionIds = interactionIds;
 		this.queueId = queueId;
 		this.openedBy = openedBy;
 		this.lastUpdatedBy = lastUpdatedBy;
@@ -34,7 +34,6 @@ public class Ticket {
 	}
 
 	public Ticket(String title,
-			    InteractionsHistory history,
 			    UUID queueId,
 			    UUID openedBy,
 			    LocalDateTime deadline) {
@@ -45,7 +44,7 @@ public class Ticket {
 		this.openedBy = openedBy;
 		this.deadline = deadline;
 		this.mentions = new ArrayList<>();
-		this.history = history;
+		this.interactionIds = new ArrayList<>();
 		this.openedOn = LocalDateTime.now();
 		this.lastUpdatedOn = null;
 		this.lastUpdatedBy = null;
@@ -53,11 +52,11 @@ public class Ticket {
 
 	private final UUID id;
 	private final TicketNumber number;
-	private final String title;
-	private final InteractionsHistory history;
+	private String title;
+	private final List<UUID> interactionIds;
 	private UUID queueId;
 	private final LocalDateTime deadline;
-	private final List<Mention> mentions;
+	private final List<UUID> mentions;
 
 	private final LocalDateTime openedOn;
 	private final UUID openedBy;
@@ -70,13 +69,13 @@ public class Ticket {
 		}
 		this.queueId = queueId;
 	}
-	public void addMention(Mention mention) {
-		mentions.add(mention);
+	public void addMention(UUID mentionId) {
+		mentions.add(mentionId);
 	}
-	public void removeMention(Mention mention) {
+	public void removeMention(UUID mentionId) {
 		var optional = mentions
 			   .stream()
-			   .filter(x -> x.getId().equals(mention.getId()))
+			   .filter(x -> x.equals(mentionId))
 			   .findAny();
 
 		if (optional.isEmpty()) {
@@ -84,12 +83,14 @@ public class Ticket {
 		}
 
 		this.mentions.remove(optional.get());
-		onUpdate(mention.getUserId());
 	}
-
-	private void onUpdate(UUID lastUpdatedBy) {
-		this.lastUpdatedOn = LocalDateTime.now();
+	public void updateTitle(UUID lastUpdatedBy, String title) {
+		this.title = title;
 		this.lastUpdatedBy = lastUpdatedBy;
+		this.lastUpdatedOn = LocalDateTime.now();
+	}
+	public void interact(UUID interactionId) {
+		this.interactionIds.add(interactionId);
 	}
 
 	// !Getters
@@ -102,8 +103,8 @@ public class Ticket {
 	public String getTitle() {
 		return title;
 	}
-	public InteractionsHistory getHistory() {
-		return history;
+	public List<UUID> getInteractionIds() {
+		return interactionIds;
 	}
 	public UUID getQueueId() {
 		return queueId;
@@ -111,7 +112,7 @@ public class Ticket {
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-	public List<Mention> getMentions() {
+	public List<UUID> getMentions() {
 		return List.copyOf(mentions); // Tornando imutavel pelo getter (eviantado gambiarra)
 	}
 	public LocalDateTime getOpenedOn() {

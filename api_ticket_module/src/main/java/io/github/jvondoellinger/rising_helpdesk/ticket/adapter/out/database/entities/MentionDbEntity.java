@@ -26,8 +26,6 @@ public class MentionDbEntity {
     @JoinColumn(name = "number")
     private TicketDbEntity ticket;
 
-    private UUID userProfileId;
-
     @CreationTimestamp
     private LocalDateTime mentionedAt;
 
@@ -39,7 +37,6 @@ public class MentionDbEntity {
         this.id = id;
         this.mentionedByUserId = mentionedByUserId;
         this.ticket = ticket;
-        this.userProfileId = userProfileId;
         this.mentionedAt = mentionedAt;
     }
 }

@@ -2,6 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,6 @@ public class TicketMapper {
 	public Ticket from(CreateTicketCommand command) {
 		return new Ticket(
 			   command.title(),
-			   new InteractionsHistory(),
 			   command.queueId(),
 			   command.openedBy(),
 			   command.deadline()
@@ -27,7 +27,7 @@ public class TicketMapper {
 		return tickets.stream().map(this::details).toList();
 	}
 
-	public TicketDetails details(Ticket ticket) {
+	public TicketDetails details(Ticket ticket, List<Mention> mentionsz) {
 		return new TicketDetails(
 			   ticket.getNumber(),
 			   ticket.getTitle(),

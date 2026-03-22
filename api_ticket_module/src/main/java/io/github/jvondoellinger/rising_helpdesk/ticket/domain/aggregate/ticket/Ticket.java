@@ -10,18 +10,18 @@ import java.util.UUID;
 
 public class Ticket {
 	public Ticket(UUID id,
-				  TicketNumber number,
-                  String title,
-                  InteractionsHistory history,
-                  UUID queueId,
-                  List<Mention> mentions,
-                  LocalDateTime deadline,
-                  UUID openedBy,
-                  LocalDateTime openedOn,
-                  UUID lastUpdatedBy,
-                  LocalDateTime lastUpdatedOn) {
-        this.id = id;
-        this.number = number;
+			    TicketNumber number,
+			    String title,
+			    InteractionsHistory history,
+			    UUID queueId,
+			    List<Mention> mentions,
+			    LocalDateTime deadline,
+			    UUID openedBy,
+			    LocalDateTime openedOn,
+			    UUID lastUpdatedBy,
+			    LocalDateTime lastUpdatedOn) {
+		this.id = id;
+		this.number = number;
 		this.title = title;
 		this.history = history;
 		this.queueId = queueId;
@@ -34,12 +34,12 @@ public class Ticket {
 	}
 
 	public Ticket(String title,
-                  InteractionsHistory history,
-                  UUID queueId,
-                  UUID openedBy,
-                  LocalDateTime deadline) {
-        this.id = UUID.randomUUID();
-        this.number = TicketNumber.create();
+			    InteractionsHistory history,
+			    UUID queueId,
+			    UUID openedBy,
+			    LocalDateTime deadline) {
+		this.id = UUID.randomUUID();
+		this.number = TicketNumber.create();
 		this.title = title;
 		this.queueId = queueId;
 		this.openedBy = openedBy;
@@ -64,6 +64,7 @@ public class Ticket {
 	private final LocalDateTime lastUpdatedOn;
 	private final UUID lastUpdatedBy;
 
+	public void delegate(Queue)
 
 	public void addMention(Mention mention) {
 		mentions.add(mention);
@@ -73,33 +74,43 @@ public class Ticket {
 	public UUID getId() {
 		return id;
 	}
+
 	public TicketNumber getNumber() {
 		return number;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public InteractionsHistory getHistory() {
 		return history;
 	}
+
 	public UUID getQueueId() {
 		return queueId;
 	}
+
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
+
 	public List<Mention> getMentions() {
 		return List.copyOf(mentions); // Tornando imutavel pelo getter (eviantado gambiarra)
 	}
+
 	public LocalDateTime getOpenedOn() {
 		return openedOn;
 	}
+
 	public UUID getOpenedBy() {
 		return openedBy;
 	}
+
 	public LocalDateTime getLastUpdatedOn() {
 		return lastUpdatedOn;
 	}
+
 	public UUID getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}

@@ -22,7 +22,6 @@ public class QueryBusImpl implements QueryBus {
         for (var handler : handlers) {
             System.out.println("- Adicionando handler: "+ handler.getClass().getSimpleName());
             hashMap.put(handler.getQueryType(), handler);
-            System.out.println(handler.getQueryType().getSimpleName() + " " + handler.getClass().getSimpleName());
         }
         System.out.println("QueryBus pronto para uso!\n");
     }

@@ -1,10 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
-import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.InteractionDbEntity;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.InteractionDbEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class InteractionDbMapper {

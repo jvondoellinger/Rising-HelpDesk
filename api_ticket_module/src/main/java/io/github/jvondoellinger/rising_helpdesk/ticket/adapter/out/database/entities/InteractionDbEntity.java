@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
@@ -9,8 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity

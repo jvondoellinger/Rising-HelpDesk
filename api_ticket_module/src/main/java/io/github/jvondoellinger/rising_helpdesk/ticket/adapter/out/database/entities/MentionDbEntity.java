@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
@@ -17,11 +17,15 @@ import java.util.UUID;
 @FixAfter
 public class MentionDbEntity {
     @Id
-    private UUID uuid;
+    private UUID id;
+
+    @Column
+    private UUID mentionedByUserId;
 
     @ManyToOne
     @JoinColumn(name = "number")
     private TicketDbEntity ticket;
+
     private UUID userProfileId;
 
     @CreationTimestamp
@@ -31,8 +35,9 @@ public class MentionDbEntity {
     }
 
     @PersistenceCreator
-    public MentionDbEntity(UUID uuid, TicketDbEntity ticket, UUID userProfileId, LocalDateTime mentionedAt) {
-        this.uuid = uuid;
+    public MentionDbEntity(UUID id, UUID mentionedByUserId, TicketDbEntity ticket, UUID userProfileId, LocalDateTime mentionedAt) {
+        this.id = id;
+        this.mentionedByUserId = mentionedByUserId;
         this.ticket = ticket;
         this.userProfileId = userProfileId;
         this.mentionedAt = mentionedAt;

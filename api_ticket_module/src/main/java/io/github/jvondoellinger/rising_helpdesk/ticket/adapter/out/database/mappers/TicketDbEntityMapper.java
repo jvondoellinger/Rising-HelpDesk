@@ -3,8 +3,8 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.map
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
-import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.MentionDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.TicketDbEntity;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.MentionDbEntity;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.TicketDbEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class TicketDbEntityMapper {
         var mentionDomain = dbEntity
                 .getMentions()
                 .stream()
-                .map(mentionDbEntity -> new Mention(mentionDbEntity.getUuid(), mentionDbEntity.getUserProfileId(), mentionDbEntity.getMentionedAt()))
+                .map(mentionDbEntity -> new Mention(mentionDbEntity.getId(), mentionDbEntity.getUserProfileId(), mentionDbEntity.getMentionedByUserId(), mentionDbEntity.getMentionedAt()))
                 .toList();
 
         return new Ticket(

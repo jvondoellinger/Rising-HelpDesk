@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;

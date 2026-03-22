@@ -6,15 +6,12 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mapp
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure.InteractionDbEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Repository
 @AllArgsConstructor

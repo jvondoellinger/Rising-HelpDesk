@@ -55,62 +55,74 @@ public class Ticket {
 	private final TicketNumber number;
 	private final String title;
 	private final InteractionsHistory history;
-	private final UUID queueId;
+	private UUID queueId;
 	private final LocalDateTime deadline;
 	private final List<Mention> mentions;
 
 	private final LocalDateTime openedOn;
 	private final UUID openedBy;
-	private final LocalDateTime lastUpdatedOn;
-	private final UUID lastUpdatedBy;
+	private LocalDateTime lastUpdatedOn;
+	private UUID lastUpdatedBy;
 
-	public void delegate(Queue)
-
+	public void delegate(UUID queueId) {
+		if (this.queueId.equals(queueId)) {
+			throw new RuntimeException("The ticket is already in this queue.");
+		}
+		this.queueId = queueId;
+	}
 	public void addMention(Mention mention) {
 		mentions.add(mention);
+	}
+	public void removeMention(Mention mention) {
+		var optional = mentions
+			   .stream()
+			   .filter(x -> x.getId().equals(mention.getId()))
+			   .findAny();
+
+		if (optional.isEmpty()) {
+			return;
+		}
+
+		this.mentions.remove(optional.get());
+		onUpdate(mention.getUserId());
+	}
+
+	private void onUpdate(UUID lastUpdatedBy) {
+		this.lastUpdatedOn = LocalDateTime.now();
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	// !Getters
 	public UUID getId() {
 		return id;
 	}
-
 	public TicketNumber getNumber() {
 		return number;
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public InteractionsHistory getHistory() {
 		return history;
 	}
-
 	public UUID getQueueId() {
 		return queueId;
 	}
-
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-
 	public List<Mention> getMentions() {
 		return List.copyOf(mentions); // Tornando imutavel pelo getter (eviantado gambiarra)
 	}
-
 	public LocalDateTime getOpenedOn() {
 		return openedOn;
 	}
-
 	public UUID getOpenedBy() {
 		return openedBy;
 	}
-
 	public LocalDateTime getLastUpdatedOn() {
 		return lastUpdatedOn;
 	}
-
 	public UUID getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}

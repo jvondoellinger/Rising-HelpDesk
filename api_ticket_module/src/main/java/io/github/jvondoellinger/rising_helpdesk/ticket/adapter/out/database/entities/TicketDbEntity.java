@@ -1,7 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.infrastructure;
+package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.InteractionHistoryConverter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.converter.UuidStringConverter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;

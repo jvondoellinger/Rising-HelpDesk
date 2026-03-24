@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaInteractionRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.InteractionDbMapper;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.Interaction;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import lombok.AllArgsConstructor;

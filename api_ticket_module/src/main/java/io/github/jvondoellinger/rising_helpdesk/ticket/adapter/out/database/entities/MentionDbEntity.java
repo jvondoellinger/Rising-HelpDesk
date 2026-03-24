@@ -33,7 +33,7 @@ public class MentionDbEntity {
     }
 
     @PersistenceCreator
-    public MentionDbEntity(UUID id, UUID mentionedByUserId, TicketDbEntity ticket, UUID userProfileId, LocalDateTime mentionedAt) {
+    public MentionDbEntity(UUID id, UUID mentionedByUserId, UUID userProfileId, LocalDateTime mentionedAt, TicketDbEntity ticket) {
         this.id = id;
         this.mentionedByUserId = mentionedByUserId;
         this.ticket = ticket;

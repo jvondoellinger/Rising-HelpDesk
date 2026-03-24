@@ -10,7 +10,7 @@ import java.util.UUID;
  * @param queueId ID da fila que o ticket será delegado
  * @param agentId ID do agente responsavel pela interação
  */
-public record DelegationTicketCommand(
+public record DelegateTicketCommand(
 	   UUID ticketId,
 	   UUID queueId,
 	   UUID agentId

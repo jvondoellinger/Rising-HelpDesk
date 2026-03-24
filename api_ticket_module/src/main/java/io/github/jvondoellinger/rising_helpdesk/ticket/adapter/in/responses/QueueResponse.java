@@ -1,14 +1,15 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record QueueResponse(
-        String domainId,
+	   UUID id,
         String area,
         String subarea,
         LocalDateTime createdAt,
-        String createdBy,
+        UUID createdBy,
         LocalDateTime updatedAt,
-        String lastUpdatedBy
+	   UUID lastUpdatedBy
 ) {
 }

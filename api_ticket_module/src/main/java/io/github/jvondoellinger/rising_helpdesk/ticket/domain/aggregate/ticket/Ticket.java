@@ -1,6 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 
 import java.time.LocalDateTime;
@@ -9,12 +11,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class Ticket {
+	/**
+		*@apiNote Ticket será preenchido conformes os valores forem adicionados no construtor
+	 */
 	public Ticket(UUID id,
 			    TicketNumber number,
 			    String title,
-			    List<UUID> interactionIds,
-			    UUID queueId,
-			    List<UUID> mentions,
+			    List<Interaction> interaction,
+			    Queue queue,
+			    List<Mention> mentions,
 			    LocalDateTime deadline,
 			    UUID openedBy,
 			    LocalDateTime openedOn,
@@ -23,8 +28,8 @@ public class Ticket {
 		this.id = id;
 		this.number = number;
 		this.title = title;
-		this.interactionIds = interactionIds;
-		this.queueId = queueId;
+		this.interaction = interaction;
+		this.queue = queue;
 		this.openedBy = openedBy;
 		this.lastUpdatedBy = lastUpdatedBy;
 		this.deadline = deadline;
@@ -33,46 +38,49 @@ public class Ticket {
 		this.lastUpdatedOn = lastUpdatedOn;
 	}
 
+	/**
+		*@apiNote Instancia um Ticket completamente novo
+	 */
 	public Ticket(String title,
-			    UUID queueId,
+			    Queue queue,
 			    UUID openedBy,
 			    LocalDateTime deadline) {
 		this.id = UUID.randomUUID();
 		this.number = TicketNumber.create();
 		this.title = title;
-		this.queueId = queueId;
+		this.queue = queue;
 		this.openedBy = openedBy;
 		this.deadline = deadline;
 		this.mentions = new ArrayList<>();
-		this.interactionIds = new ArrayList<>();
+		this.interaction = new ArrayList<>();
 		this.openedOn = LocalDateTime.now();
-		this.lastUpdatedOn = null;
-		this.lastUpdatedBy = null;
+		this.lastUpdatedOn = openedOn;
+		this.lastUpdatedBy = openedBy;
 	}
 
 	private final UUID id;
 	private final TicketNumber number;
 	private String title;
-	private final List<UUID> interactionIds;
-	private UUID queueId;
+	private final List<Interaction> interaction;
+	private Queue queue;
 	private final LocalDateTime deadline;
-	private final List<UUID> mentions;
+	private final List<Mention> mentions;
 
 	private final LocalDateTime openedOn;
 	private final UUID openedBy;
 	private LocalDateTime lastUpdatedOn;
 	private UUID lastUpdatedBy;
 
-	public void delegate(UUID queueId) {
-		if (this.queueId.equals(queueId)) {
+	public void delegate(Queue queue) {
+		if (this.queue.equals(queue)) {
 			throw new RuntimeException("The ticket is already in this queue.");
 		}
-		this.queueId = queueId;
+		this.queue = queue;
 	}
-	public void addMention(UUID mentionId) {
+	public void addMention(Mention mentionId) {
 		mentions.add(mentionId);
 	}
-	public void removeMention(UUID mentionId) {
+	public void removeMention(Mention mentionId) {
 		var optional = mentions
 			   .stream()
 			   .filter(x -> x.equals(mentionId))
@@ -89,8 +97,8 @@ public class Ticket {
 		this.lastUpdatedBy = lastUpdatedBy;
 		this.lastUpdatedOn = LocalDateTime.now();
 	}
-	public void interact(UUID interactionId) {
-		this.interactionIds.add(interactionId);
+	public void interact(Interaction interactionId) {
+		this.interaction.add(interactionId);
 	}
 
 	// !Getters
@@ -103,16 +111,16 @@ public class Ticket {
 	public String getTitle() {
 		return title;
 	}
-	public List<UUID> getInteractionIds() {
-		return interactionIds;
+	public List<Interaction> getInteraction() {
+		return List.copyOf(interaction);
 	}
-	public UUID getQueueId() {
-		return queueId;
+	public Queue getQueue() {
+		return queue;
 	}
 	public LocalDateTime getDeadline() {
 		return deadline;
 	}
-	public List<UUID> getMentions() {
+	public List<Mention> getMentions() {
 		return List.copyOf(mentions); // Tornando imutavel pelo getter (eviantado gambiarra)
 	}
 	public LocalDateTime getOpenedOn() {

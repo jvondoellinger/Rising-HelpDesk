@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Queue {
@@ -34,35 +35,47 @@ public class Queue {
         this.subarea = subarea;
         this.createdBy = createdBy;
         this.createdAt = LocalDateTime.now();
-        this.updatedAt = null;
-        this.lastUpdatedBy = null;
+        this.updatedAt = LocalDateTime.now();
+        this.lastUpdatedBy = createdBy;
     }
 
     public UUID getId() {
         return id;
     }
-
     public String getArea() {
         return area;
     }
-
     public String getSubarea() {
         return subarea;
     }
-
     public UUID getCreatedBy() {
         return createdBy;
     }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-
     public UUID getLastUpdatedBy() {
         return lastUpdatedBy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Queue queue = (Queue) o;
+        return Objects.equals(id, queue.id) &&
+                Objects.equals(area, queue.area) &&
+                Objects.equals(subarea, queue.subarea) &&
+                Objects.equals(createdAt, queue.createdAt) &&
+                Objects.equals(createdBy, queue.createdBy) &&
+                Objects.equals(updatedAt, queue.updatedAt) &&
+                Objects.equals(lastUpdatedBy, queue.lastUpdatedBy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, area, subarea, createdAt, createdBy, updatedAt, lastUpdatedBy);
     }
 }

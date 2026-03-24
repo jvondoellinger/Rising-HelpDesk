@@ -11,7 +11,7 @@ import java.util.UUID;
  * @param agentId  ID do agente responsavel pela interação
  */
 
-public record InteractionTicketCommand(
+public record InteractTicketCommand(
         UUID ticketId,
         String text,
         UUID agentId

@@ -37,7 +37,7 @@ public class QueueDbEntity{
 	@Column(name = "last_updated_by")
 	private UUID lastUpdatedBy;
 
-	protected QueueDbEntity() {}
+	public QueueDbEntity() {}
 	public QueueDbEntity(Queue queue) {
 		this.id = queue.getId();
 		this.area = queue.getArea();

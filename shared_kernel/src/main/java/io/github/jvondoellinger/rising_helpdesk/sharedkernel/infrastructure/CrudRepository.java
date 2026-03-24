@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Paginat
 
 import java.util.Optional;
 
-public interface CrudsRepository<T, ID> {
+public interface CrudRepository<T, ID> {
 	void save(T entity);
 	void update(T entity);
 	void delete(T entity);

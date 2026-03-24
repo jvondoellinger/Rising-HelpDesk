@@ -20,6 +20,7 @@ public class InteractionDbEntity {
 	private UUID id;
 	private String text;
 
+	@Column
 	private boolean visible;
 
 	@Column(name = "interacted_by_id")
@@ -28,16 +29,17 @@ public class InteractionDbEntity {
 	@CreationTimestamp
 	private LocalDateTime interactedOn;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private TicketDbEntity ticket;
 
 	@PersistenceCreator
-	public InteractionDbEntity(UUID id, String text, boolean visible, UUID interactedBy, LocalDateTime interactedOn) {
+	public InteractionDbEntity(UUID id, String text, boolean visible, UUID interactedBy, LocalDateTime interactedOn, TicketDbEntity ticketDbEntity) {
 		this.id = id;
 		this.text = text;
 		this.visible = visible;
 		this.interactedBy = interactedBy;
 		this.interactedOn = interactedOn;
+		this.ticket = ticketDbEntity;
 	}
 
 	public InteractionDbEntity() {}

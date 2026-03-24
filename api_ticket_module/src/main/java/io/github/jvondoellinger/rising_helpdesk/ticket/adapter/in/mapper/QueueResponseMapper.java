@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.PageResponse;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.QueueResponse;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import org.springframework.stereotype.Service;
@@ -10,20 +11,20 @@ public final class QueueResponseMapper {
 
     public QueueResponse from(QueueDetails details) {
         return new QueueResponse(
-                details.domainId().toString(),
+                details.domainId(),
                 details.area(),
                 details.subarea(),
                 details.createdAt(),
-                details.createdBy().toString(),
+                details.createdBy(),
                 details.updatedAt(),
-                details.lastUpdatedBy().toString()
+                details.lastUpdatedBy()
         );
     }
 
-    public Pagination<QueueResponse> from(Pagination<QueueDetails> details) {
+    public PageResponse<QueueResponse> from(Pagination<QueueDetails> details) {
         var items = details.items();
         var responses = items.stream().map(this::from).toList();
 
-        return Pagination.of(responses, details.page(), details.totalPages());
+        return new PageResponse<>(responses, details.page(), details.size(), details.totalPages());
     }
 }

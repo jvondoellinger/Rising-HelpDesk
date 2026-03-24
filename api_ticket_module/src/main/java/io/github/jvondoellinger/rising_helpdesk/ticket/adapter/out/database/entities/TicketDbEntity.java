@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.interaction.InteractionsHistory;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,8 +22,10 @@ public class TicketDbEntity {
 	@Id
 	private UUID id;
 
+	@Column
 	private String number;
 
+	@Column
 	private String title;
 
 	@OneToMany(mappedBy = "ticket")
@@ -32,25 +33,25 @@ public class TicketDbEntity {
 
 	private LocalDateTime deadline;
 
-	@Column(name = "queue")
-	private String queueId;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	private QueueDbEntity queue;
 
 	// OneToMany para MençõesDbEntity e o hibernate gera um JOIN
-	@OneToMany(mappedBy = "ticket")
+	@OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER)
 	private List<MentionDbEntity> mentions;
 
 	@CreationTimestamp
 	private LocalDateTime openedOn;
 
 	@Column(name = "opened_by")
-	private String openedBy;
+	private UUID openedBy;
 
 	@UpdateTimestamp
 	@Column(nullable = true)
 	private LocalDateTime lastUpdatedOn;
 
 	@Column(name = "last_updated_by")
-	private String lastUpdatedBy;
+	private UUID lastUpdatedBy;
 
 	@PersistenceCreator
 	public TicketDbEntity(UUID id,
@@ -58,7 +59,7 @@ public class TicketDbEntity {
 					  String title,
 					  List<InteractionDbEntity> interactions,
 					  LocalDateTime deadline,
-					  UUID queueId,
+					  QueueDbEntity queue,
 					  List<MentionDbEntity> mentions,
 					  LocalDateTime openedOn,
 					  UUID openedById,
@@ -68,12 +69,12 @@ public class TicketDbEntity {
 		this.title = title;
 		this.interactions = interactions;
 		this.deadline = deadline;
-		this.queueId = queueId.toString();
+		this.queue = queue;
 		this.mentions = mentions;
 		this.openedOn = openedOn;
-		this.openedBy = openedById.toString();
+		this.openedBy = openedById;
 		this.lastUpdatedOn = lastUpdatedOn;
-		this.lastUpdatedBy = lastUpdatedById.toString();
+		this.lastUpdatedBy = lastUpdatedById;
 	}
 
 	public TicketDbEntity() {

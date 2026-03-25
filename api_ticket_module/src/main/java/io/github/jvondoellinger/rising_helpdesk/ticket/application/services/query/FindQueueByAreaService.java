@@ -21,13 +21,13 @@ public class FindQueueByAreaService implements FindQueueByAreaQueryHandler {
         var optional = repository.findBySubarea(query.area());
 
         if (optional.isEmpty()) {
-            return new Result.Success<>(null);
+            return Result.failure("No queue found.");
         }
 
         var queue = optional.get();
         var mapped = mapper.details(queue);
 
-        return new Result.Success<>(mapped);
+        return Result.success(mapped);
     }
 
     @Override

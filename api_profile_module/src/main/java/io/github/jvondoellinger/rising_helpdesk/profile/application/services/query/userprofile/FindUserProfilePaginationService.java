@@ -22,7 +22,7 @@ public class FindUserProfilePaginationService implements FindUserProfilePaginati
 		var pagination = repository.findByPagination(PaginationFilter.of(query.size(), query.page()));
 		var paginationMapped = mapper.detailsPagination(pagination);
 
-		return new Result.Success<>(paginationMapped);
+		return Result.success(paginationMapped);
 	}
 
 	@Override

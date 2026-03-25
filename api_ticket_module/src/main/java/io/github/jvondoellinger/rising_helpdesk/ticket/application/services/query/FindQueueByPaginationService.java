@@ -31,7 +31,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
                 queuePagination.totalPages()
         );
 
-        return new Result.Success<>(detailsPagination);
+        return Result.success(detailsPagination);
     }
 
     @Override

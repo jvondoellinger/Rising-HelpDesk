@@ -22,12 +22,12 @@ public class FindPermissionByCodeService implements FindPermissionByCodeHandler 
 		var persistence = repository.findByCode(query.code()).orElse(null);
 
 		if (persistence == null) {
-			return new Result.Failure<>("No code found.");
+			return Result.failure("No code found.");
 		}
 
 		var details = mapper.details(persistence);
 
-		return new Result.Success<>(details);
+		return Result.success(details);
 	}
 
 	@Override

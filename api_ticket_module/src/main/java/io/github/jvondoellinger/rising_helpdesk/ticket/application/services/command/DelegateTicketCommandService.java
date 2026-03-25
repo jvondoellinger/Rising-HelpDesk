@@ -20,12 +20,12 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()) {
-			return new Result.Failure("No queue found");
+			return Result.failure("No queue found");
 		}
 		var ticketOptional = repository.findById(cmd.ticketId());
 
 		if (ticketOptional.isEmpty()) {
-			return new Result.Failure<>("No ticket found.");
+			return Result.failure("No ticket found.");
 		}
 
 		var ticket = ticketOptional.get();
@@ -35,7 +35,7 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 
 		repository.save(ticket);
 
-		return new Result.Success<>(null);
+		return Result.success(null);
 	}
 
 	@Override

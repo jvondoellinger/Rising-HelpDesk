@@ -26,7 +26,7 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 		var alreadyExists = repository.existsByName(cmd.name());
 
 		if (alreadyExists) {
-			return new Result.Failure<>("Access Profile already registered.");
+			return Result.failure("Access Profile already registered.");
 		}
 
 		var match = cmd
@@ -35,13 +35,13 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 			   .allMatch(permissionRepository::existsById);
 
 		if (!match) {
-			return new Result.Failure<>("One or more permissions were not registered.");
+			return Result.failure("One or more permissions were not registered.");
 		}
 
 		var accessprofile = mapper.from(cmd);
 		repository.save(accessprofile);
 
-		return new Result.Success<Void>(null);
+		return Result.success();
 
 	}
 

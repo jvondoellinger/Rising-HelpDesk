@@ -18,7 +18,7 @@ public class DeleteAccessProfileService implements DeleteAccessProfileHandler {
 		var optional = repository.findById(cmd.accessProfileId());
 
 		if (optional.isEmpty()) {
-			return new Result.Failure<>("ID not found");
+			return Result.failure("ID not found");
 		}
 
 		var accessprofile = optional.get();

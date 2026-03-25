@@ -21,14 +21,14 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return new Result.Success<>(null);
+			return Result.failure("No queue found.");
 		}
 
 		var queue = optional.get();
 		var subarea = cmd.subarea();
 
 		if (queue.getArea().equals(subarea)) {
-			return new Result.Failure<>("The queue already has this area.");
+			return Result.failure("The queue already has this area.");
 		}
 
 		var updated = new Queue(
@@ -43,7 +43,7 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 
 		repository.save(updated);
 
-		return new Result.Success<>(null);
+		return Result.success();
 	}
 
 	@Override

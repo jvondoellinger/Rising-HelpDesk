@@ -23,13 +23,13 @@ public class FindTicketByNumberQueryHandlerImpl
 		var num = query.number();
 
 		if (num == null) {
-			return new Result.Failure<>("Protocol number is blank.");
+			return Result.failure("Protocol number is blank.");
 		}
 
 		var result = repository.findByNumber(num).orElse(null);
 
 		var details = mapper.details(result);
-		return new Result.Success<>(details);
+		return Result.success(details);
 	}
 
 	@Override

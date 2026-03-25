@@ -27,14 +27,14 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return new Result.Failure<>("No access found on persistence.");
+			return Result.failure("No access found on persistence.");
 		}
 
 		var accessprofile = optional.get();
 		var permissions = mapper.from(cmd.permissions());
 
 		if (accessprofile.hasAllPermissions(permissions)) {
-			return new Result.Failure<>("Permissions already granted.");
+			return Result.failure("Permissions already granted.");
 		}
 
 		var newValue = new AccessProfile(
@@ -47,7 +47,7 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 
 		repository.save(newValue); // Atualiza no banco de dados
 
-		return new Result.Success<>(null);
+		return Result.success();
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class QueryBusImpl implements QueryBus {
         var handler = hashMap.get(cmd.getClass());
 
         if (handler == null) {
-            return new Result.Failure<>("No handler found");
+            return Result.failure("No handler found");
         }
 
         return  ((QueryHandler<Query<R>, R>)handler).handle(cmd);

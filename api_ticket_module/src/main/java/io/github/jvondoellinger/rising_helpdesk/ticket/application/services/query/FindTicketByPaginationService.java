@@ -23,7 +23,7 @@ public class FindTicketByPaginationService implements FindTicketByPaginationQuer
         var pagination = repository.findByPagination(filter);
         var details = mapper.detailsPagination(pagination);
 
-        return new Result.Success<>(details);
+        return Result.success(details);
     }
 
     @Override

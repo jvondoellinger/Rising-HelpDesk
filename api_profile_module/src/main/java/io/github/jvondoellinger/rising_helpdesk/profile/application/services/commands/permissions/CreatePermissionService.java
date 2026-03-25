@@ -19,7 +19,7 @@ public class CreatePermissionService implements CreatePermissionHandler {
 
         repository.save(e);
 
-        return new Result.Success<>(null);
+        return Result.success();
     }
 
     @Override

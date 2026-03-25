@@ -20,13 +20,13 @@ public class FindQueueByIdService implements FindQueueByIdQueryHandler {
         var optional = repository.findById(query.id());
 
         if (optional.isEmpty()) {
-            return new Result.Success<>(null);
+            return Result.failure("No queue found.");
         }
 
         var queue = optional.get();
         var details = mapper.details(queue);
 
-        return new Result.Success<>(details);
+        return Result.success(details);
     }
 
     @Override

@@ -24,12 +24,12 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 		var queueResult = queryBus.send(new FindQueueByIdQuery(cmd.queueId()));
 
 		if (queueResult.isFailure())
-			return new Result.Failure<>("No queue found.");
+			return Result.failure("No queue found.");
 
 		var ticket = mapper.from(cmd);
 		repository.save(ticket);
 
-		return new Result.Success<>(null);
+		return Result.success();
 	}
 
 	@Override

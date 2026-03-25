@@ -21,12 +21,12 @@ public class FindAccessProfileByIdQueryService implements FindAccessProfileByIdQ
 		var optional = repository.findById(query.id());
 
 		if (optional.isEmpty()) {
-			return new Result.Success<>(null);
+			return Result.failure("No Access Profile found.");
 		}
 
 		var accessprofile = optional.get();
 		var mapped = mapper.details(accessprofile);
-		return new Result.Success<>(mapped);
+		return Result.success(mapped);
 	}
 
 	@Override

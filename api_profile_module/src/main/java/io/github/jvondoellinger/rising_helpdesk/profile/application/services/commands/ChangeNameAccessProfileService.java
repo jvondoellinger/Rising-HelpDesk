@@ -21,11 +21,11 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return new Result.Failure<>("No access found on persistence.");
+			return Result.failure("No access found on persistence.");
 		}
 
 		if (repository.existsByName(cmd.name())) {
-			return new Result.Failure<>("Already exists a profile with this name!");
+			return Result.failure("Already exists a profile with this name!");
 		}
 
 		var accessprofile = optional.get();

@@ -22,19 +22,19 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 		var id = query.id();
 
 		if (id == null) {
-			return new Result.Failure<>("ID is blank.");
+			return Result.failure("ID is blank.");
 		}
 
 		var optional = repository.findById(id);
 
 		if (optional.isEmpty()) {
-			return new Result.Success<>(null);
+			return Result.success();
 		}
 
 		var ticket = optional.get();
 		var details = mapper.details(ticket);
 
-		return new Result.Success<>(details);
+		return Result.success(details);
 	}
 
 	@Override

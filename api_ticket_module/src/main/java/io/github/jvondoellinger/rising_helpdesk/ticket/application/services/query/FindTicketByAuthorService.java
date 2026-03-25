@@ -19,15 +19,16 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
 
     @Override
     public Result<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
-        var tks = repository
-                .findByAuthorId(query.author(), PaginationFilter.of(query.page(), query.size()));
+        var tks = repository.findByAuthorId(query.author(),PaginationFilter.of(query.page(), query.size()));
+
         var details = tks.items()
                 .stream()
                 .map(mapper::details)
                 .toList();
+
         var pagination = Pagination.of(details, tks.page(), tks.totalPages());
 
-        return new Result.Success<>(pagination);
+        return Result.success(pagination);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
         var optional = repository.findById(cmd.id());
 
         if (optional.isEmpty()) {
-            return new Result.Failure<>("No queue found with this ID.");
+            return Result.failure("No queue found with this ID.");
         }
 
         var queue = optional.get();
@@ -29,7 +29,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
 
 
         if (queue.getArea().equals(area)) {
-            return new Result.Failure<>("The queue already has this area.");
+            return Result.failure("The queue already has this area.");
         }
 
         var updated = new Queue(
@@ -44,7 +44,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
 
         repository.save(updated);
 
-        return new Result.Success<>(null);
+        return Result.success(null);
     }
 
     @Override

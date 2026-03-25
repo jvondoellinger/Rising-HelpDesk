@@ -20,12 +20,12 @@ public class FindUserProfileByUserIdService implements FindUserProfileByUserIdHa
 		var optional = repository.findById(query.userId());
 
 		if (optional.isEmpty()) {
-			return new Result.Success<>(null);
+			return Result.failure("No User Profile found.");
 		}
 		var userprofile = optional.get();
 		var details = mapper.details(userprofile);
 
-		return new Result.Success<>(details);
+		return Result.success(details);
 	}
 
 	@Override

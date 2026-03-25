@@ -22,7 +22,7 @@ public class FindPermissionPaginationService implements FindPermissionPagination
 		var pagination = repository.findByPagination(PaginationFilter.of(query.size(),query.page()));
 
 		var paginationMapped = mapper.details(pagination);
-		return new Result.Success<>(paginationMapped);
+		return Result.success(paginationMapped);
 	}
 
 	@Override

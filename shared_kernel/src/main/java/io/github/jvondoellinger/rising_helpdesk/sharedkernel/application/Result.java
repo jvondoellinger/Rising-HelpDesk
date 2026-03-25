@@ -15,7 +15,7 @@ public sealed interface Result<O> permits Result.Success, Result.Failure {
 		}
 	}
 
-	record Failure<O>(KernelException error) implements Result<O> {
+	record Failure<O>(String error) implements Result<O> {
 		@Override
 		public <R> R fold(Function<Success<O>, R> onSuccess, Function<Failure<O>, R> onFailure) {
 			return onFailure.apply(this);
@@ -35,7 +35,7 @@ public sealed interface Result<O> permits Result.Success, Result.Failure {
 	static <O> Failure<O> failure() {
 		return new Failure<>(null);
 	}
-	static <O> Failure<O> failure(KernelException exception) {
+	static <O> Failure<O> failure(String exception) {
 		return new Failure<>(exception);
 	}
 }

@@ -32,7 +32,7 @@ public class CommandBusImpl implements CommandBus {
 		var handler = hashMap.get(cmd.getClass());
 
 		if (handler == null) {
-			return new Result.Failure<>(new KernelException("No handler found."));
+			return new Result.Failure<>("No handler found.");
 		}
 
 		return handler.handle(cmd);

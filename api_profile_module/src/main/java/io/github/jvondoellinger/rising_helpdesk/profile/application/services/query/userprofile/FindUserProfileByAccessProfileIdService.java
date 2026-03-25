@@ -24,7 +24,7 @@ public class FindUserProfileByAccessProfileIdService implements FindUserProfileB
 		var pagination = repository.findByAccessProfileId(query.accessProfileId(), filter);
 
 		if (pagination.isEmpty()) {
-			return new Result.Failure<>(new KernelException("No profile found."));
+			return new Result.Failure<>("No profile found.");
 		}
 
 		var detailsPagination = mapper.detailsPagination(pagination);

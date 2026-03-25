@@ -18,14 +18,14 @@ public class DeleteAccessProfileService implements DeleteAccessProfileHandler {
 		var optional = repository.findById(cmd.accessProfileId());
 
 		if (optional.isEmpty()) {
-			return new Result.Failure<>(new KernelException("ID not found"));
+			return new Result.Failure<>("ID not found");
 		}
 
 		var accessprofile = optional.get();
 
 		repository.delete(accessprofile);
 
-		return new Result.Success<>(null);
+		return Result.success();
 	}
 
 	@Override

@@ -18,11 +18,11 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	@Override
 	public Result<Void> handle(CreateQueueCommand cmd) {
 		if (cmd == null) {
-			return new Result.Failure<>(new KernelException("Command is null."));
+			return new Result.Failure<>("Command is null.");
 		}
 
 		if (repository.existsByArea(cmd.area())) {
-			return new Result.Failure<>(new KernelException("Area already exists."));
+			return new Result.Failure<>("Area already exists.");
 		}
 
 		var entity = mapper.from(cmd);

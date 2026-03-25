@@ -19,13 +19,13 @@ public class DeleteUserProfileService implements DeleteUserProfileHandler {
         var id = cmd.id();
 
         if (id == null) {
-            return new Result.Failure<>(new KernelException("ID is blank."));
+            return new Result.Failure<>("ID is blank.");
         }
 
         var optional = repository.findById(id);
 
         if (optional.isEmpty()) {
-            return new Result.Failure<>(new KernelException("User does not exist!"));
+            return new Result.Failure<>("User does not exist!");
         }
 
         var userprofile = optional.get();

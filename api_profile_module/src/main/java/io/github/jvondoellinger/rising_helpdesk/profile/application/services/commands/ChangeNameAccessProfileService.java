@@ -21,11 +21,11 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return new Result.Failure<>(new KernelException("No access found on persistence."));
+			return new Result.Failure<>("No access found on persistence.");
 		}
 
 		if (repository.existsByName(cmd.name())) {
-			return new Result.Failure<>(new KernelException("Already exists a profile with this name!"));
+			return new Result.Failure<>("Already exists a profile with this name!");
 		}
 
 		var accessprofile = optional.get();
@@ -39,7 +39,7 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 
 		repository.save(updated);
 
-		return new Result.Success<>(null);
+		return Result.success();
 	}
 
 	@Override

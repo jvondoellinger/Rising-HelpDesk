@@ -27,14 +27,14 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return new Result.Failure<>(new KernelException("No access found on persistence."));
+			return new Result.Failure<>("No access found on persistence.");
 		}
 
 		var accessprofile = optional.get();
 		var permissions = mapper.from(cmd.permissions());
 
 		if (accessprofile.hasAllPermissions(permissions)) {
-			return new Result.Failure<>(new KernelException("Permissions already granted."));
+			return new Result.Failure<>("Permissions already granted.");
 		}
 
 		var newValue = new AccessProfile(

@@ -20,12 +20,12 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()) {
-			return new Result.Failure(new KernelException("No queue found"));
+			return new Result.Failure("No queue found");
 		}
 		var ticketOptional = repository.findById(cmd.ticketId());
 
 		if (ticketOptional.isEmpty()) {
-			return new Result.Failure<>(new KernelException("No ticket found."));
+			return new Result.Failure<>("No ticket found.");
 		}
 
 		var ticket = ticketOptional.get();

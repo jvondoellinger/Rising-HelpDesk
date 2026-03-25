@@ -30,20 +30,16 @@ public class TicketController {
 						 var responsePagination = responseMapper.from(onSuccess.value());
 						 return ResponseEntity.ok(responsePagination);
 					 },
-					 onFailure -> ResponseEntity.badRequest().body(onFailure.error().getMessage()));
+					 onFailure -> ResponseEntity.badRequest().body(onFailure.error()));
 	}
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody CreateTicketRequest request) {
-		if (request == null || request.title()==null) {
-			return ResponseEntity.internalServerError().body("");
-		}
-
 		return commandBus
 			   .send(new CreateTicketCommand(request.title(), request.queueId(), request.deadline(), request.openedBy()))
 			   .fold(
 					 onSuccess -> ResponseEntity.accepted().build(),
-					 voidFailure -> ResponseEntity.badRequest().body(voidFailure.error().getMessage())
+					 voidFailure -> ResponseEntity.badRequest().body(voidFailure.error())
 			   );
 	}
 

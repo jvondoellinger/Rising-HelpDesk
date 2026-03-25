@@ -38,7 +38,7 @@ public class AccessProfileController {
 
         return result.fold(
                 onSuccess -> ResponseEntity.ok(responseMapper.from(onSuccess.value())),
-                onFailure -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(onFailure.error().getMessage())
+                onFailure -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(onFailure.error())
         );
     }
 
@@ -50,7 +50,7 @@ public class AccessProfileController {
         return commandBus.send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
 
@@ -61,7 +61,7 @@ public class AccessProfileController {
         return commandBus.send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
 
     }
@@ -75,7 +75,7 @@ public class AccessProfileController {
         return commandBus.send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
 
@@ -88,7 +88,7 @@ public class AccessProfileController {
         return commandBus.send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
 
     }

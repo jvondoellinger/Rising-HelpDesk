@@ -27,7 +27,7 @@ public class UserProfileController {
 		return commandBus.send(cmd)
 			   .fold(
 					 onSuccess -> ResponseEntity.accepted().build(),
-					 onFailure -> ResponseEntity.badRequest().body(onFailure.error().getMessage())
+					 onFailure -> ResponseEntity.badRequest().body(onFailure.error())
 			   );
 	}
 }

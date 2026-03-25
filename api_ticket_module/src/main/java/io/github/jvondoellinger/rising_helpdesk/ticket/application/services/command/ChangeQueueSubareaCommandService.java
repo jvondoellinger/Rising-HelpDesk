@@ -28,7 +28,7 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 		var subarea = cmd.subarea();
 
 		if (queue.getArea().equals(subarea)) {
-			return new Result.Failure<>(new KernelException("The queue already has this area."));
+			return new Result.Failure<>("The queue already has this area.");
 		}
 
 		var updated = new Queue(

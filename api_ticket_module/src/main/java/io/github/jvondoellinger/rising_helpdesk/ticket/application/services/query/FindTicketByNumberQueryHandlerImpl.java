@@ -23,7 +23,7 @@ public class FindTicketByNumberQueryHandlerImpl
 		var num = query.number();
 
 		if (num == null) {
-			return new Result.Failure<>(new KernelException("Protocol number is blank."));
+			return new Result.Failure<>("Protocol number is blank.");
 		}
 
 		var result = repository.findByNumber(num).orElse(null);

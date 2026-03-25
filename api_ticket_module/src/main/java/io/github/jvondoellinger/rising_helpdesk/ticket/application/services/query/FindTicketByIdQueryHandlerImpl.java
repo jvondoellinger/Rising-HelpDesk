@@ -22,7 +22,7 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 		var id = query.id();
 
 		if (id == null) {
-			return new Result.Failure<>(new KernelException("ID is blank."));
+			return new Result.Failure<>("ID is blank.");
 		}
 
 		var optional = repository.findById(id);

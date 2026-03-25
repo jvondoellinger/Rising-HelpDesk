@@ -35,7 +35,7 @@ public class QueueController {
                 .send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
     @DeleteMapping
@@ -45,7 +45,7 @@ public class QueueController {
                 .send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
     @PatchMapping("/area")
@@ -55,7 +55,7 @@ public class QueueController {
                 .send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
     @PatchMapping("/subarea")
@@ -65,7 +65,7 @@ public class QueueController {
                 .send(cmd)
                 .fold(
                         success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
 
@@ -80,7 +80,7 @@ public class QueueController {
                     var responsePagination = responseMapper.from(success.value());
                     return ResponseEntity.ok(responsePagination);
                 },
-                faillure -> ResponseEntity.badRequest().body(faillure.error().getMessage())
+                faillure -> ResponseEntity.badRequest().body(faillure.error())
         );
     }
 
@@ -93,7 +93,7 @@ public class QueueController {
                             var response = responseMapper.from(success.value());
                             return ResponseEntity.ok(response);
                         },
-                        failure -> ResponseEntity.badRequest().body(failure.error().getMessage())
+                        failure -> ResponseEntity.badRequest().body(failure.error())
                 );
     }
 }

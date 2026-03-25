@@ -10,10 +10,6 @@ import java.util.List;
 
 @Service
 public class QueueMapper {
-    public Queue from(CreateQueueCommand cmd) {
-        return new Queue(cmd.area(), cmd.subarea(), cmd.createdBy());
-    }
-
     public QueueDetails details(Queue queue) {
         return new QueueDetails(
                 queue.getId(),

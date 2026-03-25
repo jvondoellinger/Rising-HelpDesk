@@ -18,18 +18,6 @@ import java.util.UUID;
 public class TicketMapper {
 	private final QueueMapper queueMapper;
 
-	/**
-	 * @return Ticket com uma Queue só com o campo Id preenchido.
-	 */
-	public Ticket from(@NonNull CreateTicketCommand command) {
-		return new Ticket(
-			   command.title(),
-			   blankQueue(command.queueId()),
-			   command.openedBy(),
-			   command.deadline()
-		);
-	}
-
 	public List<TicketDetails> details(List<Ticket> tickets) {
 		return tickets.stream().map(this::details).toList();
 	}

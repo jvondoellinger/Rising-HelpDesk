@@ -8,11 +8,9 @@ import java.util.UUID;
  *
  * @param ticketId ID do ticket
  * @param queueId ID da fila que o ticket será delegado
- * @param agentId ID do agente responsavel pela interação
  */
 public record DelegateTicketCommand(
 	   UUID ticketId,
-	   UUID queueId,
-	   UUID agentId
+	   UUID queueId
 ) implements Command {
 }

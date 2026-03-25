@@ -8,7 +8,6 @@ import java.util.UUID;
 public record CreateTicketCommand(
 	   String title,
 	   UUID queueId,
-	   LocalDateTime deadline,
-	   UUID openedBy
+	   LocalDateTime deadline
 ) implements Command {
 }

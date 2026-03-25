@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  application:
+    name: agp-protocol
+  datasource:
+    url: jdbc:mysql://localhost:6033/RisingHelpDeskDB?createDatabaseIfNotExist=true
+    username: proxysql_user
+    password: secret123
+logging:
+  level:
+    org.mariadb.jdbc: DEBUG
+    com.zaxxer.hikari: DEBUG

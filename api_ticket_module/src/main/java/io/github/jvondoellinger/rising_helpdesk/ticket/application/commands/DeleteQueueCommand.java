@@ -10,6 +10,6 @@ import java.util.UUID;
  * @param agentId ID do usuario que esrtá disparando o evento
  */
 public record DeleteQueueCommand(
-        UUID queueId,
-        UUID agentId) implements Command {
+        UUID queueId
+) implements Command {
 }

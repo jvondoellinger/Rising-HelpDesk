@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public record CreateQueueCommand(
 		String area,
-		String subarea,
-		UUID createdBy
+		String subarea
 )  implements Command {
 }

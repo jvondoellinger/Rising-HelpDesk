@@ -58,10 +58,13 @@ public class QueueRepositoryImpl implements QueueRepository {
 	@Override
 	public Pagination<Queue> findByPagination(PaginationFilter filter) {
 		var request = PageRequest.of(filter.page(), filter.size());
+
 		var page = jpaQueueRepository.findAll(request);
+
 		var items = page.stream()
 			   .map(mapper::toQueue)
 			   .toList();
+		System.out.println("ITEMS NO REPOSITORIO: %s".formatted(page.getTotalElements()));
 		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 

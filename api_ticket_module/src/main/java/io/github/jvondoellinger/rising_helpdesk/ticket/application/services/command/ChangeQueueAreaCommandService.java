@@ -1,9 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueAreaCommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHandler {
     private final QueueRepository repository;
+    private final CurrentUserService currentUserService;
 
     @Override
     public Result<Void> handle(ChangeQueueAreaCommand cmd) {
@@ -29,7 +30,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
 
 
         if (queue.getArea().equals(area)) {
-            return Result.failure("The queue already has this area.");
+            return Result.failure("The queue already has this subarea.");
         }
 
         var updated = new Queue(
@@ -39,7 +40,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
                 queue.getCreatedBy(),
                 queue.getUpdatedAt(),
                 LocalDateTime.now(),
-                cmd.updatedBy()
+                currentUserService.getUserId()
         );
 
         repository.save(updated);

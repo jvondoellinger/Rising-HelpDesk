@@ -4,8 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command
 
 import java.util.UUID;
 
-public record AddTicketMentionCommand(UUID authorId,
-							   UUID userId,
+public record AddTicketMentionCommand(UUID userId,
 							   UUID ticketId
 ) implements Command {
 }

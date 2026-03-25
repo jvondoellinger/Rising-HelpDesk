@@ -1,10 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final QueueRepository repository;
 	private final QueueMapper mapper;
+	private final CurrentUserService currentUserService;
 
 	@Override
 	public Result<Void> handle(CreateQueueCommand cmd) {
@@ -25,8 +27,13 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 			return Result.failure("Area already exists.");
 		}
 
-		var entity = mapper.from(cmd);
-		repository.save(entity);
+		var queue = new Queue(
+			   cmd.area(),
+			   cmd.subarea(),
+			   currentUserService.getUserId()
+		);
+
+		repository.save(queue);
 
 		return Result.success();
 	}

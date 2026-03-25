@@ -1,12 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateTicketCommandHandler;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByIdQuery;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,18 +14,24 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	private final TicketRepository repository;
-	private final QueryBus queryBus;
-	private final TicketMapper mapper;
+	private final QueueRepository queueRepository;
+	private final CurrentUserService currentUserService;
 
 	@Override
 	public Result<Void> handle(CreateTicketCommand cmd) {
-		// Estou considerando caching nas queries, assim sendo mais rápido que um exists() no repositorio das filas
-		var queueResult = queryBus.send(new FindQueueByIdQuery(cmd.queueId()));
+		var queueOptional = queueRepository.findById(cmd.queueId());
 
-		if (queueResult.isFailure())
+		if (queueOptional.isEmpty()){
 			return Result.failure("No queue found.");
+		}
 
-		var ticket = mapper.from(cmd);
+		var ticket = new Ticket(
+			   cmd.title(),
+			   queueOptional.get(),
+			   currentUserService.getUserId(),
+			   cmd.deadline()
+		);
+
 		repository.save(ticket);
 
 		return Result.success();

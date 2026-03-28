@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public record InteractTicketCommand(
         UUID ticketId,
-        String text,
-        UUID agentId
+        String text
 ) implements Command {
 }

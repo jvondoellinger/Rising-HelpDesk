@@ -10,7 +10,6 @@ import java.util.UUID;
  * @param agentId  ID do agente responsavel pela interação
  */
 public record CloseTicketCommand(
-        UUID ticketId,
-        UUID agentId
+        UUID ticketId
 ) implements Command {
 }

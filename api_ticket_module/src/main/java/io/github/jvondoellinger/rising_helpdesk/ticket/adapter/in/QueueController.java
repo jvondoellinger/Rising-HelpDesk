@@ -73,9 +73,8 @@ public class QueueController {
 
 	// ! Get routes
 	@GetMapping
-	public ResponseEntity<?> get(
-		   @RequestParam(value = "page", defaultValue = "0") int page,
-		   @RequestParam(value = "size", defaultValue = "100") int size) {
+	public ResponseEntity<?> findByPagination(@RequestParam(value = "page", defaultValue = "0") int page,
+									  @RequestParam(value = "size", defaultValue = "100") int size) {
 		var result = queryBus.send(new FindQueueByPaginationQuery(
 			   page,
 			   size

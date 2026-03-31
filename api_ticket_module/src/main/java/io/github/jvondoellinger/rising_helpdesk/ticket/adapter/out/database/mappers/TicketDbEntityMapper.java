@@ -6,6 +6,8 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.T
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketStateFactory;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status.TicketStatus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.MentionDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.TicketDbEntity;
@@ -62,6 +64,7 @@ public class TicketDbEntityMapper {
 			   createQueue(dbEntity.getQueue()),
 			   createMentions(dbEntity.getMentions()),
 			   dbEntity.getDeadline(),
+			   TicketStateFactory.from(TicketStatus.valueOf(dbEntity.getStatus())),
 			   dbEntity.getOpenedBy(),
 			   dbEntity.getOpenedOn(),
 			   dbEntity.getLastUpdatedBy(),

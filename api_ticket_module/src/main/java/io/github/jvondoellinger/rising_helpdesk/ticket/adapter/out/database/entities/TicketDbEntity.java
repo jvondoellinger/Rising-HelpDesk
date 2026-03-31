@@ -43,6 +43,9 @@ public class TicketDbEntity {
 	@CreationTimestamp
 	private LocalDateTime openedOn;
 
+	@Column
+	private String status;
+
 	@Column(name = "opened_by")
 	private UUID openedBy;
 

@@ -3,6 +3,9 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketState;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketStateFactory;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status.TicketStatus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
 
 import java.time.LocalDateTime;
@@ -21,6 +24,7 @@ public class Ticket {
 			    Queue queue,
 			    List<Mention> mentions,
 			    LocalDateTime deadline,
+			    TicketState state,
 			    UUID openedBy,
 			    LocalDateTime openedOn,
 			    UUID lastUpdatedBy,
@@ -30,6 +34,7 @@ public class Ticket {
 		this.title = title;
 		this.interaction = interaction;
 		this.queue = queue;
+		this.state = state;
 		this.openedBy = openedBy;
 		this.lastUpdatedBy = lastUpdatedBy;
 		this.deadline = deadline;
@@ -51,6 +56,7 @@ public class Ticket {
 		this.queue = queue;
 		this.openedBy = openedBy;
 		this.deadline = deadline;
+		this.state = TicketStateFactory.from(TicketStatus.PENDING);
 		this.mentions = new ArrayList<>();
 		this.interaction = new ArrayList<>();
 		this.openedOn = LocalDateTime.now();
@@ -58,6 +64,7 @@ public class Ticket {
 		this.lastUpdatedBy = openedBy;
 	}
 
+	// !!Properties
 	private final UUID id;
 	private final TicketNumber number;
 	private String title;
@@ -65,12 +72,13 @@ public class Ticket {
 	private Queue queue;
 	private final LocalDateTime deadline;
 	private final List<Mention> mentions;
-
+	private TicketState state;
 	private final LocalDateTime openedOn;
 	private final UUID openedBy;
 	private LocalDateTime lastUpdatedOn;
 	private UUID lastUpdatedBy;
 
+	// !Functions
 	public void delegate(Queue queue) {
 		if (this.queue.equals(queue)) {
 			throw new RuntimeException("The ticket is already in this queue.");
@@ -99,6 +107,9 @@ public class Ticket {
 	}
 	public void interact(Interaction interactionId) {
 		this.interaction.add(interactionId);
+	}
+	public void updateState(TicketState state) {
+		this.state = state;
 	}
 
 	// !Getters
@@ -134,5 +145,8 @@ public class Ticket {
 	}
 	public UUID getLastUpdatedBy() {
 		return lastUpdatedBy;
+	}
+	public TicketState getState() {
+		return state;
 	}
 }

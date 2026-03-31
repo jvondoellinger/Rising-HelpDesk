@@ -64,18 +64,29 @@
         </dependency>
 
         <!-- TESTES -->
+        <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- H2 Database -->
+        <!-- Testcontainers -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope> <!-- só roda em runtime -->
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.19.0</version>
+            <scope>test</scope>
         </dependency>
+
+        <!-- MySQL container -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>1.19.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  application:
+    name: agp-protocol
+logging:
+  level:
+    org.mariadb.jdbc: DEBUG
+    com.zaxxer.hikari: DEBUG

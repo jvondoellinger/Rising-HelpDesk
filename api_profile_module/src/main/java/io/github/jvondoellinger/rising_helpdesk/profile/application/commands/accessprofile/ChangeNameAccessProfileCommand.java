@@ -1,0 +1,11 @@
+package io.github.jvondoellinger.rising_helpdesk.profile.application.commands.accessprofile;
+
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
+
+import java.util.UUID;
+
+public record ChangeNameAccessProfileCommand(
+        UUID id,
+        String name
+) implements Command {
+}

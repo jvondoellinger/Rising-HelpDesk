@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.repository;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.config.TestApplication;
+import io.github.jvondoellinger.rising_helpdesk.ticket.repository.config.IntegrationTestConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -8,7 +8,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest(classes = TestApplication.class)
+@SpringBootTest(classes = IntegrationTestConfig.class)
 @Testcontainers
 public abstract class TicketRepositoryTest {
 

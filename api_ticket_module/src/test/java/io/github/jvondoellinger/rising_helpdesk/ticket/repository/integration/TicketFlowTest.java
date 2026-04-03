@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.repository.TicketRepositoryTest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.config.TestApplication;
+import io.github.jvondoellinger.rising_helpdesk.ticket.repository.config.IntegrationTestConfig;
 import io.github.jvondoellinger.rising_helpdesk.ticket.repository.integration.builders.CreateQueueRequestTestBuilder;
 import io.github.jvondoellinger.rising_helpdesk.ticket.repository.integration.builders.CreateTicketRequestTestBuilder;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = TestApplication.class)
+@SpringBootTest(classes = IntegrationTestConfig.class)
 @AutoConfigureMockMvc
 public class TicketFlowTest extends TicketRepositoryTest {
 	@Autowired

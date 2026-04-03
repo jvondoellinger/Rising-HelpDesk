@@ -8,13 +8,10 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.TicketResponseMapper;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.TicketRepositoryTest;
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.config.TestApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TicketController.class)
-@ContextConfiguration(classes = TestApplication.class)
+@ContextConfiguration(classes = TicketController.class)
 class TicketControllerTest {
 
 	@Autowired

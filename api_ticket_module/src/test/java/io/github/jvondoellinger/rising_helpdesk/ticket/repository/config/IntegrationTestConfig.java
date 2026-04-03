@@ -13,6 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "io.github.jvondoellinger.rising_helpdesk")
 @EnableJpaRepositories(basePackageClasses = JpaQueueRepository.class)
 @EntityScan(basePackageClasses = QueueDbEntity.class)
-public class TestApplication {
+public class IntegrationTestConfig {
 }
 

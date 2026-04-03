@@ -11,7 +11,6 @@ public class CurrentUserServiceMockImpl implements CurrentUserService {
 	@Override
 	public UUID getUserId() {
 		var uuid = UUID.fromString("8288c453-c96a-4f50-b636-1a785b85bdc8");
-		System.out.println(uuid);
 		return uuid;
 	}
 }

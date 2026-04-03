@@ -10,10 +10,14 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
 @Testcontainers
-public class DatabaseTestConfig {
+public class DatabaseConfigTest {
 	@Container
 	static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0")
 		   .withDatabaseName("RisingHelpDeskDB");
+
+	static {
+		mysql.start();
+	}
 
 	@DynamicPropertySource
 	static void configureProperties(DynamicPropertyRegistry registry) {
@@ -24,6 +28,6 @@ public class DatabaseTestConfig {
 
 	@Test
 	void shouldInsertUser() {
-		System.out.println("teste");
+		System.out.println("UP");
 	}
 }

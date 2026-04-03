@@ -1,7 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.bus;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.QueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
@@ -28,7 +26,6 @@ public class QueryBusImpl implements QueryBus {
 
     @Override
     public <R> Result<R> send(Query<R> cmd) {
-        System.out.println(cmd.getClass());
         var handler = hashMap.get(cmd.getClass());
 
         if (handler == null) {

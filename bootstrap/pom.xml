@@ -6,6 +6,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <testcontainers.version>1.21.4</testcontainers.version>
+    </properties>
+
     <!-- PAI DO PROJETO (não o Spring Boot direto) -->
     <parent>
         <groupId>io.github.jvondoellinger</groupId>
@@ -72,21 +76,26 @@
         </dependency>
 
         <!-- Testcontainers -->
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>1.19.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- MySQL container -->
+        <!-- Módulo MySQL - pode ficar na 1.x ou atualizar também -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
-            <version>1.19.0</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- JUNIT -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -6,7 +6,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- PAI DO PROJETO -->
+    <properties>
+        <testcontainers.version>1.21.4</testcontainers.version>
+    </properties>
+
+
     <parent>
         <groupId>io.github.jvondoellinger</groupId>
         <artifactId>rising-helpdesk</artifactId>
@@ -58,19 +62,26 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Testcontainers -->
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>1.19.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- MySQL container -->
+        <!-- Testcontainers / MySQL-->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
-            <version>1.19.0</version>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUNIT -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- MYSQL -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.4.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

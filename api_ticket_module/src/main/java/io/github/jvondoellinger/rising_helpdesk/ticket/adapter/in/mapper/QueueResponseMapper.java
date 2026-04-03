@@ -11,7 +11,7 @@ public final class QueueResponseMapper {
 
     public QueueResponse from(QueueDetails details) {
         return new QueueResponse(
-                details.domainId(),
+                details.id(),
                 details.area(),
                 details.subarea(),
                 details.createdAt(),

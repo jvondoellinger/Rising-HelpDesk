@@ -43,6 +43,9 @@ public sealed interface Result<O> permits Result.Success, Result.Failure {
 	default boolean isFailure() {
 		return this.getClass() == Result.Failure.class;
 	}
+	default boolean isSuccess() {
+		return this.getClass() == Result.Success.class;
+	}
 	default String getError() {
 		if (this instanceof Result.Failure<O> f) {
 			return f.error;

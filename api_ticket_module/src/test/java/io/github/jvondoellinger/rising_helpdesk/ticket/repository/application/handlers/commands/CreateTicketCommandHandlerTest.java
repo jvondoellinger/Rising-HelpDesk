@@ -48,7 +48,7 @@ public class CreateTicketCommandHandlerTest implements UnitTest {
 		command = new CreateTicketCommand(
 			   "TEST_TICKET_TITLE",
 			   queue.getId(),
-			   LocalDateTime.now().minusDays(5)
+			   LocalDateTime.now().plusDays(5)
 		);
 	}
 
@@ -61,13 +61,12 @@ public class CreateTicketCommandHandlerTest implements UnitTest {
 		var result = service.handle(command);
 
 		assertThat(result.isSuccess()).isTrue();
-
 		verify(ticketRepository).save(ticketCaptor.capture());
 
 		var tk = ticketCaptor.getValue();
 
 		System.out.println("CREATING TICKET TEST");
-	   	assertThat(tk.getTitle()).isEqualTo(command.title());
+		assertThat(tk.getTitle()).isEqualTo(command.title());
 		assertThat(tk.getQueue().getId()).isEqualTo(command.queueId());
 		assertThat(tk.getDeadline()).isEqualTo(command.deadline());
 	}

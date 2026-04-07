@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AddInteractionService implements InteractTicketHandler {
+public class AddInteractionCommandService implements InteractTicketHandler {
 	private final InteractionRepository repository;
 	private final TicketRepository ticketRepository;
 	private final CurrentUserService currentUserService;
 	@Override
 	public Result<Void> handle(AddInteractionCommand cmd) {
-		var tkOptional = repository.findById(cmd.ticketId());
+		var tkOptional = ticketRepository.findById(cmd.ticketId());
 
 		if (tkOptional.isEmpty()) {
 			return Result.failure("No ticket found.");

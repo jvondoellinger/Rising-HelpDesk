@@ -7,14 +7,16 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.T
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
+import io.github.jvondoellinger.rising_helpdesk.ticket.repository.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -24,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CreateTicketCommandHandlerTest implements UnitTest {
 	@Mock
 	private TicketRepository ticketRepository;
@@ -40,21 +42,13 @@ public class CreateTicketCommandHandlerTest implements UnitTest {
 	private Queue queue;
 	private CreateTicketCommand command;
 
-	private static UUID test_queue_uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
-
 	@BeforeEach
 	void setup() {
-		queue = new Queue(test_queue_uuid,
-			   "",
-			   "",
-			   currentUserService.getUserId(),
-			   LocalDateTime.now(),
-			   LocalDateTime.now(),
-			   currentUserService.getUserId());
+		queue = FakeEntityFactory.queue();
 		command = new CreateTicketCommand(
 			   "TEST_TICKET_TITLE",
-			   test_queue_uuid,
-			   LocalDateTime.now()
+			   queue.getId(),
+			   LocalDateTime.now().minusDays(5)
 		);
 	}
 
@@ -62,7 +56,7 @@ public class CreateTicketCommandHandlerTest implements UnitTest {
 	@DisplayName("Deve criar um ticket com sucesso quando existir a fila!")
 	void shouldCreateTicketSuccessfully() {
 		when(queueRepository.findById(queue.getId())).thenReturn(Optional.of(queue));
-		when(currentUserService.getUserId()).thenReturn(UUID.fromString("00000000-0000-0000-0000-000000000001"));
+		when(currentUserService.getUserId()).thenReturn(UUID.randomUUID());
 
 		var result = service.handle(command);
 

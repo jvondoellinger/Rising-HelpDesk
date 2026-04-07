@@ -41,6 +41,8 @@ public class Ticket {
 		this.mentions = mentions;
 		this.openedOn = openedOn;
 		this.lastUpdatedOn = lastUpdatedOn;
+
+		throwCaseDeadlineInvalid();
 	}
 
 	/**
@@ -62,6 +64,7 @@ public class Ticket {
 		this.openedOn = LocalDateTime.now();
 		this.lastUpdatedOn = openedOn;
 		this.lastUpdatedBy = openedBy;
+		throwCaseDeadlineInvalid();
 	}
 
 	// !!Properties
@@ -110,6 +113,12 @@ public class Ticket {
 	}
 	public void updateState(TicketState state) {
 		this.state = state;
+	}
+
+	private void throwCaseDeadlineInvalid() {
+		if (deadline.isBefore(LocalDateTime.now().plusMinutes(5))) {
+			throw new RuntimeException("The deadline needs to be longer than 5 minutes.");
+		}
 	}
 
 	// !Getters

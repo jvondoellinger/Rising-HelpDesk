@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.repository.controller;
+package io.github.jvondoellinger.rising_helpdesk.ticket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;

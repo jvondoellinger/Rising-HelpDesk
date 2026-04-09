@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.repository.config;
+package io.github.jvondoellinger.rising_helpdesk.ticket.config;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.QueueDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaQueueRepository;

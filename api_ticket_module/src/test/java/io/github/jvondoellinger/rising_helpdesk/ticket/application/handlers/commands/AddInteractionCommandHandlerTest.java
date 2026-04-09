@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.repository.application.handlers.commands;
+package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.AddInteractionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.AddInteractionCommandService;
@@ -7,8 +7,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.T
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.InteractionRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.application.handlers.helpers.FakeEntityFactory;
-import org.assertj.core.api.Assertions;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -57,8 +55,8 @@ public class AddInteractionCommandHandlerTest implements UnitTest {
 
 	@Test
 	@DisplayName("Deve adicionar uma interação em um ticket quando existir o ticket")
-	void shouldAddInteractionSuccessfully() {
-		when(ticketRepository.findById(command.ticketId())).thenReturn(Optional.of(tk));
+	void shouldAddInteractionWhenTicketExists() {
+		when(ticketRepository.existsById(command.ticketId())).thenReturn(true);
 		when(currentUserService.getUserId()).thenReturn(UUID.randomUUID());
 
 		var result = service.handle(command);
@@ -68,19 +66,19 @@ public class AddInteractionCommandHandlerTest implements UnitTest {
 
 		var interaction = argumentCaptor.getValue();
 
-		Assertions.assertThat(interaction.getText()).isEqualTo(command.text());
-		Assertions.assertThat(interaction.getTicketId()).isEqualTo(command.ticketId());
+		assertThat(interaction.getText()).isEqualTo(command.text());
+		assertThat(interaction.getTicketId()).isEqualTo(command.ticketId());
 	}
 
 	@Test
-	@DisplayName("Deve retornar erro quando queue não é encontrada")
+	@DisplayName("Deve retornar erro quando o ticket não é encontrado")
 	void shouldReturnErrorWhenTicketNotFound() {
-		when(ticketRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+		when(ticketRepository.existsById(any(UUID.class))).thenReturn(false);
 
 		var result = service.handle(command);
 
-		Assertions.assertThat(result.isSuccess()).isFalse();
+		assertThat(result.isSuccess()).isFalse();
 
-		verify(ticketRepository, never()).save(any(Ticket.class));
+		verify(repository, never()).save(any(Interaction.class));
 	}
 }

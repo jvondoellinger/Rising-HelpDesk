@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.repository.application.handlers.commands;
+package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.CreateTicketCommandService;
@@ -7,7 +7,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.T
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.application.handlers.helpers.FakeEntityFactory;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,7 +65,6 @@ public class CreateTicketCommandHandlerTest implements UnitTest {
 
 		var tk = ticketCaptor.getValue();
 
-		System.out.println("CREATING TICKET TEST");
 		assertThat(tk.getTitle()).isEqualTo(command.title());
 		assertThat(tk.getQueue().getId()).isEqualTo(command.queueId());
 		assertThat(tk.getDeadline()).isEqualTo(command.deadline());

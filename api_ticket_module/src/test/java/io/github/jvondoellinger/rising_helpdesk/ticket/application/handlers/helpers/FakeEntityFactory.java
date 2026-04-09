@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.repository.application.handlers.helpers;
+package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.helpers;
 
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;

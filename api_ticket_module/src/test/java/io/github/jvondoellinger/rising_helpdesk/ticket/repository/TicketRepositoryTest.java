@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.repository;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.repository.config.IntegrationTestConfig;
+import io.github.jvondoellinger.rising_helpdesk.ticket.config.IntegrationTestConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;

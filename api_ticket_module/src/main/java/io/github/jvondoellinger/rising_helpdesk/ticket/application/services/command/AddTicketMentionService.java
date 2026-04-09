@@ -19,7 +19,7 @@ public class AddTicketMentionService implements AddTicketMentionHandler {
 
 	@Override
 	public Result<Void> handle(AddTicketMentionCommand cmd) {
-		if (ticketRepository.existsById(cmd.ticketId())) {
+		if (!ticketRepository.existsById(cmd.ticketId())) {
 			return Result.failure("No ticket found.");
 		}
 

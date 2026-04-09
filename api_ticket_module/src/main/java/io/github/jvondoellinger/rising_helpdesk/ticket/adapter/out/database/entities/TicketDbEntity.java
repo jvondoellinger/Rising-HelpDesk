@@ -89,10 +89,12 @@ public class TicketDbEntity {
 
 		mentions.add(mentionDbEntity);
 	}
+
 	public void addInteraction(InteractionDbEntity interactionDbEntity) {
 		if (mentions == null)
 			mentions = new ArrayList<>();
 
 		this.interactions.add(interactionDbEntity);
 	}
+
 }

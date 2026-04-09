@@ -16,12 +16,11 @@ public class AddInteractionCommandService implements InteractTicketHandler {
 	private final InteractionRepository repository;
 	private final TicketRepository ticketRepository;
 	private final CurrentUserService currentUserService;
+
 	@Override
 	public Result<Void> handle(AddInteractionCommand cmd) {
-		var tkOptional = ticketRepository.findById(cmd.ticketId());
-
-		if (tkOptional.isEmpty()) {
-			return Result.failure("No ticket found.");
+		if (!ticketRepository.existsById(cmd.ticketId())) {
+			return Result.failure("No tickets were found to add interaction..");
 		}
 
 		var interaction = new Interaction(

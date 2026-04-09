@@ -116,11 +116,8 @@ public class Ticket {
 	}
 
 	private void checkDeadline() {
-		System.out.println("****************************************************");
-		System.out.println(deadline.toString());
-		System.out.println("****************************************************");
-		if (deadline.isBefore(LocalDateTime.now().plusMinutes(5))) {
-			throw new IllegalArgumentException("The deadline needs to be longer than 5 minutes.");
+		if (deadline.isBefore(LocalDateTime.now().plusDays(1))) {
+			throw new IllegalArgumentException("The deadline needs to be longer than 1 days.");
 		}
 	}
 
@@ -144,7 +141,7 @@ public class Ticket {
 		return deadline;
 	}
 	public List<Mention> getMentions() {
-		return List.copyOf(mentions); // Tornando imutavel pelo getter (eviantado gambiarra)
+		return List.copyOf(mentions);
 	}
 	public LocalDateTime getOpenedOn() {
 		return openedOn;

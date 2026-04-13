@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByNumberQueryHandler;
@@ -26,10 +25,13 @@ public class FindTicketByNumberQueryHandlerImpl
 			return Result.failure("Protocol number is blank.");
 		}
 
-		var result = repository.findByNumber(num).orElse(null);
+		var optional = repository.findByNumber(num);
 
-		var details = mapper.details(result);
-		return Result.success(details);
+		if (optional.isEmpty()) {
+			return Result.failure("No ticket found.");
+		}
+
+		return Result.success(mapper.details(optional.get()));
 	}
 
 	@Override

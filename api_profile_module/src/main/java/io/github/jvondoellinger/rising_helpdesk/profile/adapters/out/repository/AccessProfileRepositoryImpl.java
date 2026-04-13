@@ -72,4 +72,10 @@ public class AccessProfileRepositoryImpl implements AccessProfileRepository {
 	public boolean existsByName(String name) {
 		return jpaAccessProfileRepository.existsByName(name);
 	}
+
+	@Override
+	public Optional<AccessProfile> findByName(String name) {
+		return jpaAccessProfileRepository.findByName(name)
+			   .map(mapper::toAccessProfile);
+	}
 }

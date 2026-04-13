@@ -3,6 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
+import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketClosedState;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketState;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketStateFactory;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status.TicketStatus;
@@ -119,6 +120,10 @@ public class Ticket {
 		if (deadline.isBefore(LocalDateTime.now().plusDays(1))) {
 			throw new IllegalArgumentException("The deadline needs to be longer than 1 days.");
 		}
+	}
+
+	public void close() {
+		updateState(TicketStateFactory.from(TicketStatus.CLOSED));
 	}
 
 	// !Getters

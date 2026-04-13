@@ -9,7 +9,7 @@ import java.util.UUID;
  * @param queueId ID da fila
  * @param agentId ID do usuario que esrtá disparando o evento
  */
-public record DeleteQueueCommand(
+public record RemoveQueueCommand(
         UUID queueId
 ) implements Command {
 }

@@ -8,7 +8,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.Erro
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueSubareaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.DeleteQueueCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.RemoveQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByIdQuery;
@@ -43,7 +43,7 @@ public class QueueController {
 
 	@DeleteMapping("/{queueId}")
 	public ResponseEntity<?> deleteQueue(@PathVariable UUID queueId) {
-		var result = commandBus.send(new DeleteQueueCommand(
+		var result = commandBus.send(new RemoveQueueCommand(
 			   queueId
 		));
 

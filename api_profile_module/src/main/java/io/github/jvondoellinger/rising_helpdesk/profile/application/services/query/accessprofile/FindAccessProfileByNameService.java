@@ -2,6 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.profile.application.services.qu
 
 import io.github.jvondoellinger.rising_helpdesk.profile.application.handlers.query.accessprofile.FindAccessProfileByNameQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.dtos.AccessProfileDetails;
+import io.github.jvondoellinger.rising_helpdesk.profile.application.mappers.AccessProfileMapper;
 import io.github.jvondoellinger.rising_helpdesk.profile.application.queries.accessprofile.FindAccessProfileByNameQuery;
 import io.github.jvondoellinger.rising_helpdesk.profile.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
@@ -10,12 +11,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-class FindAccessProfileByNameService implements FindAccessProfileByNameQueryHandler {
+public class FindAccessProfileByNameService implements FindAccessProfileByNameQueryHandler {
 	private final AccessProfileRepository repository;
+	private final AccessProfileMapper mapper;
 
 	@Override
 	public Result<AccessProfileDetails> handle(FindAccessProfileByNameQuery query) {
-		return null;
+		var optional = repository.findByName(query.name());
+
+		if (optional.isEmpty()) {
+			return Result.failure("No Access Profile found.");
+		}
+
+		return Result.success(mapper.details(optional.get()));
 	}
 
 	@Override

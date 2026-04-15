@@ -99,7 +99,7 @@ public class TicketController {
 	}
 
 	@PatchMapping("/status/{id}")
-	public ResponseEntity<?> cancelTicket(@PathVariable UUID id) {
+	public ResponseEntity<?> closeTicket(@PathVariable UUID id) {
 		var result = commandBus.send(new CloseTicketCommand(
 			   id
 		));

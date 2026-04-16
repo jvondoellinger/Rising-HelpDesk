@@ -25,7 +25,7 @@ public class TicketController {
 	private final TicketResponseMapper responseMapper;
 
 	@GetMapping
-	public ResponseEntity<?> get(
+	public ResponseEntity<?> get(	
 		   @RequestParam(defaultValue = "0") int page,
 		   @RequestParam(defaultValue = "100") int limit
 	) {

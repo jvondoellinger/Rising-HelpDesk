@@ -1,0 +1,7 @@
+package io.github.jvondoellinger.rising_helpdesk.access_control.application.handlers.commands.accessprofile;
+
+import io.github.jvondoellinger.rising_helpdesk.access_control.application.commands.accessprofile.RemovePermissionsAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.CommandHandler;
+
+public interface RemovePermissionsAccessProfileHandler extends CommandHandler<RemovePermissionsAccessProfileCommand> {
+}

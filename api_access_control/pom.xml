@@ -6,35 +6,24 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <properties>
-        <testcontainers.version>1.21.4</testcontainers.version>
-    </properties>
-
-    <!-- PAI DO PROJETO (não o Spring Boot direto) -->
+    <!-- POM PAI DO PROJETO -->
     <parent>
         <groupId>io.github.jvondoellinger</groupId>
         <artifactId>rising-helpdesk</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rising-helpdesk-bootstrap</artifactId>
-    <name>Rising Helpdesk - Bootstrap</name>
-    <packaging>jar</packaging>
+    <artifactId>rising-helpdesk-access_control</artifactId>
+    <name>rising-helpdesk-access_control</name>
 
     <dependencies>
-        <!-- MÓDULOS DO SISTEMA -->
+        <!-- SHARED KERNEL -->
         <dependency>
             <groupId>io.github.jvondoellinger</groupId>
-            <artifactId>rising-helpdesk-ticket</artifactId>
+            <artifactId>rising-helpdesk-shared-kernel</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.jvondoellinger</groupId>
-            <artifactId>rising-helpdesk-access_control</artifactId>
-        </dependency>
-
-        <!-- SPRING -->
+        <!-- SPRING WEB (controllers) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -46,13 +35,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- MYSQL -->
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>8.4.0</version>
-        </dependency>
-
         <!-- JNanoId -->
         <dependency>
             <groupId>com.aventrix.jnanoid</groupId>
@@ -60,7 +42,7 @@
             <version>2.0.0</version>
         </dependency>
 
-        <!-- LOMBOK -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -76,35 +58,20 @@
         </dependency>
 
         <!-- Testcontainers -->
-        <!-- Módulo MySQL - pode ficar na 1.x ou atualizar também -->
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mysql</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- JUNIT -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
+            <version>1.19.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- MySQL container -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>1.19.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

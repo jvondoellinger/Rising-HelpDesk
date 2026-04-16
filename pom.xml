@@ -40,7 +40,7 @@
 
             <dependency>
                 <groupId>io.github.jvondoellinger</groupId>
-                <artifactId>rising-helpdesk-profile</artifactId>
+                <artifactId>rising-helpdesk-access_control</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -51,7 +51,7 @@
     <modules>
         <module>shared_kernel</module>
         <module>api_ticket_module</module>
-        <module>api_profile_module</module>
+        <module>api_access_control</module>
         <module>bootstrap</module>
     </modules>
 

@@ -1,9 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.commands.permissions.CreatePermissionCommand;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.commands.permissions.CreatePermissionService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.PermissionRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.permissions.CreatePermissionCommand;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.commands.permissions.CreatePermissionService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

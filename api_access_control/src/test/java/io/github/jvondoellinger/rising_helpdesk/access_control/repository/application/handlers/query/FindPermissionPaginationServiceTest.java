@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.query;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.mappers.PermissionMapper;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.queries.permission.FindPermissionPaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.query.permissions.FindPermissionPaginationService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.PermissionRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.PermissionMapper;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.permission.FindPermissionPaginationQuery;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.query.permissions.FindPermissionPaginationService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.helpers.FakeEntityFactory;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;

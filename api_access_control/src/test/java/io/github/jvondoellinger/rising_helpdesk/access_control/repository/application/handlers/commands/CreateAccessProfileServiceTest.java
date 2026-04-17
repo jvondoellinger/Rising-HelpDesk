@@ -1,11 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.commands.accessprofile.CreateAccessProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.mappers.AccessProfileMapper;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.commands.CreateAccessProfileService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.PermissionRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.accessprofile.CreateAccessProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.AccessProfileMapper;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.commands.CreateAccessProfileService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

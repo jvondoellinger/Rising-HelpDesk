@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.query;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.mappers.UserProfileMapper;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.queries.userprofile.FindUserProfilePaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.query.userprofile.FindUserProfilePaginationService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.UserProfile;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.UserProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.UserProfileMapper;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.userprofile.FindUserProfilePaginationQuery;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.query.userprofile.FindUserProfilePaginationService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.UserProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import org.junit.jupiter.api.BeforeEach;

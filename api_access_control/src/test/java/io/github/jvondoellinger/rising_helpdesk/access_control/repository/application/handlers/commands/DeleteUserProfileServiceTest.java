@@ -1,9 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.commands.userprofile.DeleteUserProfileCommand;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.commands.DeleteUserProfileService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.UserProfile;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.UserProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.userprofile.DeleteUserProfileCommand;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.commands.DeleteUserProfileService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.UserProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

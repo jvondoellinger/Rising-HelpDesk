@@ -1,11 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.query;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.dtos.UserProfileDetails;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.mappers.UserProfileMapper;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.queries.userprofile.FindUserProfileByUserIdQuery;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.query.userprofile.FindUserProfileByUserIdService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.UserProfile;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.UserProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.UserProfileDetails;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.UserProfileMapper;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.userprofile.FindUserProfileByUserIdQuery;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.query.userprofile.FindUserProfileByUserIdService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.UserProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

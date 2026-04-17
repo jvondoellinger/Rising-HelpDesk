@@ -1,11 +1,11 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.query;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.dtos.PermissionDetails;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.mappers.PermissionMapper;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.queries.permission.FindPermissionByCodeQuery;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.query.permissions.FindPermissionByCodeService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.PermissionRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.PermissionDetails;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.PermissionMapper;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.permission.FindPermissionByCodeQuery;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.query.permissions.FindPermissionByCodeService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

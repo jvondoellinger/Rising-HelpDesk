@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.helpers;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.entities.UserProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.UserProfile;
 
 import java.time.LocalDateTime;
 import java.util.List;

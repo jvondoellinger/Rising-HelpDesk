@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.query;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.mappers.AccessProfileMapper;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.queries.accessprofile.FindAccessProfilePaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.access_control.application.services.query.accessprofile.FindAccessProfilePaginationService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.aggregate.AccessProfile;
-import io.github.jvondoellinger.rising_helpdesk.access_control.domain.repository.AccessProfileRepository;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.AccessProfileMapper;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile.FindAccessProfilePaginationQuery;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.query.accessprofile.FindAccessProfilePaginationService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.repository.application.handlers.helpers.FakeEntityFactory;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;

@@ -13,6 +13,7 @@ import java.util.*;
 @Service
 public class TokenService {
 	private static final SecretKey secretKey = Jwts.SIG.HS512.key().build();
+	private static final String accessProfileIdsClaimName = "accessProfileIds";
 
 	public Result<EncodedToken> encode(TokenContent tokenContent) {
 		try {
@@ -27,7 +28,7 @@ public class TokenService {
 			var jwt = Jwts
 				   .builder()
 				   .subject(tokenContent.getSubject().toString())
-				   .claim("accessProfileIds", accessProfileIds)
+				   .claim(accessProfileIdsClaimName, accessProfileIds)
 				   .issuedAt(tokenContent.getIssueAt())
 				   .expiration(tokenContent.getExpiration())
 				   .signWith(secretKey)
@@ -44,25 +45,23 @@ public class TokenService {
 
 		} catch (JwtException e) {
 			return Result.failure("The provided token is invalid!");
-
 		}
-
 	}
 
-	@FixAfter
 	public Result<TokenContent> decode(EncodedToken encodedToken) {
 		try {
+			String token = formatToken(encodedToken.toString());
 			Claims claims = Jwts.parser()
 				   .verifyWith(secretKey)
 				   .build()
-				   .parseSignedClaims(encodedToken.toString())
+				   .parseSignedClaims(token)
 				   .getPayload();
 			UUID subject = null;
 			Date expiration = null;
 			Date issueAt = null;
 			List<UUID> ids = new ArrayList<>();
 
-			if (claims.get("accessProfileIds") instanceof List<?> list) {
+			if (claims.get(accessProfileIdsClaimName) instanceof List<?> list) {
 				var s = (List<String>) list;
 				var items = s
 					   .stream()
@@ -103,5 +102,18 @@ public class TokenService {
 		} catch (JwtException e) {
 			return Result.failure("The provided token is invalid!");
 		}
+	}
+
+	private String formatToken(String token) {
+		if (token == null) {
+			return null;
+		}
+
+		final String prefix = "Bearer ";
+		if (token.startsWith(prefix)) {
+			return token.replace(prefix, "");
+		}
+
+		return token;
 	}
 }

@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.adapters.inbounds.middleware;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.AuthenticateService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.TokenService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl.JwtTokenService;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,9 +17,9 @@ import java.util.Objects;
 @Component
 @AllArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-	private final TokenService service;
+	private final JwtTokenService service;
 	private final AuthenticateService authenticateService;
-	private final TokenService tokenService;
+	private final JwtTokenService jwtTokenService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		var result = tokenService.decode(new EncodedToken(token));
+		var result = jwtTokenService.decode(new EncodedToken(token));
 
 		if (result.isFailure()) {
 			unauthorize(response);

@@ -1,14 +1,14 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenContent;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl.JwtTokenService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import javax.crypto.SecretKey;
 import java.lang.reflect.Field;
@@ -20,14 +20,14 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class TokenServiceTest {
+class JwtTokenServiceTest {
 
-	private TokenService tokenService;
+	@Mock
+	private JwtTokenService jwtTokenService;
 	private SecretKey secretKey;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		tokenService = new TokenService();
 		secretKey = readSecretKey();
 	}
 
@@ -38,9 +38,10 @@ class TokenServiceTest {
 		var profileId = UUID.randomUUID();
 		var issuedAt = Date.from(Instant.now().minusSeconds(30));
 		var expiration = Date.from(Instant.now().plusSeconds(3600));
-		var decoded = new TokenContent(subject, List.of(profileId), expiration, issuedAt);
+		var version = 1L;
+		var decoded = new TokenPayload(subject, List.of(profileId), expiration, issuedAt, version);
 
-		var encoded = tokenService.encode(decoded);
+		var encoded = jwtTokenService.generate(decoded);
 
 		assertThat(encoded).isNotNull();
 		assertThat(encoded.toString()).isNotBlank();
@@ -54,9 +55,10 @@ class TokenServiceTest {
 		var profileId = UUID.randomUUID();
 		var issuedAt = new Date((Instant.now().minusSeconds(10).getEpochSecond()) * 1000);
 		var expiration = new Date((Instant.now().plusSeconds(7200).getEpochSecond()) * 1000);
-		var decoded = new TokenContent(subject, List.of(profileId), expiration, issuedAt);
+		var version = 1L;
+		var decoded = new TokenPayload(subject, List.of(profileId), expiration, issuedAt, version);
 
-		var encoded = tokenService.encode(decoded);
+		var encoded = jwtTokenService.generate(decoded);
 
 		var claims = parseClaims(encoded.getValue().toString());
 		assertThat(claims.getSubject()).isEqualTo(subject.toString());
@@ -81,7 +83,7 @@ class TokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		var result = tokenService
+		var result = jwtTokenService
 			   .decode(new EncodedToken(jwt))
 			   .getValue();
 
@@ -108,7 +110,7 @@ class TokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(tokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
 	}
 
 	@Test
@@ -125,7 +127,7 @@ class TokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(tokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
 	}
 
 	@Test
@@ -141,7 +143,7 @@ class TokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(tokenService.decode(
+		assertThat(jwtTokenService.decode(
 					 new EncodedToken(jwt)
 			   ).isFailure()
 		).isTrue();
@@ -160,13 +162,13 @@ class TokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(tokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
 	}
 
 	@Test
 	@DisplayName("decode deve lançar exceção quando o token estiver malformado")
 	void decode_shouldThrowWhenTokenMalformed() {
-		assertThat(tokenService.decode(new EncodedToken("a.b.c")).isFailure())
+		assertThat(jwtTokenService.decode(new EncodedToken("a.b.c")).isFailure())
 			   .isTrue();
 	}
 
@@ -186,7 +188,7 @@ class TokenServiceTest {
 			   .signWith(otherKey)
 			   .compact();
 
-		assertThat(tokenService.decode(new EncodedToken(jwt))
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt))
 			   .isFailure())
 			   .isTrue();
 	}
@@ -206,7 +208,7 @@ class TokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(tokenService.decode(new EncodedToken(jwt)).isFailure())
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure())
 			   .isTrue();
 	}
 
@@ -217,11 +219,39 @@ class TokenServiceTest {
 		var profileId = UUID.randomUUID();
 		var issuedAt = Date.from(Instant.now().minusSeconds(5));
 		var expiration = Date.from(Instant.now().plusSeconds(900));
-		var decoded = new TokenContent(subject, List.of(profileId), expiration, issuedAt);
+		var version = 1L;
+		var decoded = new TokenPayload(subject, List.of(profileId), expiration, issuedAt, version);
 
-		var encoded = tokenService.encode(decoded).getValue();
+		var encoded = jwtTokenService.generate(decoded).getValue();
 
-		assertThat(tokenService.decode(encoded).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(encoded).isFailure()).isTrue();
+	}
+
+	@Test
+	@DisplayName("decode deve retornar um erro por conta do token revogado")
+	void decode_shouldReturnErrorRevokedToken() {
+		// Arrange
+		var subject = UUID.randomUUID();
+		var profileId = UUID.randomUUID();
+		var issuedAt = Date.from(Instant.now().minusSeconds(30));
+		var expiration = Date.from(Instant.now().plusSeconds(3600));
+		var version = 1L;
+
+		var payload = new TokenPayload(subject, List.of(profileId), expiration, issuedAt, version);
+
+
+		// Act
+		var encodedResult = jwtTokenService.generate(payload);
+		assertThat(encodedResult.isSuccess()).isTrue();
+
+		var value = encodedResult.getValue();
+
+		var revoke = jwtTokenService.revoke(value);
+		var verify = jwtTokenService.verify(value);
+
+		// Assert
+		assertThat(revoke.isSuccess()).isTrue();
+		assertThat(verify.isFailure()).isTrue();
 	}
 
 	private Claims parseClaims(String jwt) {
@@ -233,7 +263,7 @@ class TokenServiceTest {
 	}
 
 	private static SecretKey readSecretKey() throws Exception {
-		Field field = TokenService.class.getDeclaredField("secretKey");
+		Field field = JwtTokenService.class.getDeclaredField("secretKey");
 		field.setAccessible(true);
 		return (SecretKey) field.get(null);
 	}

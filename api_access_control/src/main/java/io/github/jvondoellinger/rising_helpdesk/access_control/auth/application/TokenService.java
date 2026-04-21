@@ -13,10 +13,10 @@ public interface TokenService {
 	Result<TokenPayload> verify(EncodedToken token);
 
 	// Revoke
-	Result<TokenPayload> revoke(EncodedToken encodedToken);
-	Result<TokenPayload> revokeAll(UUID userId);
+	Result<Void> revoke(EncodedToken encodedToken);
+	Result<Void> revokeAll(UUID userId);
 	Result<Boolean> isRevoked(EncodedToken encodedToken);
-	Result<Boolean> isRevoked(UUID jti);
+	Result<Boolean> isRevoked(UUID jti, UUID userId);
 
 	// Session control
 	Result<Boolean> canIssueNewToken(UUID userId);

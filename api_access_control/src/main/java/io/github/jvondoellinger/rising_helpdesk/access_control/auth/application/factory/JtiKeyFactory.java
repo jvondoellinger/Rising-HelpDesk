@@ -12,6 +12,7 @@ public class JtiKeyFactory {
 	public String getJtiRevokedKey(UUID userId) {
 		return DEFAULT_REVOKED_JTIS.formatted(userId);
 	}
+
 	public String getJtiKey(UUID userId) {
 		return DEFAULT_ACTIVE_JTIS.formatted(userId);
 	}

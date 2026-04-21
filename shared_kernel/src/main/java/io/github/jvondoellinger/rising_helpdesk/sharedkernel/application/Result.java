@@ -7,7 +7,11 @@ import java.util.function.Function;
 
 // Posteriormente, pode-se ser criado um ErrorType e ser adicionado um Exception para tratamento mais avançado de erros!
 
+// ! Urgente:
+// Verificar se tem como 'dinamizar' o Failure, assim reaproveitando o mesmo Failure e não precisando reinstanciar, melhorando o uso de recursos desnecessarios!
+
 @FutureFeature
+@FixAfter
 public sealed interface Result<O> permits Result.Success, Result.Failure {
 	@Deprecated
 	<R> R fold(Function<Success<O>, R> onSuccess, Function<Failure<O>, R> onFailure);

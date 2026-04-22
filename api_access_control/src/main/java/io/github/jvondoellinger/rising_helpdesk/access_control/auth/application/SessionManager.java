@@ -8,14 +8,12 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import java.util.List;
 import java.util.UUID;
 
-public interface TokenService {
-	// gen and validate
-	Result<EncodedToken> generate(TokenPayload content);
-	Result<TokenPayload> verify(EncodedToken token);
+public interface SessionManager {
+	Result<SessionData> create(TokenPayload payload);
 
-	// Revoke
-	Result<Void> revoke(EncodedToken encodedToken);
-	Result<Void> revokeAll(UUID userId);
-	Result<Boolean> isRevoked(EncodedToken encodedToken);
-	Result<Boolean> isRevoked(UUID jti, UUID userId);
+	// Session control
+	Result<Boolean> canIssueNewToken(UUID userId);
+
+	Result<Integer> getActiveTokensCount(UUID userId);
+	Result<List<SessionData>> getActiveSessions(UUID userId);
 }

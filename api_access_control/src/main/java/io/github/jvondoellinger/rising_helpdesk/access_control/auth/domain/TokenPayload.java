@@ -36,8 +36,7 @@ public class TokenPayload {
 	public static TokenPayload create(UUID subject,
 							    List<UUID> accessProfileIds,
 							    Date expiration,
-							    Date issueAt,
-							    Long version) {
+							    Date issueAt) {
 		return new TokenPayload(subject, accessProfileIds, expiration, issueAt);
 	}
 

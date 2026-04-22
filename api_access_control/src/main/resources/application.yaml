@@ -3,5 +3,5 @@ spring:
     name: agp-protocol
 auth:
   jwt:
-    limit-per-user: 5
+    max-tokens-per-user: 5
     timeout: 12h

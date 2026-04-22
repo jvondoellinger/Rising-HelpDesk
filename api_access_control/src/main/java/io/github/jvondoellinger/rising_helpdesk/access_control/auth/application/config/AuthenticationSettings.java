@@ -9,7 +9,7 @@ import java.time.Duration;
 @Setter
 @ConfigurationProperties(prefix = "auth.jwt")
 public class AuthenticationSettings {
-	private int limitPerUser;
+	private int maxTokensPerUser;
 	private Duration timeout;
 }
 

@@ -1,11 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.config.AuthenticationSettings;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.ClaimsFactory;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JtiKeyFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JwtFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.TokenPayloadFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.TokenService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JtiKeyFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
@@ -16,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 
 // Adicionar um mapper que vai retornar Result<> e fazer toda conversão do jwt para o payload ou vice-versa, assim permitindo que o código fique mais limpo e leigivel!
 
@@ -24,17 +23,14 @@ import java.util.*;
 @AllArgsConstructor
 @FixAfter
 public class JwtTokenService implements TokenService {
-	// Dependency Injection
-	private final StringRedisTemplate template;
-	private final JtiKeyFactory keyFactory;
-	private final ClaimsFactory claimsFactory;
 	private final JwtFactory jwtFactory;
 	private final TokenPayloadFactory payloadFactory;
-	private final AuthenticationSettings settings;
+	private final StringRedisTemplate template;
+	private final JtiKeyFactory keyFactory;
 
 	@Override
-	public Result<EncodedToken> generate(TokenPayload tokenPayload) {
-		var jwtResult = jwtFactory.factory(tokenPayload);
+	public Result<EncodedToken> generate(TokenPayload payload) {
+		var jwtResult = jwtFactory.factory(payload);
 
 		if (jwtResult.isFailure()) {
 			return Result.failure(jwtResult.getError());
@@ -53,17 +49,17 @@ public class JwtTokenService implements TokenService {
 
 		// Payload Value
 		var payload = payloadResult.getValue();
-
-		// Revoke Result
+/*		// Revoke Result
 		var revokedResult = isRevoked(payload.getJti(), payload.getSubject());
 		if (revokedResult.isFailure()) return Result.failure("We were unable to verify if the token has been revoked!");
 
 		// Revoke Value
 		var isRevoked = revokedResult.getValue();
-		if (isRevoked) return Result.failure("Token revoked!");
-
+		if (isRevoked) return Result.failure("Token revoked!");*/
 		return Result.success(payload);
 	}
+
+	// Controle sessão
 	@Override
 	public Result<Void> revoke(EncodedToken token) {
 		// Payload Result
@@ -85,6 +81,8 @@ public class JwtTokenService implements TokenService {
 
 		// Removing jti from active tokens
 		template.opsForSet().remove(activeKey, jti);
+
+
 
 		// Including jti in revoked tokens
 		template.opsForSet().add(revokeKey, jti);
@@ -144,38 +142,16 @@ public class JwtTokenService implements TokenService {
 
 		return Result.success(isMember);
 	}
-
-	@Override
-	public Result<Boolean> canIssueNewToken(UUID userId) {
-		var key = keyFactory.getJtiKey(userId);
-		var activeTokens = template.opsForSet().size(key);
-
-		if (Objects.isNull(activeTokens)) {
-			return Result.failure("Unexpected error! Count value returned is null.");
-		}
-
-		if (activeTokens >= settings.getLimitPerUser()) {
-			return Result.success(false);
-		}
-
-		return Result.success(true);
-	}
-
-	@Override
-	public Result<List<TokenPayload>> getAllActiveJtisByUserId(UUID userId) {
-		return null;
-	}
-
-	@Override
-	public Result<Integer> getActiveTokensCount(UUID userId) {
-		return null;
-	}
-
-	@Override
-	public Result<List<TokenPayload>> getActiveSessions(UUID userId) {
-		return null;
-	}
-
-
-
 }
+/*
+	Ela deveria somente validar os tokens e agora também está validando sessão?
+
+	Qual seria um fluxo melhor?
+
+	JwtTokenService -> Verificar o Token, salvar no redis os tokens active e direcionar os tokens revogados para blacklist
+	SessionService retornar uma sessão ao cliente. Vai salvar o token e revolgar (o token e a sessão fariam parte da mesma regra)
+
+	referenciar o jti no session data - ex: session:data:jti:{jwt} e insiro os dados da sessão.
+
+*/
+

@@ -10,38 +10,14 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-public class AuthorizationService implements PrefixCreatorTemplate {
+public class AuthorizationService {
 	private final StringRedisTemplate template;
 	private final StringPermissionsCodec codec;
-	private static final String prefix = "accessprofile:permission:";
 
 	// verificar se as permissoes do token condizem com as permissoes do accessprofile?
 	// Controller informando as permissoes necessarias?
 	// Uma classe que compara as permissoes necessarias de um Token com as que foram definidas estaticamente via codigo para realizar a liberacao
 	public boolean confirmAuthorization(TokenPayload content, Permission... requiredPermissions) {
-		var permissions = requiredPermissions;
-
-		var required = Set.of(requiredPermissions);
-
-		return content.getAccessProfileIds()
-			   .stream()
-			   .anyMatch(accessProfileId -> {
-				   var permissionFromProfile = template
-						 .opsForValue()
-						 .get(createPrefix(accessProfileId.toString()));
-
-				   if (permissionFromProfile == null) {
-					   return false;
-				   }
-
-				   var permissionList = codec.decode(permissionFromProfile);
-				   var permissionSet = new HashSet<>(permissionList);
-
-				   return permissionSet.containsAll(required);
-			   });
-	}
-
-	public String createPrefix(String data) {
-		return prefix + data;
+		return false;
 	}
 }

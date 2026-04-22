@@ -7,23 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AuthenticateService
-	   implements PrefixCreatorTemplate {
+public class AuthenticateService {
 
 	private final StringRedisTemplate template;
-	private static final String prefix = "user:%s:tokens";
 
 	public boolean validateToken(TokenPayload content) {
-		var token = template
-			   .opsForValue()
-			   .get(createPrefix(content.getSubject().toString()));
-
-		return token != null && !token.isBlank();
-	}
-
-
-	@Override
-	public String createPrefix(String data) {
-		return prefix.formatted(data);
+		return false;
 	}
 }

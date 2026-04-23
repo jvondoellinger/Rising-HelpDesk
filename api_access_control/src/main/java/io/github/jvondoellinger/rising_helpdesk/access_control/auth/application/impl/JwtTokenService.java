@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl;
 
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.config.AuthenticationSettings;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JtiKeyFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JwtFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.TokenPayloadFactory;
@@ -27,6 +28,7 @@ public class JwtTokenService implements TokenService {
 	private final TokenPayloadFactory payloadFactory;
 	private final StringRedisTemplate template;
 	private final JtiKeyFactory keyFactory;
+	private final AuthenticationSettings settings;
 
 	@Override
 	public Result<EncodedToken> generate(TokenPayload payload) {
@@ -34,6 +36,14 @@ public class JwtTokenService implements TokenService {
 
 		if (jwtResult.isFailure()) {
 			return Result.failure(jwtResult.getError());
+		}
+
+		var countResult = countJtiByUser(payload.getSubject());
+		if (countResult.isFailure()) {
+			return Result.failure(countResult.getError());
+		}
+		if (countResult.getValue() > settings.getMaxTokensPerUser()) {
+			return Result.failure("Maximum number of tokens reached per user!");
 		}
 
 		var jwt = jwtResult.getValue();
@@ -49,17 +59,17 @@ public class JwtTokenService implements TokenService {
 
 		// Payload Value
 		var payload = payloadResult.getValue();
-/*		// Revoke Result
+
+		// Revoke Result
 		var revokedResult = isRevoked(payload.getJti(), payload.getSubject());
 		if (revokedResult.isFailure()) return Result.failure("We were unable to verify if the token has been revoked!");
 
 		// Revoke Value
 		var isRevoked = revokedResult.getValue();
-		if (isRevoked) return Result.failure("Token revoked!");*/
+		if (isRevoked) return Result.failure("Token revoked!");
+
 		return Result.success(payload);
 	}
-
-	// Controle sessão
 	@Override
 	public Result<Void> revoke(EncodedToken token) {
 		// Payload Result
@@ -81,8 +91,6 @@ public class JwtTokenService implements TokenService {
 
 		// Removing jti from active tokens
 		template.opsForSet().remove(activeKey, jti);
-
-
 
 		// Including jti in revoked tokens
 		template.opsForSet().add(revokeKey, jti);
@@ -111,7 +119,6 @@ public class JwtTokenService implements TokenService {
 
 		return Result.success();
 	}
-
 	@Override
 	public Result<Boolean> isRevoked(EncodedToken encodedToken) {
 		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
@@ -131,7 +138,6 @@ public class JwtTokenService implements TokenService {
 
 		return Result.success(isMember);
 	}
-
 	@Override
 	public Result<Boolean> isRevoked(UUID jti, UUID userId) {
 		var key = keyFactory.getJtiRevokedKey(userId);
@@ -141,6 +147,13 @@ public class JwtTokenService implements TokenService {
 			   .isMember(key, jti);
 
 		return Result.success(isMember);
+	}
+	@Override
+	public Result<Long> countJtiByUser(UUID userId) {
+		var key = keyFactory.getJtiKey(userId);
+		var size = template.opsForSet().size(key);
+
+		return Result.success(size);
 	}
 }
 /*

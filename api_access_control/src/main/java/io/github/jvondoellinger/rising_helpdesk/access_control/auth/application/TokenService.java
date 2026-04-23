@@ -18,4 +18,7 @@ public interface TokenService {
 	Result<Void> revokeAll(UUID userId);
 	Result<Boolean> isRevoked(EncodedToken encodedToken);
 	Result<Boolean> isRevoked(UUID jti, UUID userId);
+
+	// Counters
+	Result<Long> countJtiByUser(UUID userId);
 }

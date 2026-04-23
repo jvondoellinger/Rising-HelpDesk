@@ -10,7 +10,6 @@ import javax.crypto.SecretKey;
 public class ApiSecretKeyImpl implements ApiSecretKey {
 	private static final SecretKey secretKey = Jwts.SIG.HS512.key().build();
 
-
 	@Override
 	public SecretKey getCurrent() {
 		return secretKey;

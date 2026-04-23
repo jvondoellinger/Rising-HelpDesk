@@ -18,7 +18,7 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
     private final TicketMapper mapper;
 
     @Override
-    public Result<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
+    public Result<Pagination<TicketDetails>, String> handle(FindTicketsByAuthorQuery query) {
         var tks = repository.findByAuthorId(query.author(),PaginationFilter.of(query.page(), query.size()));
 
         var details = tks.items()

@@ -18,7 +18,7 @@ public class RemoveTicketMentionService implements RemoveTicketMentionHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(RemoveTicketMentionCommand cmd) {
+	public Result<Void, String> handle(RemoveTicketMentionCommand cmd) {
 		if (ticketRepository.existsById(cmd.ticketId())) {
 			return Result.failure("No ticket found.");
 		}

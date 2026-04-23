@@ -28,7 +28,7 @@ public class CommandBusImpl implements CommandBus {
     }
 
 
-    public Result<Void> send(Command cmd) {
+    public Result<Void, String> send(Command cmd) {
         var handler = hashMap.get(cmd.getClass());
 
         if (handler == null) {

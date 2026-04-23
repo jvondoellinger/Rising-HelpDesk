@@ -18,7 +18,7 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 	private final TicketMapper mapper;
 
 	@Override
-	public Result<TicketDetails> handle(FindTicketByIdQuery query) {
+	public Result<TicketDetails, String> handle(FindTicketByIdQuery query) {
 		var id = query.id();
 
 		if (id == null) {

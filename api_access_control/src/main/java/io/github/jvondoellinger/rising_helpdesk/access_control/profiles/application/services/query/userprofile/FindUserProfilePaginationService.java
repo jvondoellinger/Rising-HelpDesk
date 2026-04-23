@@ -18,7 +18,7 @@ public class FindUserProfilePaginationService implements FindUserProfilePaginati
 	private final UserProfileMapper mapper;
 
 	@Override
-	public Result<Pagination<UserProfileDetails>> handle(FindUserProfilePaginationQuery query) {
+	public Result<Pagination<UserProfileDetails>, String> handle(FindUserProfilePaginationQuery query) {
 		var pagination = repository.findByPagination(PaginationFilter.of(query.page(), query.size()));
 		var paginationMapped = mapper.detailsPagination(pagination);
 

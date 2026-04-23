@@ -11,7 +11,7 @@ import java.util.*;
 @Service
 @Deprecated
 public class TokenPayloadMapper {
-	public Result<TokenPayload> map(Claims claims) {
+	public Result<TokenPayload, String> map(Claims claims) {
 		var jtiString = claims.getId();
 
 		if (Objects.isNull(jtiString) || jtiString.isBlank()){

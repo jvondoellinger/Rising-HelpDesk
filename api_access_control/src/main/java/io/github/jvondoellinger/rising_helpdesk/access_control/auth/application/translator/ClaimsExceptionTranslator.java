@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 public class ClaimsExceptionTranslator implements ExceptionTranslator<Claims> {
 
 	@Override
-	public Result<Claims> translate(Supplier<Claims> func) {
+	public Result<Claims, String> translate(Supplier<Claims> func) {
 		try{
 			return Result.success(func.get());
 		} catch (ExpiredJwtException e) {

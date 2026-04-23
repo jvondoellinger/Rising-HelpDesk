@@ -16,7 +16,7 @@ public class FindAccessProfileByIdQueryService implements FindAccessProfileByIdQ
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public Result<AccessProfileDetails> handle(FindAccessProfileByIdQuery query) {
+	public Result<AccessProfileDetails, String> handle(FindAccessProfileByIdQuery query) {
 		var optional = repository.findById(query.id());
 
 		if (optional.isEmpty()) {

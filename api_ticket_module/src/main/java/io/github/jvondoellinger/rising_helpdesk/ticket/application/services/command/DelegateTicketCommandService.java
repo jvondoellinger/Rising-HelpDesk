@@ -16,7 +16,7 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 	private final QueueRepository queueRepository;
 
 	@Override
-	public Result<Void> handle(DelegateTicketCommand cmd) {
+	public Result<Void, String> handle(DelegateTicketCommand cmd) {
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()) {

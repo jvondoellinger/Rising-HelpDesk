@@ -20,7 +20,7 @@ public class JwtFactory {
 	private final ApiSecretKey secretKey;
 
 	// Methods
-	public Result<String> factory(TokenPayload payload) {
+	public Result<String, String> factory(TokenPayload payload) {
 		if (!payload.getExpiration().after(new Date())) {
 			return Result.failure("Expiration equal to current time.");
 		}

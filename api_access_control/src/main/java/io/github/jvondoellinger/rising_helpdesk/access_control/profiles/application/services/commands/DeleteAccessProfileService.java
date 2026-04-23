@@ -13,7 +13,7 @@ public class DeleteAccessProfileService implements DeleteAccessProfileHandler {
 	private final AccessProfileRepository repository;
 
 	@Override
-	public Result<Void> handle(DeleteAccessProfileCommand cmd) {
+	public Result<Void, String> handle(DeleteAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.accessProfileId());
 
 		if (optional.isEmpty()) {

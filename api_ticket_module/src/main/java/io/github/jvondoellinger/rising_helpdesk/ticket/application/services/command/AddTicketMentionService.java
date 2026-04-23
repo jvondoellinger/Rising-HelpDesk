@@ -18,7 +18,7 @@ public class AddTicketMentionService implements AddTicketMentionHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(AddTicketMentionCommand cmd) {
+	public Result<Void, String> handle(AddTicketMentionCommand cmd) {
 		if (!ticketRepository.existsById(cmd.ticketId())) {
 			return Result.failure("No ticket found.");
 		}

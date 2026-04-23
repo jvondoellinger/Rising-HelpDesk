@@ -1,34 +1,22 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.data;
 
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Date;
 
 public class SessionData {
-	private String userAgent;
-	private Socket ip;
-	private Date expiresAt;
-	private boolean revoked;
+	private final String userAgent;
+	private final InetAddress ip;
 
-	public SessionData(String userAgent, Socket ip, Date expiresAt, boolean revoked) {
+	public SessionData(String userAgent, InetAddress ip) {
 		this.userAgent = userAgent;
 		this.ip = ip;
-		this.expiresAt = expiresAt;
-		this.revoked = revoked;
 	}
 
 	public String getUserAgent() {
 		return userAgent;
 	}
-
-	public Socket getIp() {
+	public InetAddress getIp() {
 		return ip;
-	}
-
-	public Date getExpiresAt() {
-		return expiresAt;
-	}
-
-	public boolean isRevoked() {
-		return revoked;
 	}
 }

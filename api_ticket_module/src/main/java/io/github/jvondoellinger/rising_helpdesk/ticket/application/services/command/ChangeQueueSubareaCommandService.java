@@ -18,7 +18,7 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(ChangeQueueSubareaCommand cmd) {
+	public Result<Void, String> handle(ChangeQueueSubareaCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {

@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SessionManager {
-	Result<SessionData> create(TokenPayload payload);
+	Result<SessionData, String> create(TokenPayload payload);
 
 	// Session control
-	Result<Boolean> canIssueNewToken(UUID userId);
+	Result<Boolean, String> canIssueNewToken(UUID userId);
 
-	Result<Integer> getActiveTokensCount(UUID userId);
-	Result<List<SessionData>> getActiveSessions(UUID userId);
+	Result<Integer, String> getActiveTokensCount(UUID userId);
+	Result<List<SessionData>, String> getActiveSessions(UUID userId);
 }

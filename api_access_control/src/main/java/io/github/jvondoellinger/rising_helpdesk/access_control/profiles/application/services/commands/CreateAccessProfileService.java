@@ -17,7 +17,7 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public Result<Void> handle(CreateAccessProfileCommand cmd) {
+	public Result<Void, String> handle(CreateAccessProfileCommand cmd) {
 		var alreadyExists = repository.existsByName(cmd.name());
 
 		if (alreadyExists) {

@@ -14,7 +14,7 @@ public class CreatePermissionService implements CreatePermissionHandler {
     private final PermissionRepository repository;
 
     @Override
-    public Result<Void> handle(CreatePermissionCommand cmd) {
+    public Result<Void, String> handle(CreatePermissionCommand cmd) {
         var e = Permission.of(cmd.command());
 
         repository.save(e);

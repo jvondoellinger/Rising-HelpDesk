@@ -18,7 +18,7 @@ public final class FindAccessProfilePaginationService implements FindAccessProfi
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public Result<Pagination<AccessProfileDetails>> handle(FindAccessProfilePaginationQuery query) {
+	public Result<Pagination<AccessProfileDetails>, String> handle(FindAccessProfilePaginationQuery query) {
 		if (query.size() < 0 || query.page() < 0) {
 			return Result.failure("Size or page number cannot be smaller 0.");
 		}

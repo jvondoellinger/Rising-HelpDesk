@@ -18,7 +18,7 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(CreateTicketCommand cmd) {
+	public Result<Void, String> handle(CreateTicketCommand cmd) {
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()){

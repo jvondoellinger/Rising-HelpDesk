@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in;
 
+import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.mappers.HttpResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.mappers.accessprofile.AccessProfileCommandMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.mappers.accessprofile.AccessProfileResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.request.AddAccessProfilePermissionRequest;
@@ -30,40 +31,31 @@ public class AccessProfileController {
 
     private final AccessProfileCommandMapper commandMapper;
     private final AccessProfileResponseMapper responseMapper;
+    private final HttpResponseMapper httpResponseMapper;
 
     @GetMapping
     public ResponseEntity<?> search(@RequestParam UUID id) {
         var query = new FindAccessProfileByIdQuery(id);
         var result = queryBus.send(query);
 
-        return result.fold(
-                onSuccess -> ResponseEntity.ok(responseMapper.from(onSuccess.value())),
-                onFailure -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(onFailure.error())
-        );
+        return httpResponseMapper.fromResult(result);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> create(@RequestBody CreateAccessProfileRequest request) {
         var cmd = commandMapper.from(request);
+        var result = commandBus.send(cmd);
 
-        return commandBus.send(cmd)
-                .fold(
-                        success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error())
-                );
+        return httpResponseMapper.fromResult(result);
     }
 
     @PutMapping("/name")
     public ResponseEntity<?> changeNameAccessProfile(@RequestBody ChangeAccessProfileNameRequest request) {
         var cmd = commandMapper.from(request);
+        var result = commandBus.send(cmd);
 
-        return commandBus.send(cmd)
-                .fold(
-                        success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error())
-                );
-
+        return httpResponseMapper.fromResult(result);
     }
 
     @FixAfter
@@ -71,12 +63,9 @@ public class AccessProfileController {
     public ResponseEntity<?> removePermissionAccessProfile(@RequestBody RemoveAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
         var cmd = new RemovePermissionsAccessProfileCommand(request.id(), permissions);
+        var result = commandBus.send(cmd);
 
-        return commandBus.send(cmd)
-                .fold(
-                        success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error())
-                );
+        return httpResponseMapper.fromResult(result);
     }
 
     @FixAfter
@@ -84,12 +73,8 @@ public class AccessProfileController {
     public ResponseEntity<?> addPermissionAccessProfile(@RequestBody AddAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
         var cmd = new AddPermissionsAccessProfileCommand(request.id(), permissions);
+        var result = commandBus.send(cmd);
 
-        return commandBus.send(cmd)
-                .fold(
-                        success -> ResponseEntity.accepted().build(),
-                        failure -> ResponseEntity.badRequest().body(failure.error())
-                );
-
+        return httpResponseMapper.fromResult(result);
     }
 }

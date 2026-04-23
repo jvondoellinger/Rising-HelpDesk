@@ -17,7 +17,7 @@ public class ClaimsFactory {
 	private final ClaimsExceptionTranslator exceptionTranslator;
 	private final ApiSecretKey secretKey;
 
-	public Result<Claims> factory(EncodedToken encodedToken) {
+	public Result<Claims, String> factory(EncodedToken encodedToken) {
 		return exceptionTranslator.translate(() ->
 			Jwts.parser()
 				   .verifyWith(secretKey.getCurrent())

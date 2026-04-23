@@ -17,7 +17,7 @@ public class TokenPayloadFactory {
 	private final JwtExceptionsTranslator jwtExceptionsTranslator;
 	private final ClaimsFactory claimsFactory;
 
-	public Result<TokenPayload> fromEncodedToken(EncodedToken encodedToken) {
+	public Result<TokenPayload, String> fromEncodedToken(EncodedToken encodedToken) {
 		var claimsResult = claimsFactory.factory(encodedToken);
 
 		if (claimsResult.isFailure()) {
@@ -52,7 +52,7 @@ public class TokenPayloadFactory {
 		return Result.success(payload);
 	}
 	// ! Utils
-	private Result<UUID> parseUUID(String value, String errorMessage) {
+	private Result<UUID, String> parseUUID(String value, String errorMessage) {
 		if (value == null || value.isBlank()) {
 			return Result.failure(errorMessage);
 		}
@@ -63,7 +63,7 @@ public class TokenPayloadFactory {
 			return Result.failure(errorMessage);
 		}
 	}
-	private Result<List<UUID>> parseUUIDList(Object value) {
+	private Result<List<UUID>, String> parseUUIDList(Object value) {
 		if (!(value instanceof List<?> list) || list.isEmpty()) {
 			return Result.failure("Invalid or missing accessProfileIds claim");
 		}

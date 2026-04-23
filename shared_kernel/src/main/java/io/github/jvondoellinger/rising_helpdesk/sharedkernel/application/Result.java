@@ -15,7 +15,7 @@ public sealed interface Result<T, E> permits Result.Success, Result.Failure {
 	record Success<T, E>(T value) implements Result<T, E> {
 	}
 
-	record Failure<T, E>(E error) implements Result<T, E> {
+	record Failure<?, E>(E error) implements Result<?, E> {
 	}
 
 	// Static Helpers
@@ -29,6 +29,11 @@ public sealed interface Result<T, E> permits Result.Success, Result.Failure {
 		return new Success<>(null);
 	}
 
+	@SuppressWarnings("unchecked")
+	default <U> Result<U, E> cast() {
+		return (Result<U, E>) this;
+	}
+
 	// Default
 	default boolean isFailure() {
 		return this.getClass() == Result.Failure.class;
@@ -36,6 +41,13 @@ public sealed interface Result<T, E> permits Result.Success, Result.Failure {
 	default boolean isSuccess() {
 		return this.getClass() == Result.Success.class;
 	}
+
+	default boolean isVoid() {
+		if (this instanceof Result.Success<T, E> s)
+			return s.value == null;
+		return false;
+	}
+
 	default E getError() {
 		if (this instanceof Result.Failure<T, E> f) {
 			return f.error;

@@ -30,7 +30,7 @@ public class SessionManagerImpl implements SessionManager {
 	private final TokenPayloadFactory payloadFactory;
 
 	@Override
-	public Result<Boolean> canIssueNewToken(UUID userId) {
+	public Result<Boolean, String> canIssueNewToken(UUID userId) {
 		var key = keyFactory.getJtiKey(userId);
 		var activeTokens = template.opsForSet().size(key);
 
@@ -46,12 +46,12 @@ public class SessionManagerImpl implements SessionManager {
 	}
 
 	@Override
-	public Result<Integer> getActiveTokensCount(UUID userId) {
+	public Result<Integer, String> getActiveTokensCount(UUID userId) {
 		return null;
 	}
 
 	@Override
-	public Result<List<SessionData>> getActiveSessions(UUID userId) {
+	public Result<List<SessionData>, String> getActiveSessions(UUID userId) {
 		return null;
 	}
 }

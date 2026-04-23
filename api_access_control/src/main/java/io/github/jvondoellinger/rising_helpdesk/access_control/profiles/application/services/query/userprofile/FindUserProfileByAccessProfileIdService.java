@@ -18,7 +18,7 @@ public class FindUserProfileByAccessProfileIdService implements FindUserProfileB
 	private final UserProfileMapper mapper;
 
 	@Override
-	public Result<Pagination<UserProfileDetails>> handle(FindUserProfileByAccessProfileIdQuery query) {
+	public Result<Pagination<UserProfileDetails>, String> handle(FindUserProfileByAccessProfileIdQuery query) {
 		var filter = PaginationFilter.of(query.page(), query.size());
 		var pagination = repository.findByAccessProfileId(query.accessProfileId(), filter);
 

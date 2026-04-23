@@ -18,7 +18,7 @@ public class FindTicketByPaginationService implements FindTicketByPaginationQuer
     private final TicketMapper mapper;
 
     @Override
-    public Result<Pagination<TicketDetails>> handle(FindTicketByPaginationQuery query) {
+    public Result<Pagination<TicketDetails>, String> handle(FindTicketByPaginationQuery query) {
         var filter = PaginationFilter.of(query.page(), query.size());
         var pagination = repository.findByPagination(filter);
         var details = mapper.detailsPagination(pagination);

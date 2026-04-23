@@ -17,7 +17,7 @@ public class FindPermissionByCodeService implements FindPermissionByCodeHandler 
 
 
 	@Override
-	public Result<PermissionDetails> handle(FindPermissionByCodeQuery query) {
+	public Result<PermissionDetails, String> handle(FindPermissionByCodeQuery query) {
 		var persistence = repository.findByCode(query.code()).orElse(null);
 
 		if (persistence == null) {

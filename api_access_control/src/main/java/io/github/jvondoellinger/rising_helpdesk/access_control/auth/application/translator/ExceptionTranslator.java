@@ -5,5 +5,5 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 import java.util.function.Supplier;
 
 public interface ExceptionTranslator<T> {
-	Result<T> translate(Supplier<T> func);
+	Result<T, String> translate(Supplier<T> func);
 }

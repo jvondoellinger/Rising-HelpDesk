@@ -18,7 +18,7 @@ public class FindPermissionPaginationService implements FindPermissionPagination
 	private final PermissionMapper mapper;
 
 	@Override
-	public Result<Pagination<PermissionDetails>> handle(FindPermissionPaginationQuery query) {
+	public Result<Pagination<PermissionDetails>, String> handle(FindPermissionPaginationQuery query) {
 		var pagination = repository.findByPagination(PaginationFilter.of(query.page(), query.size()));
 
 		var paginationMapped = mapper.details(pagination);

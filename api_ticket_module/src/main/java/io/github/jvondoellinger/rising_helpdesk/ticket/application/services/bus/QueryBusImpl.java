@@ -25,7 +25,7 @@ public class QueryBusImpl implements QueryBus {
     }
 
     @Override
-    public <R> Result<R> send(Query<R> cmd) {
+    public <R> Result<R, String> send(Query<R> cmd) {
         var handler = hashMap.get(cmd.getClass());
 
         if (handler == null) {

@@ -18,7 +18,7 @@ public class FindTicketByNumberQueryHandlerImpl
 	private final TicketMapper mapper;
 
 	@Override
-	public Result<TicketDetails> handle(FindTicketByNumberQuery query) {
+	public Result<TicketDetails, String> handle(FindTicketByNumberQuery query) {
 		var num = query.number();
 
 		if (num == null) {

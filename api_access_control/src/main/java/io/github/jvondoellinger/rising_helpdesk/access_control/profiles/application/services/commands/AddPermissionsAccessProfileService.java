@@ -22,7 +22,7 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 	@Override
 	@FixAfter
 	// As permissoes devem ser validadas no repositorio
-	public Result<Void> handle(AddPermissionsAccessProfileCommand cmd) {
+	public Result<Void, String> handle(AddPermissionsAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {

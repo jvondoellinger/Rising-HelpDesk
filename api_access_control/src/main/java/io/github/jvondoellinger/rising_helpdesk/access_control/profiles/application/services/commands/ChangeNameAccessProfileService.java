@@ -16,7 +16,7 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 	private final AccessProfileRepository repository;
 
 	@Override
-	public Result<Void> handle(ChangeNameAccessProfileCommand cmd) {
+	public Result<Void, String> handle(ChangeNameAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {

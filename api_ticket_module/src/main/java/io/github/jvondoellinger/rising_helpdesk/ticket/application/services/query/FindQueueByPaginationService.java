@@ -18,7 +18,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
     private final QueueMapper mapper;
 
     @Override
-    public Result<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
+    public Result<Pagination<QueueDetails>, String> handle(FindQueueByPaginationQuery query) {
         var queuePagination = repository.findByPagination(PaginationFilter.of(
                 query.page(),
                 query.size()

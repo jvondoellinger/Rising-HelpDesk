@@ -29,7 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RemovePermissionsAccessProfileServiceTest implements UnitTest {
+class RemovePermissionsAccessProfileServiceTestById implements UnitTest {
 
 	@Mock
 	private AccessProfileRepository repository;

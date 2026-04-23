@@ -13,7 +13,7 @@ public class CloseTicketCommandService implements CommandHandler<CloseTicketComm
 	private final TicketRepository repository;
 
 	@Override
-	public Result<Void> handle(CloseTicketCommand cmd) {
+	public Result<Void, String> handle(CloseTicketCommand cmd) {
 		var optionalTk = repository.findById(cmd.ticketId());
 		if (optionalTk.isEmpty()) {
 			return Result.failure("No ticket found.");

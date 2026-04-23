@@ -14,7 +14,7 @@ public class DeleteUserProfileService implements DeleteUserProfileHandler {
     private final UserProfileRepository repository;
 
     @Override
-    public Result<Void> handle(DeleteUserProfileCommand cmd) {
+    public Result<Void, String> handle(DeleteUserProfileCommand cmd) {
         var id = cmd.id();
 
         if (id == null) {

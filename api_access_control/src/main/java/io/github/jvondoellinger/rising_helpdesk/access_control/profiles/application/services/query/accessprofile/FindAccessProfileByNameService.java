@@ -16,7 +16,7 @@ public class FindAccessProfileByNameService implements FindAccessProfileByNameQu
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public Result<AccessProfileDetails> handle(FindAccessProfileByNameQuery query) {
+	public Result<AccessProfileDetails, String> handle(FindAccessProfileByNameQuery query) {
 		var optional = repository.findByName(query.name());
 
 		if (optional.isEmpty()) {

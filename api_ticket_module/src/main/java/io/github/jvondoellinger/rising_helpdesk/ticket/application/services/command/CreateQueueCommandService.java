@@ -18,7 +18,7 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(CreateQueueCommand cmd) {
+	public Result<Void, String> handle(CreateQueueCommand cmd) {
 		if (cmd == null) {
 			return Result.failure("Command is null.");
 		}

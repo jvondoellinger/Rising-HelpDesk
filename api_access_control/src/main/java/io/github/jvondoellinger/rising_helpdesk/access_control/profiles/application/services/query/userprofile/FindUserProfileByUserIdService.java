@@ -16,7 +16,7 @@ public class FindUserProfileByUserIdService implements FindUserProfileByUserIdHa
 	private final UserProfileMapper mapper;
 
 	@Override
-	public Result<UserProfileDetails> handle(FindUserProfileByUserIdQuery query) {
+	public Result<UserProfileDetails, String> handle(FindUserProfileByUserIdQuery query) {
 		var optional = repository.findById(query.userId());
 
 		if (optional.isEmpty()) {

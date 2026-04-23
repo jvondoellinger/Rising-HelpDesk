@@ -22,7 +22,7 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 	private final PermissionMapper mapper;
 
 	@Override
-	public Result<Void> handle(RemovePermissionsAccessProfileCommand cmd) {
+	public Result<Void, String> handle(RemovePermissionsAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {

@@ -17,7 +17,7 @@ public class FindQueueByAreaService implements FindQueueByAreaQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<QueueDetails> handle(FindQueueByAreaQuery query) {
+    public Result<QueueDetails, String> handle(FindQueueByAreaQuery query) {
         var optional = repository.findBySubarea(query.area());
 
         if (optional.isEmpty()) {

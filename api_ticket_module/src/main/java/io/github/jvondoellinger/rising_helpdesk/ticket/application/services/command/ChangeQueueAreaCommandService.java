@@ -18,7 +18,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
     private final CurrentUserService currentUserService;
 
     @Override
-    public Result<Void> handle(ChangeQueueAreaCommand cmd) {
+    public Result<Void, String> handle(ChangeQueueAreaCommand cmd) {
         var optional = repository.findById(cmd.id());
 
         if (optional.isEmpty()) {

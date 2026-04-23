@@ -10,15 +10,15 @@ import java.util.UUID;
 
 public interface TokenService {
 	// gen and validate
-	Result<EncodedToken> generate(TokenPayload content);
-	Result<TokenPayload> verify(EncodedToken token);
+	Result<EncodedToken, String> generate(TokenPayload content);
+	Result<TokenPayload, String> verify(EncodedToken token);
 
 	// Revoke
-	Result<Void> revoke(EncodedToken encodedToken);
-	Result<Void> revokeAll(UUID userId);
-	Result<Boolean> isRevoked(EncodedToken encodedToken);
-	Result<Boolean> isRevoked(UUID jti, UUID userId);
+	Result<Void, String> revoke(EncodedToken encodedToken);
+	Result<Void, String> revokeAll(UUID userId);
+	Result<Boolean, String> isRevoked(EncodedToken encodedToken);
+	Result<Boolean, String> isRevoked(UUID jti, UUID userId);
 
 	// Counters
-	Result<Long> countJtiByUser(UUID userId);
+	Result<Long, String> countJtiByUser(UUID userId);
 }

@@ -16,7 +16,7 @@ public class FindQueueByIdService implements FindQueueByIdQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<QueueDetails> handle(FindQueueByIdQuery query) {
+    public Result<QueueDetails, String> handle(FindQueueByIdQuery query) {
         var optional = repository.findById(query.id());
 
         if (optional.isEmpty()) {

@@ -31,16 +31,16 @@ public class JwtTokenService implements TokenService {
 	private final AuthenticationSettings settings;
 
 	@Override
-	public Result<EncodedToken> generate(TokenPayload payload) {
-		var jwtResult = jwtFactory.factory(payload);
+	public Result<EncodedToken, String> generate(TokenPayload payload) {
+		Result<String, String> jwtResult = jwtFactory.factory(payload);
 
 		if (jwtResult.isFailure()) {
-			return Result.failure(jwtResult.getError());
+			return jwtResult.cast();
 		}
 
 		var countResult = countJtiByUser(payload.getSubject());
 		if (countResult.isFailure()) {
-			return Result.failure(countResult.getError());
+			return countResult.cast();
 		}
 		if (countResult.getValue() > settings.getMaxTokensPerUser()) {
 			return Result.failure("Maximum number of tokens reached per user!");
@@ -52,7 +52,7 @@ public class JwtTokenService implements TokenService {
 		return Result.success(encodedToken);
 	}
 	@Override
-	public Result<TokenPayload> verify(EncodedToken encodedToken) {
+	public Result<TokenPayload, String> verify(EncodedToken encodedToken) {
 		// Payload Result
 		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
 		if (payloadResult.isFailure()) return payloadResult;
@@ -71,7 +71,7 @@ public class JwtTokenService implements TokenService {
 		return Result.success(payload);
 	}
 	@Override
-	public Result<Void> revoke(EncodedToken token) {
+	public Result<Void, String> revoke(EncodedToken token) {
 		// Payload Result
 		var payloadResult = payloadFactory.fromEncodedToken(token);
 		if (payloadResult.isFailure()) return Result.failure(payloadResult.getError());
@@ -99,7 +99,7 @@ public class JwtTokenService implements TokenService {
 		return Result.success();
 	}
 	@Override
-	public Result<Void> revokeAll(UUID userId) {
+	public Result<Void, String> revokeAll(UUID userId) {
 		var revokeKey = keyFactory.getJtiRevokedKey(userId);
 		var activeKey = keyFactory.getJtiKey(userId);
 
@@ -120,7 +120,7 @@ public class JwtTokenService implements TokenService {
 		return Result.success();
 	}
 	@Override
-	public Result<Boolean> isRevoked(EncodedToken encodedToken) {
+	public Result<Boolean, String> isRevoked(EncodedToken encodedToken) {
 		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
 
 		if (payloadResult.isFailure()) {
@@ -139,7 +139,7 @@ public class JwtTokenService implements TokenService {
 		return Result.success(isMember);
 	}
 	@Override
-	public Result<Boolean> isRevoked(UUID jti, UUID userId) {
+	public Result<Boolean, String> isRevoked(UUID jti, UUID userId) {
 		var key = keyFactory.getJtiRevokedKey(userId);
 
 		var isMember = template
@@ -149,7 +149,7 @@ public class JwtTokenService implements TokenService {
 		return Result.success(isMember);
 	}
 	@Override
-	public Result<Long> countJtiByUser(UUID userId) {
+	public Result<Long, String> countJtiByUser(UUID userId) {
 		var key = keyFactory.getJtiKey(userId);
 		var size = template.opsForSet().size(key);
 

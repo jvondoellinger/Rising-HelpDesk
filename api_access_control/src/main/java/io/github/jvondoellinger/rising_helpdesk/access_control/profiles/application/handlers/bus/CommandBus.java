@@ -4,5 +4,5 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
 
 public interface CommandBus {
-    Result<Void> send(Command cmd);
+    Result<Void, String> send(Command cmd);
 }

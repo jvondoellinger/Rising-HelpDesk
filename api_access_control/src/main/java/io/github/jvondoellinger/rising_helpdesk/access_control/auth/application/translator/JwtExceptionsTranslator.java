@@ -19,7 +19,7 @@ public class JwtExceptionsTranslator implements ExceptionTranslator<String>{
 	 *
 	 * @apiNote This translates ONLY the possible errors that can occur during the creation of the JWT token from Jwts (jjwt library).
 	 */
-	public Result<String> translate(Supplier<String> func) {
+	public Result<String, String> translate(Supplier<String> func) {
 		try {
 			return Result.success(func.get());
 		} catch (WeakKeyException e) {

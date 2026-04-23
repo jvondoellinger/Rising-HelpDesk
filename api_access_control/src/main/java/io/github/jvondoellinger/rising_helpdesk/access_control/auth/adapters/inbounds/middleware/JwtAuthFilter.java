@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		var result = jwtTokenService.decode(new EncodedToken(token));
+		var result = jwtTokenService.verify(new EncodedToken(token));
 
 		if (result.isFailure()) {
 			unauthorize(response);

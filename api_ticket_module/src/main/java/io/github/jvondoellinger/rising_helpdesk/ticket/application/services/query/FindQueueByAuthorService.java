@@ -18,7 +18,7 @@ public class FindQueueByAuthorService implements FindQueueByAuthorQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<Pagination<QueueDetails>> handle(FindQueueByAuthorQuery query) {
+    public Result<Pagination<QueueDetails>, String> handle(FindQueueByAuthorQuery query) {
         var pagination = repository.findByAuthor(query.authorId(), PaginationFilter.of(query.page(), query.size()));
 
         if (pagination.isEmpty()) {

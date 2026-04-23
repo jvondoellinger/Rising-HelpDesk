@@ -18,7 +18,7 @@ public class AddInteractionCommandService implements InteractTicketHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(AddInteractionCommand cmd) {
+	public Result<Void, String> handle(AddInteractionCommand cmd) {
 		if (!ticketRepository.existsById(cmd.ticketId())) {
 			return Result.failure("No tickets were found to add interaction..");
 		}

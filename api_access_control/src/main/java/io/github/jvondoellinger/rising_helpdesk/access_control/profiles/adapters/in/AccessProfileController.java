@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.mappers.HttpResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.mappers.accessprofile.AccessProfileCommandMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.mappers.accessprofile.AccessProfileResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.request.AddAccessProfilePermissionRequest;
@@ -15,6 +14,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile.FindAccessProfileByIdQuery;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,50 +31,50 @@ public class AccessProfileController {
 
     private final AccessProfileCommandMapper commandMapper;
     private final AccessProfileResponseMapper responseMapper;
-    private final HttpResponseMapper httpResponseMapper;
 
     @GetMapping
-    public ResponseEntity<?> search(@RequestParam UUID id) {
+    public Result<?> search(@RequestParam UUID id) {
         var query = new FindAccessProfileByIdQuery(id);
         var result = queryBus.send(query);
 
-        return httpResponseMapper.fromResult(result);
+        return result;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> create(@RequestBody CreateAccessProfileRequest request) {
+    public Result<?> create(@RequestBody CreateAccessProfileRequest request) {
         var cmd = commandMapper.from(request);
         var result = commandBus.send(cmd);
 
-        return httpResponseMapper.fromResult(result);
+        return result;
+
     }
 
     @PutMapping("/name")
-    public ResponseEntity<?> changeNameAccessProfile(@RequestBody ChangeAccessProfileNameRequest request) {
+    public Result<?> changeNameAccessProfile(@RequestBody ChangeAccessProfileNameRequest request) {
         var cmd = commandMapper.from(request);
         var result = commandBus.send(cmd);
 
-        return httpResponseMapper.fromResult(result);
+        return result;
     }
 
     @FixAfter
     @PatchMapping("/permissions/remove")
-    public ResponseEntity<?> removePermissionAccessProfile(@RequestBody RemoveAccessProfilePermissionRequest request) {
+    public Result<?> removePermissionAccessProfile(@RequestBody RemoveAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
         var cmd = new RemovePermissionsAccessProfileCommand(request.id(), permissions);
         var result = commandBus.send(cmd);
+        return result;
 
-        return httpResponseMapper.fromResult(result);
     }
 
     @FixAfter
     @PatchMapping("/permissions/add")
-    public ResponseEntity<?> addPermissionAccessProfile(@RequestBody AddAccessProfilePermissionRequest request) {
+    public Result<?> addPermissionAccessProfile(@RequestBody AddAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
         var cmd = new AddPermissionsAccessProfileCommand(request.id(), permissions);
         var result = commandBus.send(cmd);
 
-        return httpResponseMapper.fromResult(result);
+        return result;
     }
 }

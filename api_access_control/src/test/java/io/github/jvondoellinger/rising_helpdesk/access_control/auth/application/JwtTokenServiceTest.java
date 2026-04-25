@@ -110,7 +110,7 @@ class JwtTokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isError()).isTrue();
 	}
 
 	@Test
@@ -127,7 +127,7 @@ class JwtTokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isError()).isTrue();
 	}
 
 	@Test
@@ -145,7 +145,7 @@ class JwtTokenServiceTest {
 
 		assertThat(jwtTokenService.decode(
 					 new EncodedToken(jwt)
-			   ).isFailure()
+			   ).isError()
 		).isTrue();
 	}
 
@@ -162,13 +162,13 @@ class JwtTokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isError()).isTrue();
 	}
 
 	@Test
 	@DisplayName("decode deve lançar exceção quando o token estiver malformado")
 	void decode_shouldThrowWhenTokenMalformed() {
-		assertThat(jwtTokenService.decode(new EncodedToken("a.b.c")).isFailure())
+		assertThat(jwtTokenService.decode(new EncodedToken("a.b.c")).isError())
 			   .isTrue();
 	}
 
@@ -189,7 +189,7 @@ class JwtTokenServiceTest {
 			   .compact();
 
 		assertThat(jwtTokenService.decode(new EncodedToken(jwt))
-			   .isFailure())
+			   .isError())
 			   .isTrue();
 	}
 
@@ -208,7 +208,7 @@ class JwtTokenServiceTest {
 			   .signWith(secretKey)
 			   .compact();
 
-		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isFailure())
+		assertThat(jwtTokenService.decode(new EncodedToken(jwt)).isError())
 			   .isTrue();
 	}
 
@@ -224,7 +224,7 @@ class JwtTokenServiceTest {
 
 		var encoded = jwtTokenService.generate(decoded).getValue();
 
-		assertThat(jwtTokenService.decode(encoded).isFailure()).isTrue();
+		assertThat(jwtTokenService.decode(encoded).isError()).isTrue();
 	}
 
 	@Test
@@ -251,7 +251,7 @@ class JwtTokenServiceTest {
 
 		// Assert
 		assertThat(revoke.isSuccess()).isTrue();
-		assertThat(verify.isFailure()).isTrue();
+		assertThat(verify.isError()).isTrue();
 	}
 
 	private Claims parseClaims(String jwt) {

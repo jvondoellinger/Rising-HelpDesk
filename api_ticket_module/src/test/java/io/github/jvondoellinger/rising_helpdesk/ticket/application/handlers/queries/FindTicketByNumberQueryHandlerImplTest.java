@@ -48,7 +48,7 @@ class FindTicketByNumberQueryHandlerImplTest implements UnitTest {
 		var result = service.handle(new FindTicketByNumberQuery(null));
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("Protocol");
+		assertThat(result.getError().description()).containsIgnoringCase("Protocol");
 	}
 
 	@Test
@@ -59,7 +59,7 @@ class FindTicketByNumberQueryHandlerImplTest implements UnitTest {
 		var result = service.handle(queryWithNumber);
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("ticket");
+		assertThat(result.getError().description()).containsIgnoringCase("ticket");
 	}
 
 	@Test

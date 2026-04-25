@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueSubareaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueSubareaCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -18,18 +19,18 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public ResultV1<Void, String> handle(ChangeQueueSubareaCommand cmd) {
+	public Result<Void> handle(ChangeQueueSubareaCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return ResultV1.failure("No queue found.");
+			return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
 		}
 
 		var queue = optional.get();
 		var subarea = cmd.subarea();
 
 		if (queue.getArea().equals(subarea)) {
-			return ResultV1.failure("The queue already has this subarea.");
+			return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
 		}
 
 		var updated = new Queue(
@@ -44,7 +45,7 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 
 		repository.save(updated);
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 
 	@Override

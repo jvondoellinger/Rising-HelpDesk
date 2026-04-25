@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeAreaRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeSubareaRequest;
@@ -15,13 +16,9 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQ
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByPaginationQuery;
 
 import lombok.AllArgsConstructor;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
-
-import static io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.HandleCommandFailure.handleFailure;
 
 @RestController
 @RequestMapping("/api/queue")
@@ -32,78 +29,67 @@ public class QueueController {
 	private final CommandBus commandBus;
 
 	@PostMapping
-	public ResponseEntity<?> createQueue(@RequestBody CreateQueueRequest request) {
-		var result = commandBus.send(new CreateQueueCommand(
+	public Result<?> createQueue(@RequestBody CreateQueueRequest request) {
+		return commandBus.send(new CreateQueueCommand(
 			   request.area(),
 			   request.subarea()
 		));
-
-		return handleFailure(result);
 	}
 
 	@DeleteMapping("/{queueId}")
-	public ResponseEntity<?> deleteQueue(@PathVariable UUID queueId) {
-		var result = commandBus.send(new RemoveQueueCommand(
+	public Result<?> deleteQueue(@PathVariable UUID queueId) {
+		return commandBus.send(new RemoveQueueCommand(
 			   queueId
 		));
-
-		return handleFailure(result);
 	}
 
 	@PatchMapping("/area")
-	public ResponseEntity<?> changeQueueArea(@RequestBody ChangeAreaRequest request) {
-		var result = commandBus.send(new ChangeQueueAreaCommand(
+	public Result<?> changeQueueArea(@RequestBody ChangeAreaRequest request) {
+		return commandBus.send(new ChangeQueueAreaCommand(
 			   request.id(),
 			   request.area()
 		));
 
-		return handleFailure(result);
 	}
 
 	@PatchMapping("/subarea")
-	public ResponseEntity<?> changeQueueSubarea(@RequestBody ChangeSubareaRequest request) {
-		var result = commandBus.send(new ChangeQueueSubareaCommand(
+	public Result<?> changeQueueSubarea(@RequestBody ChangeSubareaRequest request) {
+		return commandBus.send(new ChangeQueueSubareaCommand(
 			   request.id(),
 			   request.subarea()
 		));
-
-		return handleFailure(result);
 	}
 
 
 	// ! Get routes
 	@GetMapping
-	public ResponseEntity<?> findByPagination(@RequestParam(value = "page", defaultValue = "0") int page,
+	public Result<?> findByPagination(@RequestParam(value = "page", defaultValue = "0") int page,
 									  @RequestParam(value = "size", defaultValue = "100") int size) {
 		var result = queryBus.send(new FindQueueByPaginationQuery(
 			   page,
 			   size
 		));
 
-		if (result.isFailure()) {
-			return ResponseEntity.badRequest().body(new ErrorResponse(
-				   result.getError()
-			));
+		if (result.isError()) {
+			return result;
 		}
 
 		var response = responseMapper.from(result.getValue());
-		return ResponseEntity.ok(response);
+		return Result.success(response);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable UUID id) {
+	public Result<?> getById(@PathVariable UUID id) {
 		var result = queryBus.send(new FindQueueByIdQuery(
 			   id
 		));
 
-		if (result.isFailure()) {
-			return ResponseEntity.badRequest().body(new ErrorResponse(
-				   result.getError()
-			));
+		if (result.isError()) {
+			return result;
 		}
 
 		var response = responseMapper.from(result.getValue());
 
-		return ResponseEntity.ok(response);
+		return Result.success(response);
 	}
 }

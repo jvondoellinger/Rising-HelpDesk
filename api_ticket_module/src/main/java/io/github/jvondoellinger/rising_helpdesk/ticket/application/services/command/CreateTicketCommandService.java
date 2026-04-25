@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateTicketCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -9,6 +9,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRe
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -18,11 +19,11 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public ResultV1<Void, String> handle(CreateTicketCommand cmd) {
+	public Result<Void> handle(CreateTicketCommand cmd) {
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()){
-			return ResultV1.failure("No queue found.");
+			return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
 		}
 
 		var ticket = new Ticket(
@@ -34,7 +35,7 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 
 		repository.save(ticket);
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 
 	@Override

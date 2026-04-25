@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueAreaCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -18,11 +19,11 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
     private final CurrentUserService currentUserService;
 
     @Override
-    public ResultV1<Void, String> handle(ChangeQueueAreaCommand cmd) {
+    public Result<Void> handle(ChangeQueueAreaCommand cmd) {
         var optional = repository.findById(cmd.id());
 
         if (optional.isEmpty()) {
-            return ResultV1.failure("No queue found with this ID.");
+            return Result.error(new DomainError("NO_QUEUE_FOUND_WITH_THIS_ID", "No queue found with this ID."));
         }
 
         var queue = optional.get();
@@ -30,7 +31,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
 
 
         if (queue.getArea().equals(area)) {
-            return ResultV1.failure("The queue already has this subarea.");
+            return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
         }
 
         var updated = new Queue(
@@ -45,7 +46,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
 
         repository.save(updated);
 
-        return ResultV1.success(null);
+        return Result.success(null);
     }
 
     @Override

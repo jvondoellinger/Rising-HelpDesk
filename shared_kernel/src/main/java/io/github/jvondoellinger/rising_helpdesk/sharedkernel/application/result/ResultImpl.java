@@ -1,6 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.impl;
-
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.abstraction.Result;
+package io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result;
 
 public record ResultImpl<T>(T value, DomainError error) implements Result<T> {
 	@Override
@@ -13,6 +11,16 @@ public record ResultImpl<T>(T value, DomainError error) implements Result<T> {
 	}
 	@Override
 	public boolean hasValue() {
-		return isSuccess() && value == null;
+		return isSuccess() && value != null;
+	}
+
+	@Override
+	public T getValue() {
+		return value;
+	}
+
+	@Override
+	public DomainError getError() {
+		return error;
 	}
 }

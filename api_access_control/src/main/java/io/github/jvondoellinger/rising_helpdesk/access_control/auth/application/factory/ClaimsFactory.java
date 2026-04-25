@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.ApiSecretKey;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.translator.ClaimsExceptionTranslator;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class ClaimsFactory {
 	private final ClaimsExceptionTranslator exceptionTranslator;
 	private final ApiSecretKey secretKey;
 
-	public ResultV1<Claims, String> factory(EncodedToken encodedToken) {
+	public Result<Claims> factory(EncodedToken encodedToken) {
 		return exceptionTranslator.translate(() ->
 			Jwts.parser()
 				   .verifyWith(secretKey.getCurrent())

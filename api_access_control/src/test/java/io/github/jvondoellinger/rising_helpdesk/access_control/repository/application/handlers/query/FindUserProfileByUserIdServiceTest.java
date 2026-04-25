@@ -64,6 +64,6 @@ class FindUserProfileByUserIdServiceTest {
 		var result = service.handle(query);
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("User Profile");
+		assertThat(result.getError().description()).containsIgnoringCase("User Profile");
 	}
 }

@@ -65,6 +65,6 @@ class FindAccessProfileByNameServiceTest {
 		var result = service.handle(query);
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("Access Profile");
+		assertThat(result.getError().description()).containsIgnoringCase("Access Profile");
 	}
 }

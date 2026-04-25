@@ -71,6 +71,6 @@ class FindQueueByIdServiceTest implements UnitTest {
 		var result = service.handle(query);
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("queue");
+		assertThat(result.getError().description()).containsIgnoringCase("queue");
 	}
 }

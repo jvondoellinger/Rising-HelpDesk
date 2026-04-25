@@ -5,9 +5,10 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.AccessProfileMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile.FindAccessProfileByNameQuery;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -16,14 +17,14 @@ public class FindAccessProfileByNameService implements FindAccessProfileByNameQu
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public ResultV1<AccessProfileDetails, String> handle(FindAccessProfileByNameQuery query) {
+	public Result<AccessProfileDetails> handle(FindAccessProfileByNameQuery query) {
 		var optional = repository.findByName(query.name());
 
 		if (optional.isEmpty()) {
-			return ResultV1.failure("No Access Profile found.");
+			return Result.error(new DomainError("NO_ACCESS_PROFILE_FOUND", "No Access Profile found."));
 		}
 
-		return ResultV1.success(mapper.details(optional.get()));
+		return Result.success(mapper.details(optional.get()));
 	}
 
 	@Override

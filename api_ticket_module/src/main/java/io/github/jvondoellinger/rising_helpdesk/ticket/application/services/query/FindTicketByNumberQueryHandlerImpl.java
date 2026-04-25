@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByNumberQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -8,6 +8,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindT
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -18,20 +19,20 @@ public class FindTicketByNumberQueryHandlerImpl
 	private final TicketMapper mapper;
 
 	@Override
-	public ResultV1<TicketDetails, String> handle(FindTicketByNumberQuery query) {
+	public Result<TicketDetails> handle(FindTicketByNumberQuery query) {
 		var num = query.number();
 
 		if (num == null) {
-			return ResultV1.failure("Protocol number is blank.");
+			return Result.error(new DomainError("PROTOCOL_NUMBER_IS_BLANK", "Protocol number is blank."));
 		}
 
 		var optional = repository.findByNumber(num);
 
 		if (optional.isEmpty()) {
-			return ResultV1.failure("No ticket found.");
+			return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
 		}
 
-		return ResultV1.success(mapper.details(optional.get()));
+		return Result.success(mapper.details(optional.get()));
 	}
 
 	@Override

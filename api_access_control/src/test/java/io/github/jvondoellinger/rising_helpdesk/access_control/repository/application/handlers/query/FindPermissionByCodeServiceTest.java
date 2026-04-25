@@ -64,6 +64,6 @@ class FindPermissionByCodeServiceTest {
 		var result = service.handle(query);
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("code");
+		assertThat(result.getError().description()).containsIgnoringCase("code");
 	}
 }

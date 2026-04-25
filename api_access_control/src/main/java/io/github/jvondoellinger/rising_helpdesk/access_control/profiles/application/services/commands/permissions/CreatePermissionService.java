@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.permission.CreatePermissionHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ public class CreatePermissionService implements CreatePermissionHandler {
     private final PermissionRepository repository;
 
     @Override
-    public ResultV1<Void, String> handle(CreatePermissionCommand cmd) {
+    public Result<Void> handle(CreatePermissionCommand cmd) {
         var e = Permission.of(cmd.command());
 
         repository.save(e);
 
-        return ResultV1.success();
+        return Result.success(null);
     }
 
     @Override

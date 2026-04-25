@@ -1,11 +1,12 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.translator;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.jsonwebtoken.io.SerializationException;
 import io.jsonwebtoken.security.WeakKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Supplier;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 public class JwtExceptionsTranslator implements ExceptionTranslator<String>{
@@ -14,19 +15,19 @@ public class JwtExceptionsTranslator implements ExceptionTranslator<String>{
 	 *
 	 * @apiNote This translates ONLY the possible errors that can occur during the creation of the JWT token from Jwts (jjwt library).
 	 */
-	public ResultV1<String, String> translate(Supplier<String> func) {
+	public Result<String> translate(Supplier<String> func) {
 		try {
-			return ResultV1.success(func.get());
+			return Result.success(func.get());
 		} catch (WeakKeyException e) {
-			return ResultV1.failure("Weak key");
+			return Result.error(new DomainError("WEAK_KEY", "Weak key"));
 
 		} catch (SerializationException e) {
-			return ResultV1.failure("Invalid claims serialization");
+			return Result.error(new DomainError("INVALID_CLAIMS_SERIALIZATION", "Invalid claims serialization"));
 
 		} catch (SecurityException e) {
-			return ResultV1.failure("Signing error");
+			return Result.error(new DomainError("SIGNING_ERROR", "Signing error"));
 		} catch (IllegalArgumentException e) {
-			return ResultV1.failure("Invalid JWT data");
+			return Result.error(new DomainError("INVALID_JWT_DATA", "Invalid JWT data"));
 		}
 	}
 }

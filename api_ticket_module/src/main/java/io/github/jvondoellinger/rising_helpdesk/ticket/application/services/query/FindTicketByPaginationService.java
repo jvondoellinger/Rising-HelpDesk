@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -18,12 +18,12 @@ public class FindTicketByPaginationService implements FindTicketByPaginationQuer
     private final TicketMapper mapper;
 
     @Override
-    public ResultV1<Pagination<TicketDetails>, String> handle(FindTicketByPaginationQuery query) {
+    public Result<Pagination<TicketDetails>> handle(FindTicketByPaginationQuery query) {
         var filter = PaginationFilter.of(query.page(), query.size());
         var pagination = repository.findByPagination(filter);
         var details = mapper.detailsPagination(pagination);
 
-        return ResultV1.success(details);
+        return Result.success(details);
     }
 
     @Override

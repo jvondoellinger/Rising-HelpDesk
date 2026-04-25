@@ -1,12 +1,13 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.DelegateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.DelegateTicketCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -15,16 +16,16 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 	private final QueueRepository queueRepository;
 
 	@Override
-	public ResultV1<Void, String> handle(DelegateTicketCommand cmd) {
+	public Result<Void> handle(DelegateTicketCommand cmd) {
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()) {
-			return ResultV1.failure("No queue found");
+			return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found"));
 		}
 		var ticketOptional = repository.findById(cmd.ticketId());
 
 		if (ticketOptional.isEmpty()) {
-			return ResultV1.failure("No ticket found.");
+			return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
 		}
 
 		var ticket = ticketOptional.get();
@@ -34,7 +35,7 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 
 		repository.save(ticket);
 
-		return ResultV1.success(null);
+		return Result.success(null);
 	}
 
 	@Override

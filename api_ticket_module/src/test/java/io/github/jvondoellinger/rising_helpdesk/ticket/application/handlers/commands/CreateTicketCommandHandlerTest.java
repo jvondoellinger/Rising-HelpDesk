@@ -79,7 +79,7 @@ public class CreateTicketCommandHandlerTest implements UnitTest {
 
 		assertThat(result.isSuccess()).isFalse();
 		assertThat(result.getError()).isNotNull();
-		assertThat(result.getError()).containsIgnoringCase("queue");
+		assertThat(result.getError().description()).containsIgnoringCase("queue");
 
 		verify(ticketRepository, never()).save(any(Ticket.class));
 	}

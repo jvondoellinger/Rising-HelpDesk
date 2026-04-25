@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByAuthorQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -10,6 +10,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQ
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -18,16 +19,16 @@ public class FindQueueByAuthorService implements FindQueueByAuthorQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public ResultV1<Pagination<QueueDetails>, String> handle(FindQueueByAuthorQuery query) {
+    public Result<Pagination<QueueDetails>> handle(FindQueueByAuthorQuery query) {
         var pagination = repository.findByAuthor(query.authorId(), PaginationFilter.of(query.page(), query.size()));
 
         if (pagination.isEmpty()) {
-            return ResultV1.failure("No queue found.");
+            return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
         }
 
         var detailsPagination = mapper.detailsPagination(pagination);
 
-        return ResultV1.success(detailsPagination);
+        return Result.success(detailsPagination);
     }
 
     @Override

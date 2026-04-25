@@ -48,7 +48,7 @@ class FindTicketByIdQueryHandlerImplTest implements UnitTest {
 		var result = service.handle(new FindTicketByIdQuery(null));
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("ID");
+		assertThat(result.getError().description()).containsIgnoringCase("ID");
 	}
 
 	@Test

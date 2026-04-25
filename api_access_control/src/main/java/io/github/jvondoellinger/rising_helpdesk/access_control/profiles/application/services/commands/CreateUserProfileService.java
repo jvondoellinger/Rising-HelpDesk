@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.UserProfileMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.userprofile.CreateUserProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ public class CreateUserProfileService implements CreateUserProfileHandler {
 	private final UserProfileMapper mapper;
 
 	@Override
-	public ResultV1<Void, String> handle(CreateUserProfileCommand cmd) {
+	public Result<Void> handle(CreateUserProfileCommand cmd) {
 		var entity = mapper.from(cmd);
 		repository.save(entity);
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 
 	@Override

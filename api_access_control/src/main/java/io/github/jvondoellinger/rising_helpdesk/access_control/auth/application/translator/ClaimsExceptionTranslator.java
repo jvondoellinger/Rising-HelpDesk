@@ -1,36 +1,37 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.translator;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SecurityException;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Supplier;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 public class ClaimsExceptionTranslator implements ExceptionTranslator<Claims> {
 
 	@Override
-	public ResultV1<Claims, String> translate(Supplier<Claims> func) {
+	public Result<Claims> translate(Supplier<Claims> func) {
 		try{
-			return ResultV1.success(func.get());
+			return Result.success(func.get());
 		} catch (ExpiredJwtException e) {
-			return ResultV1.failure("Token expired");
+			return Result.error(new DomainError("TOKEN_EXPIRED", "Token expired"));
 
 		} catch (SecurityException e) {
-			return ResultV1.failure("Invalid signature");
+			return Result.error(new DomainError("INVALID_SIGNATURE", "Invalid signature"));
 
 		} catch (MalformedJwtException e) {
-			return ResultV1.failure("Malformed token");
+			return Result.error(new DomainError("MALFORMED_TOKEN", "Malformed token"));
 
 		} catch (UnsupportedJwtException e) {
-			return ResultV1.failure("Unsupported token");
+			return Result.error(new DomainError("UNSUPPORTED_TOKEN", "Unsupported token"));
 
 		} catch (IllegalArgumentException e) {
-			return ResultV1.failure("Token is null or empty");
+			return Result.error(new DomainError("TOKEN_IS_NULL_OR_EMPTY", "Token is null or empty"));
 
 		} catch (JwtException e) {
-			return ResultV1.failure("Invalid token");
+			return Result.error(new DomainError("INVALID_TOKEN", "Invalid token"));
 		}
 	}
 }

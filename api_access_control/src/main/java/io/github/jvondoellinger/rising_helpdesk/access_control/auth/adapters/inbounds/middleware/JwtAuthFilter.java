@@ -3,6 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.auth.adapters.in
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.AuthenticateService;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl.JwtTokenService;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Objects;
 
-@Component
 @AllArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 	private final JwtTokenService service;
@@ -22,17 +22,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	private final JwtTokenService jwtTokenService;
 
 	@Override
+	@FixAfter // Validar se o fluxo vai funcionar corretamente
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		var token = request.getHeader("Authorization");
 
 		if (Objects.isNull(token)) {
-			unauthorize(response);
+			// unauthorize(response);
+			// Não precisa negar, pois o Spring *DEVE* cuidar disso!
+			filterChain.doFilter(request, response);
 			return;
 		}
 
 		var result = jwtTokenService.verify(new EncodedToken(token));
 
-		if (result.isFailure()) {
+		if (result.isError()) {
 			unauthorize(response);
 			return;
 		}

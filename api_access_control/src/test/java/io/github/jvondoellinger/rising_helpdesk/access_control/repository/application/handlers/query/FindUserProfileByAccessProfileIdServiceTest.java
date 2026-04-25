@@ -59,7 +59,7 @@ class FindUserProfileByAccessProfileIdServiceTest {
 		var result = service.handle(query);
 
 		assertThat(result.isSuccess()).isFalse();
-		assertThat(result.getError()).containsIgnoringCase("profile");
+		assertThat(result.getError().description()).containsIgnoringCase("profile");
 	}
 
 	@Test

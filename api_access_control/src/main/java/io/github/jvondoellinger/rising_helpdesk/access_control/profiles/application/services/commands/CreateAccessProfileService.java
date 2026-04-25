@@ -5,9 +5,10 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.accessprofile.CreateAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -17,11 +18,11 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public ResultV1<Void, String> handle(CreateAccessProfileCommand cmd) {
+	public Result<Void> handle(CreateAccessProfileCommand cmd) {
 		var alreadyExists = repository.existsByName(cmd.name());
 
 		if (alreadyExists) {
-			return ResultV1.failure("Access Profile already registered.");
+			return Result.error(new DomainError("ACCESS_PROFILE_ALREADY_REGISTERED", "Access Profile already registered."));
 		}
 
 		var match = cmd
@@ -30,13 +31,13 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 			   .allMatch(permissionRepository::existsById);
 
 		if (!match) {
-			return ResultV1.failure("One or more permissions were not registered.");
+			return Result.error(new DomainError("ONE_OR_MORE_PERMISSIONS_WERE_NOT_REGISTERED", "One or more permissions were not registered."));
 		}
 
 		var accessprofile = mapper.from(cmd);
 		repository.save(accessprofile);
 
-		return ResultV1.success();
+		return Result.success(null);
 
 	}
 

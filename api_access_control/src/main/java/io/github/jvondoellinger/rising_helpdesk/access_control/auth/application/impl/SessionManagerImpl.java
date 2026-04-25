@@ -5,7 +5,9 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.data.SessionData;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JtiKeyFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.TokenPayloadFactory;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -25,28 +28,34 @@ public class SessionManagerImpl implements SessionManager {
 	private final TokenPayloadFactory payloadFactory;
 
 	@Override
-	public ResultV1<Boolean, String> canIssueNewToken(UUID userId) {
-		var key = keyFactory.getJtiKey(userId);
-		var activeTokens = template.opsForSet().size(key);
-
-		if (Objects.isNull(activeTokens)) {
-			return ResultV1.failure("Unexpected error! Count value returned is null.");
-		}
-
-		if (activeTokens >= settings.getMaxTokensPerUser()) {
-			return ResultV1.success(false);
-		}
-
-		return ResultV1.success(true);
-	}
-
-	@Override
-	public ResultV1<Integer, String> getActiveTokensCount(UUID userId) {
+	@FixAfter
+	public Result<SessionData> create(TokenPayload payload) {
 		return null;
 	}
 
 	@Override
-	public ResultV1<List<SessionData>, String> getActiveSessions(UUID userId) {
+	public Result<Boolean> canIssueNewToken(UUID userId) {
+		var key = keyFactory.getJtiKey(userId);
+		var activeTokens = template.opsForSet().size(key);
+
+		if (Objects.isNull(activeTokens)) {
+			return Result.error(new DomainError("UNEXPECTED_ERROR_COUNT_VALUE_RETURNED_IS_NULL", "Unexpected error! Count value returned is null."));
+		}
+
+		if (activeTokens >= settings.getMaxTokensPerUser()) {
+			return Result.success(false);
+		}
+
+		return Result.success(true);
+	}
+
+	@Override
+	public Result<Integer> getActiveTokensCount(UUID userId) {
+		return null;
+	}
+
+	@Override
+	public Result<List<SessionData>> getActiveSessions(UUID userId) {
 		return null;
 	}
 }

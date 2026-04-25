@@ -1,8 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.impl;
-
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.abstraction.ResultFunc;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.abstraction.ResultTransformer;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.abstraction.Result;
+package io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result;
 
 public class ResultTransformerImpl<T> implements ResultTransformer<T> {
 	private final T value;
@@ -25,15 +21,31 @@ public class ResultTransformerImpl<T> implements ResultTransformer<T> {
 		}
 		try {
 			var result = func.run(value);
-			if (result.isError()) {
+
+			if (result.isError())
 				return createError(result.getError());
-			}
+
 			return create(result.getValue());
 		} catch (RuntimeException e) {
 			var error = new DomainError("Unexpected error", e.getMessage());
 			return createError(error);
 		}
+	}
 
+	@Override
+	public ResultTransformer<T> switchIfEmpty(ResultFunc<T, Result<T>> supplier) {
+		if (value != null) {
+			return this;
+		}
+		return flatMap(supplier);
+	}
+
+	@Override
+	public ResultTransformer<T> switchIfEmpty(T value) {
+		if (this.value != null) {
+			return this;
+		}
+		return new ResultTransformerImpl<>(value);
 	}
 
 	@Override

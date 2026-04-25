@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -9,6 +9,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketR
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -17,23 +18,23 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 	private final TicketMapper mapper;
 
 	@Override
-	public ResultV1<TicketDetails, String> handle(FindTicketByIdQuery query) {
+	public Result<TicketDetails> handle(FindTicketByIdQuery query) {
 		var id = query.id();
 
 		if (id == null) {
-			return ResultV1.failure("ID is blank.");
+			return Result.error(new DomainError("ID_IS_BLANK", "ID is blank."));
 		}
 
 		var optional = repository.findById(id);
 
 		if (optional.isEmpty()) {
-			return ResultV1.success();
+			return Result.success(null);
 		}
 
 		var ticket = optional.get();
 		var details = mapper.details(ticket);
 
-		return ResultV1.success(details);
+		return Result.success(details);
 	}
 
 	@Override

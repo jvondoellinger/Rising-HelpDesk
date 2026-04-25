@@ -8,7 +8,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
-// Adicionar um mapper que vai retornar ResultV1<> e fazer toda conversão do jwt para o payload ou vice-versa, assim permitindo que o código fique mais limpo e leigivel!
+// Adicionar um mapper que vai retornar Result<> e fazer toda conversão do jwt para o payload ou vice-versa, assim permitindo que o código fique mais limpo e leigivel!
 
 @Service
 @AllArgsConstructor
@@ -31,50 +32,50 @@ public class JwtTokenService implements TokenService {
 	private final AuthenticationSettings settings;
 
 	@Override
-	public ResultV1<EncodedToken, String> generate(TokenPayload payload) {
-		ResultV1<String, String> jwtResult = jwtFactory.factory(payload);
+	public Result<EncodedToken> generate(TokenPayload payload) {
+		Result<String> jwtResult = jwtFactory.factory(payload);
 
-		if (jwtResult.isFailure()) {
-			return jwtResult.cast();
+		if (jwtResult.isError()) {
+			return Result.error(jwtResult.getError());
 		}
 
 		var countResult = countJtiByUser(payload.getSubject());
-		if (countResult.isFailure()) {
-			return countResult.cast();
+		if (countResult.isError()) {
+			return Result.error(countResult.getError());
 		}
 		if (countResult.getValue() > settings.getMaxTokensPerUser()) {
-			return ResultV1.failure("Maximum number of tokens reached per user!");
+			return Result.error(new DomainError("MAXIMUM_NUMBER_OF_TOKENS_REACHED_PER_USER", "Maximum number of tokens reached per user!"));
 		}
 
 		var jwt = jwtResult.getValue();
 		var encodedToken = new EncodedToken(jwt);
 
-		return ResultV1.success(encodedToken);
+		return Result.success(encodedToken);
 	}
 	@Override
-	public ResultV1<TokenPayload, String> verify(EncodedToken encodedToken) {
-		// Payload ResultV1
+	public Result<TokenPayload> verify(EncodedToken encodedToken) {
+		// Payload result
 		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
-		if (payloadResult.isFailure()) return payloadResult;
+		if (payloadResult.isError()) return payloadResult;
 
 		// Payload Value
 		var payload = payloadResult.getValue();
 
-		// Revoke ResultV1
+		// Revoke result
 		var revokedResult = isRevoked(payload.getJti(), payload.getSubject());
-		if (revokedResult.isFailure()) return ResultV1.failure("We were unable to verify if the token has been revoked!");
+		if (revokedResult.isError()) return Result.error(new DomainError("WE_WERE_UNABLE_TO_VERIFY_IF_THE_TOKEN_HAS_BEEN_REVOKED", "We were unable to verify if the token has been revoked!"));
 
 		// Revoke Value
 		var isRevoked = revokedResult.getValue();
-		if (isRevoked) return ResultV1.failure("Token revoked!");
+		if (isRevoked) return Result.error(new DomainError("TOKEN_REVOKED", "Token revoked!"));
 
-		return ResultV1.success(payload);
+		return Result.success(payload);
 	}
 	@Override
-	public ResultV1<Void, String> revoke(EncodedToken token) {
-		// Payload ResultV1
+	public Result<Void> revoke(EncodedToken token) {
+		// Payload result
 		var payloadResult = payloadFactory.fromEncodedToken(token);
-		if (payloadResult.isFailure()) return ResultV1.failure(payloadResult.getError());
+		if (payloadResult.isError()) return Result.error(payloadResult.getError());
 
 		// Arrange
 		var payload = payloadResult.getValue();
@@ -83,7 +84,7 @@ public class JwtTokenService implements TokenService {
 
 		// Check duration
 		var duration = Duration.between(Instant.now(), payload.getExpiration().toInstant());
-		if (duration.isNegative() || duration.isZero()) return ResultV1.failure("Expired token!");
+		if (duration.isNegative() || duration.isZero()) return Result.error(new DomainError("EXPIRED_TOKEN", "Expired token!"));
 
 		// Redis keys
 		var revokeKey = keyFactory.getJtiRevokedKey(userId);
@@ -96,10 +97,10 @@ public class JwtTokenService implements TokenService {
 		template.opsForSet().add(revokeKey, jti);
 		template.expire(revokeKey, duration);
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 	@Override
-	public ResultV1<Void, String> revokeAll(UUID userId) {
+	public Result<Void> revokeAll(UUID userId) {
 		var revokeKey = keyFactory.getJtiRevokedKey(userId);
 		var activeKey = keyFactory.getJtiKey(userId);
 
@@ -107,7 +108,7 @@ public class JwtTokenService implements TokenService {
 		var jtisSet = template.opsForSet().members(activeKey);
 
 		if (Objects.isNull(jtisSet) || jtisSet.isEmpty()) {
-			return ResultV1.failure("No active tokens registered!");
+			return Result.error(new DomainError("NO_ACTIVE_TOKENS_REGISTERED", "No active tokens registered!"));
 		}
 
 		// Removing jti from active tokens
@@ -117,14 +118,14 @@ public class JwtTokenService implements TokenService {
 		template.opsForSet().add(revokeKey, jtisSet.toArray(new String[0]));
 		template.expire(revokeKey, Duration.ofHours(24));
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 	@Override
-	public ResultV1<Boolean, String> isRevoked(EncodedToken encodedToken) {
+	public Result<Boolean> isRevoked(EncodedToken encodedToken) {
 		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
 
-		if (payloadResult.isFailure()) {
-			return ResultV1.failure(payloadResult.getError());
+		if (payloadResult.isError()) {
+			return Result.error(payloadResult.getError());
 		}
 
 		var payload = payloadResult.getValue();
@@ -136,24 +137,24 @@ public class JwtTokenService implements TokenService {
 			   .opsForSet()
 			   .isMember(key, jti);
 
-		return ResultV1.success(isMember);
+		return Result.success(isMember);
 	}
 	@Override
-	public ResultV1<Boolean, String> isRevoked(UUID jti, UUID userId) {
+	public Result<Boolean> isRevoked(UUID jti, UUID userId) {
 		var key = keyFactory.getJtiRevokedKey(userId);
 
 		var isMember = template
 			   .opsForSet()
 			   .isMember(key, jti);
 
-		return ResultV1.success(isMember);
+		return Result.success(isMember);
 	}
 	@Override
-	public ResultV1<Long, String> countJtiByUser(UUID userId) {
+	public Result<Long> countJtiByUser(UUID userId) {
 		var key = keyFactory.getJtiKey(userId);
 		var size = template.opsForSet().size(key);
 
-		return ResultV1.success(size);
+		return Result.success(size);
 	}
 }
 /*

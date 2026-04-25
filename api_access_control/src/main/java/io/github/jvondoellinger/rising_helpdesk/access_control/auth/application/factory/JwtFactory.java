@@ -3,13 +3,14 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.ApiSecretKey;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.translator.JwtExceptionsTranslator;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.UUID;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -19,9 +20,9 @@ public class JwtFactory {
 	private final ApiSecretKey secretKey;
 
 	// Methods
-	public ResultV1<String, String> factory(TokenPayload payload) {
+	public Result<String> factory(TokenPayload payload) {
 		if (!payload.getExpiration().after(new Date())) {
-			return ResultV1.failure("Expiration equal to current time.");
+			return Result.error(new DomainError("EXPIRATION_EQUAL_TO_CURRENT_TIME", "Expiration equal to current time."));
 		}
 
 		return translator.translate(() -> {

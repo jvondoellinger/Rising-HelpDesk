@@ -6,11 +6,12 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 
 // Remover a duplicidade do mapeamento de perissionsDTO para Permissions
@@ -22,18 +23,18 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 	private final PermissionMapper mapper;
 
 	@Override
-	public ResultV1<Void, String> handle(RemovePermissionsAccessProfileCommand cmd) {
+	public Result<Void> handle(RemovePermissionsAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return ResultV1.failure("No access found on persistence.");
+			return Result.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
 		}
 
 		var accessprofile = optional.get();
 		var permissions = mapper.from(cmd.permissions());
 
 		if (accessprofile.hasAllPermissions(permissions)) {
-			return ResultV1.failure("Permissions already granted.");
+			return Result.error(new DomainError("PERMISSIONS_ALREADY_GRANTED", "Permissions already granted."));
 		}
 
 		var newValue = new AccessProfile(
@@ -46,7 +47,7 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 
 		repository.save(newValue);
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 
 	@Override

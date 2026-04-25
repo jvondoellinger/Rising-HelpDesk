@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -9,6 +9,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.e
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -18,13 +19,13 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public ResultV1<Void, String> handle(CreateQueueCommand cmd) {
+	public Result<Void> handle(CreateQueueCommand cmd) {
 		if (cmd == null) {
-			return ResultV1.failure("Command is null.");
+			return Result.error(new DomainError("COMMAND_IS_NULL", "Command is null."));
 		}
 
 		if (repository.existsByArea(cmd.area())) {
-			return ResultV1.failure("Area already exists.");
+			return Result.error(new DomainError("AREA_ALREADY_EXISTS", "Area already exists."));
 		}
 
 		var queue = new Queue(
@@ -35,7 +36,7 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 
 		repository.save(queue);
 
-		return ResultV1.success();
+		return Result.success(null);
 	}
 
 	@Override

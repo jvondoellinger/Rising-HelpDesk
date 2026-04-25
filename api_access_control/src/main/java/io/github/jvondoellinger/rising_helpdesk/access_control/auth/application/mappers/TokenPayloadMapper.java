@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.mappers;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ import java.util.*;
 @Service
 @Deprecated
 public class TokenPayloadMapper {
-	public Result<TokenPayload, String> map(Claims claims) {
+	public ResultV1<TokenPayload, String> map(Claims claims) {
 		var jtiString = claims.getId();
 
 		if (Objects.isNull(jtiString) || jtiString.isBlank()){
-			return Result.failure("Invalid Token! JTI is missing!");
+			return ResultV1.failure("Invalid Token! JTI is missing!");
 		}
 
 		UUID jti = UUID.fromString(jtiString);
@@ -38,7 +38,7 @@ public class TokenPayloadMapper {
 			throw new IllegalArgumentException("The provided token is invalid!");
 		}
 
-		return Result.success(new TokenPayload(
+		return ResultV1.success(new TokenPayload(
 			   jti,
 			   subject,
 			   ids,

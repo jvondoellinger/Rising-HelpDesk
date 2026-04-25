@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.CommandBus;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Command;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.CommandHandler;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -27,11 +27,11 @@ public class CommandBusImpl implements CommandBus {
 	}
 
 
-	public Result<Void, String> send(Command cmd) {
+	public ResultV1<Void, String> send(Command cmd) {
 		var handler = hashMap.get(cmd.getClass());
 
 		if (handler == null) {
-			return Result.failure("No handler found.");
+			return ResultV1.failure("No handler found.");
 		}
 
 		return handler.handle(cmd);

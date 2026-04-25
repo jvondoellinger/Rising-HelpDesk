@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.QueryHandler;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,11 +25,11 @@ public class QueryBusImpl implements QueryBus {
     }
 
     @Override
-    public <R> Result<R, String> send(Query<R> cmd) {
+    public <R> ResultV1<R, String> send(Query<R> cmd) {
         var handler = hashMap.get(cmd.getClass());
 
         if (handler == null) {
-            return Result.failure("No handler found");
+            return ResultV1.failure("No handler found");
         }
 
         return  ((QueryHandler<Query<R>, R>)handler).handle(cmd);

@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -18,23 +17,23 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 	private final TicketMapper mapper;
 
 	@Override
-	public Result<TicketDetails, String> handle(FindTicketByIdQuery query) {
+	public ResultV1<TicketDetails, String> handle(FindTicketByIdQuery query) {
 		var id = query.id();
 
 		if (id == null) {
-			return Result.failure("ID is blank.");
+			return ResultV1.failure("ID is blank.");
 		}
 
 		var optional = repository.findById(id);
 
 		if (optional.isEmpty()) {
-			return Result.success();
+			return ResultV1.success();
 		}
 
 		var ticket = optional.get();
 		var details = mapper.details(ticket);
 
-		return Result.success(details);
+		return ResultV1.success(details);
 	}
 
 	@Override

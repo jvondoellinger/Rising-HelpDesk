@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.accessprofile.ChangeNameAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,15 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 	private final AccessProfileRepository repository;
 
 	@Override
-	public Result<Void, String> handle(ChangeNameAccessProfileCommand cmd) {
+	public ResultV1<Void, String> handle(ChangeNameAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return Result.failure("No access found on persistence.");
+			return ResultV1.failure("No access found on persistence.");
 		}
 
 		if (repository.existsByName(cmd.name())) {
-			return Result.failure("Already exists a profile with this name!");
+			return ResultV1.failure("Already exists a profile with this name!");
 		}
 
 		var accessprofile = optional.get();
@@ -38,7 +38,7 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 
 		repository.save(updated);
 
-		return Result.success();
+		return ResultV1.success();
 	}
 
 	@Override

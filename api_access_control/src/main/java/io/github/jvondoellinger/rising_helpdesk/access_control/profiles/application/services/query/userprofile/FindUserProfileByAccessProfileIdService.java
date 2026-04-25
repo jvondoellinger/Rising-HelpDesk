@@ -7,7 +7,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +18,17 @@ public class FindUserProfileByAccessProfileIdService implements FindUserProfileB
 	private final UserProfileMapper mapper;
 
 	@Override
-	public Result<Pagination<UserProfileDetails>, String> handle(FindUserProfileByAccessProfileIdQuery query) {
+	public ResultV1<Pagination<UserProfileDetails>, String> handle(FindUserProfileByAccessProfileIdQuery query) {
 		var filter = PaginationFilter.of(query.page(), query.size());
 		var pagination = repository.findByAccessProfileId(query.accessProfileId(), filter);
 
 		if (pagination.isEmpty()) {
-			return Result.failure("No profile found.");
+			return ResultV1.failure("No profile found.");
 		}
 
 		var detailsPagination = mapper.detailsPagination(pagination);
 
-		return Result.success(detailsPagination);
+		return ResultV1.success(detailsPagination);
 	}
 
 	@Override

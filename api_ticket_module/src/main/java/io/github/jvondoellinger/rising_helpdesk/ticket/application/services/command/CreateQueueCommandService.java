@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -18,13 +18,13 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void, String> handle(CreateQueueCommand cmd) {
+	public ResultV1<Void, String> handle(CreateQueueCommand cmd) {
 		if (cmd == null) {
-			return Result.failure("Command is null.");
+			return ResultV1.failure("Command is null.");
 		}
 
 		if (repository.existsByArea(cmd.area())) {
-			return Result.failure("Area already exists.");
+			return ResultV1.failure("Area already exists.");
 		}
 
 		var queue = new Queue(
@@ -35,7 +35,7 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 
 		repository.save(queue);
 
-		return Result.success();
+		return ResultV1.success();
 	}
 
 	@Override

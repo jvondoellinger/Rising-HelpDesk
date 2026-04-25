@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByAreaQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -17,17 +16,17 @@ public class FindQueueByAreaService implements FindQueueByAreaQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<QueueDetails, String> handle(FindQueueByAreaQuery query) {
+    public ResultV1<QueueDetails, String> handle(FindQueueByAreaQuery query) {
         var optional = repository.findBySubarea(query.area());
 
         if (optional.isEmpty()) {
-            return Result.failure("No queue found.");
+            return ResultV1.failure("No queue found.");
         }
 
         var queue = optional.get();
         var mapped = mapper.details(queue);
 
-        return Result.success(mapped);
+        return ResultV1.success(mapped);
     }
 
     @Override

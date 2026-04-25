@@ -3,18 +3,13 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.SessionManager;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.config.AuthenticationSettings;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.data.SessionData;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.ClaimsFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JtiKeyFactory;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JwtFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.TokenPayloadFactory;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -30,28 +25,28 @@ public class SessionManagerImpl implements SessionManager {
 	private final TokenPayloadFactory payloadFactory;
 
 	@Override
-	public Result<Boolean, String> canIssueNewToken(UUID userId) {
+	public ResultV1<Boolean, String> canIssueNewToken(UUID userId) {
 		var key = keyFactory.getJtiKey(userId);
 		var activeTokens = template.opsForSet().size(key);
 
 		if (Objects.isNull(activeTokens)) {
-			return Result.failure("Unexpected error! Count value returned is null.");
+			return ResultV1.failure("Unexpected error! Count value returned is null.");
 		}
 
 		if (activeTokens >= settings.getMaxTokensPerUser()) {
-			return Result.success(false);
+			return ResultV1.success(false);
 		}
 
-		return Result.success(true);
+		return ResultV1.success(true);
 	}
 
 	@Override
-	public Result<Integer, String> getActiveTokensCount(UUID userId) {
+	public ResultV1<Integer, String> getActiveTokensCount(UUID userId) {
 		return null;
 	}
 
 	@Override
-	public Result<List<SessionData>, String> getActiveSessions(UUID userId) {
+	public ResultV1<List<SessionData>, String> getActiveSessions(UUID userId) {
 		return null;
 	}
 }

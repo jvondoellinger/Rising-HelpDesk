@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -18,7 +18,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
     private final QueueMapper mapper;
 
     @Override
-    public Result<Pagination<QueueDetails>, String> handle(FindQueueByPaginationQuery query) {
+    public ResultV1<Pagination<QueueDetails>, String> handle(FindQueueByPaginationQuery query) {
         var queuePagination = repository.findByPagination(PaginationFilter.of(
                 query.page(),
                 query.size()
@@ -35,7 +35,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
                 queuePagination.totalPages()
         );
 
-        return Result.success(detailsPagination);
+        return ResultV1.success(detailsPagination);
     }
 
     @Override

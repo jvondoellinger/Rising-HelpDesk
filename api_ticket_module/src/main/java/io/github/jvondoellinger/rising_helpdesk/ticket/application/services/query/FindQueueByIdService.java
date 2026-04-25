@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -16,17 +16,17 @@ public class FindQueueByIdService implements FindQueueByIdQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<QueueDetails, String> handle(FindQueueByIdQuery query) {
+    public ResultV1<QueueDetails, String> handle(FindQueueByIdQuery query) {
         var optional = repository.findById(query.id());
 
         if (optional.isEmpty()) {
-            return Result.failure("No queue found.");
+            return ResultV1.failure("No queue found.");
         }
 
         var queue = optional.get();
         var details = mapper.details(queue);
 
-        return Result.success(details);
+        return ResultV1.success(details);
     }
 
     @Override

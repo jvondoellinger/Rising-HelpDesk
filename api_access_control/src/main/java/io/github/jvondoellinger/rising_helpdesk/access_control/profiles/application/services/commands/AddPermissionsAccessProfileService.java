@@ -6,7 +6,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +22,18 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 	@Override
 	@FixAfter
 	// As permissoes devem ser validadas no repositorio
-	public Result<Void, String> handle(AddPermissionsAccessProfileCommand cmd) {
+	public ResultV1<Void, String> handle(AddPermissionsAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.id());
 
 		if (optional.isEmpty()) {
-			return Result.failure("No access found on persistence.");
+			return ResultV1.failure("No access found on persistence.");
 		}
 
 		var accessprofile = optional.get();
 		var permissions = mapper.from(cmd.permissions());
 
 		if (accessprofile.hasAllPermissions(permissions)) {
-			return Result.failure("Permissions already granted.");
+			return ResultV1.failure("Permissions already granted.");
 		}
 
 		var newValue = new AccessProfile(
@@ -46,7 +46,7 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 
 		repository.save(newValue); // Atualiza no banco de dados
 
-		return Result.success();
+		return ResultV1.success();
 	}
 
 	@Override

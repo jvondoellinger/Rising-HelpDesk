@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.KernelException;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.DelegateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.DelegateTicketCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
@@ -16,16 +15,16 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 	private final QueueRepository queueRepository;
 
 	@Override
-	public Result<Void, String> handle(DelegateTicketCommand cmd) {
+	public ResultV1<Void, String> handle(DelegateTicketCommand cmd) {
 		var queueOptional = queueRepository.findById(cmd.queueId());
 
 		if (queueOptional.isEmpty()) {
-			return Result.failure("No queue found");
+			return ResultV1.failure("No queue found");
 		}
 		var ticketOptional = repository.findById(cmd.ticketId());
 
 		if (ticketOptional.isEmpty()) {
-			return Result.failure("No ticket found.");
+			return ResultV1.failure("No ticket found.");
 		}
 
 		var ticket = ticketOptional.get();
@@ -35,7 +34,7 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 
 		repository.save(ticket);
 
-		return Result.success(null);
+		return ResultV1.success(null);
 	}
 
 	@Override

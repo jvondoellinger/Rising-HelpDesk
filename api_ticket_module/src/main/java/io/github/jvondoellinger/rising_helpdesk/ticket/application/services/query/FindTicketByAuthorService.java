@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketsByAuthorQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -18,7 +18,7 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
     private final TicketMapper mapper;
 
     @Override
-    public Result<Pagination<TicketDetails>, String> handle(FindTicketsByAuthorQuery query) {
+    public ResultV1<Pagination<TicketDetails>, String> handle(FindTicketsByAuthorQuery query) {
         var tks = repository.findByAuthorId(query.author(),PaginationFilter.of(query.page(), query.size()));
 
         var details = tks.items()
@@ -28,7 +28,7 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
 
         var pagination = Pagination.of(details, tks.page(), tks.totalPages());
 
-        return Result.success(pagination);
+        return ResultV1.success(pagination);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.RemoveTicketMentionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.RemoveTicketMentionHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -18,9 +18,9 @@ public class RemoveTicketMentionService implements RemoveTicketMentionHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void, String> handle(RemoveTicketMentionCommand cmd) {
+	public ResultV1<Void, String> handle(RemoveTicketMentionCommand cmd) {
 		if (ticketRepository.existsById(cmd.ticketId())) {
-			return Result.failure("No ticket found.");
+			return ResultV1.failure("No ticket found.");
 		}
 
 		var mention = new Mention(
@@ -31,7 +31,7 @@ public class RemoveTicketMentionService implements RemoveTicketMentionHandler {
 
 		mentionRepository.save(mention);
 
-		return Result.success();
+		return ResultV1.success();
 	}
 
 	@Override

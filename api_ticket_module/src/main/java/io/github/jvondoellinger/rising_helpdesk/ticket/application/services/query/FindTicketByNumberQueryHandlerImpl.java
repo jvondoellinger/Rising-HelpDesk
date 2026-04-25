@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByNumberQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -18,20 +18,20 @@ public class FindTicketByNumberQueryHandlerImpl
 	private final TicketMapper mapper;
 
 	@Override
-	public Result<TicketDetails, String> handle(FindTicketByNumberQuery query) {
+	public ResultV1<TicketDetails, String> handle(FindTicketByNumberQuery query) {
 		var num = query.number();
 
 		if (num == null) {
-			return Result.failure("Protocol number is blank.");
+			return ResultV1.failure("Protocol number is blank.");
 		}
 
 		var optional = repository.findByNumber(num);
 
 		if (optional.isEmpty()) {
-			return Result.failure("No ticket found.");
+			return ResultV1.failure("No ticket found.");
 		}
 
-		return Result.success(mapper.details(optional.get()));
+		return ResultV1.success(mapper.details(optional.get()));
 	}
 
 	@Override

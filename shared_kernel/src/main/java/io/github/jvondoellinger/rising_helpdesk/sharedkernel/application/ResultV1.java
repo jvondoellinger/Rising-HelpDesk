@@ -8,54 +8,55 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.Futur
 // ! Urgente:
 // Verificar se tem como 'dinamizar' o Failure, assim reaproveitando o mesmo Failure e não precisando reinstanciar, melhorando o uso de recursos desnecessarios!
 
+@Deprecated
 @FutureFeature
 @FixAfter
-public sealed interface Result<T, E> permits Result.Success, Result.Failure {
+public sealed interface ResultV1<T, E> permits ResultV1.Success, ResultV1.Failure {
 	// Results
-	record Success<T, E>(T value) implements Result<T, E> {
+	record Success<T, E>(T value) implements ResultV1<T, E> {
 	}
 
-	record Failure<?, E>(E error) implements Result<?, E> {
+	record Failure<?, E>(E error) implements ResultV1<?, E> {
 	}
 
 	// Static Helpers
-	static <T, E> Result<T, E> success(T value) {
+	static <T, E> ResultV1<T, E> success(T value) {
 		return new Success<>(value);
 	}
-	static <T, E> Result<T, E> failure(E error) {
+	static <T, E> ResultV1<T, E> failure(E error) {
 		return new Failure<>(error);
 	}
-	static <T, E> Result<T, E> success() {
+	static <T, E> ResultV1<T, E> success() {
 		return new Success<>(null);
 	}
 
 	@SuppressWarnings("unchecked")
-	default <U> Result<U, E> cast() {
-		return (Result<U, E>) this;
+	default <U> ResultV1<U, E> cast() {
+		return (ResultV1<U, E>) this;
 	}
 
 	// Default
 	default boolean isFailure() {
-		return this.getClass() == Result.Failure.class;
+		return this.getClass() == ResultV1.Failure.class;
 	}
 	default boolean isSuccess() {
-		return this.getClass() == Result.Success.class;
+		return this.getClass() == ResultV1.Success.class;
 	}
 
 	default boolean isVoid() {
-		if (this instanceof Result.Success<T, E> s)
+		if (this instanceof ResultV1.Success<T, E> s)
 			return s.value == null;
 		return false;
 	}
 
 	default E getError() {
-		if (this instanceof Result.Failure<T, E> f) {
+		if (this instanceof ResultV1.Failure<T, E> f) {
 			return f.error;
 		}
 		throw new RuntimeException("No error message has registered.");
 	}
 	default T getValue() {
-		if (this instanceof Result.Success<T, E> s)
+		if (this instanceof ResultV1.Success<T, E> s)
 			return s.value;
 		throw new RuntimeException("This action has no value because an error occurred while attempting to perform this action.");
 	}

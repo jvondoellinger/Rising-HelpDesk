@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.accessprofile.DeleteAccessProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.accessprofile.DeleteAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +13,18 @@ public class DeleteAccessProfileService implements DeleteAccessProfileHandler {
 	private final AccessProfileRepository repository;
 
 	@Override
-	public Result<Void, String> handle(DeleteAccessProfileCommand cmd) {
+	public ResultV1<Void, String> handle(DeleteAccessProfileCommand cmd) {
 		var optional = repository.findById(cmd.accessProfileId());
 
 		if (optional.isEmpty()) {
-			return Result.failure("ID not found");
+			return ResultV1.failure("ID not found");
 		}
 
 		var accessprofile = optional.get();
 
 		repository.delete(accessprofile);
 
-		return Result.success();
+		return ResultV1.success();
 	}
 
 	@Override

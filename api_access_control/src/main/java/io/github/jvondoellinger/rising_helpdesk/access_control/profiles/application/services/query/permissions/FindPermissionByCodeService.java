@@ -5,7 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.permission.FindPermissionByCodeQuery;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +17,16 @@ public class FindPermissionByCodeService implements FindPermissionByCodeHandler 
 
 
 	@Override
-	public Result<PermissionDetails, String> handle(FindPermissionByCodeQuery query) {
+	public ResultV1<PermissionDetails, String> handle(FindPermissionByCodeQuery query) {
 		var persistence = repository.findByCode(query.code()).orElse(null);
 
 		if (persistence == null) {
-			return Result.failure("No code found.");
+			return ResultV1.failure("No code found.");
 		}
 
 		var details = mapper.details(persistence);
 
-		return Result.success(details);
+		return ResultV1.success(details);
 	}
 
 	@Override

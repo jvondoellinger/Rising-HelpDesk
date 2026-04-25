@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Query;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 
 public interface QueryBus {
-    <R> Result<R, String> send(Query<R> cmd);
+    <R> ResultV1<R, String> send(Query<R> cmd);
 }

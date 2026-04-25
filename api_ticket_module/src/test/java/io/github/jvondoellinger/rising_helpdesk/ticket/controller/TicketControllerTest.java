@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.TicketController;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket.CreateTicketRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
@@ -52,7 +52,7 @@ class TicketControllerTest {
 		);
 
 		when(commandBus.send(any()))
-			   .thenReturn(Result.success());
+			   .thenReturn(ResultV1.success());
 
 		var json = objectMapper.writeValueAsString(request);
 
@@ -71,7 +71,7 @@ class TicketControllerTest {
 		);
 
 		when(commandBus.send(any()))
-			   .thenReturn(Result.success());
+			   .thenReturn(ResultV1.success());
 
 		var json = objectMapper.writeValueAsString(request);
 

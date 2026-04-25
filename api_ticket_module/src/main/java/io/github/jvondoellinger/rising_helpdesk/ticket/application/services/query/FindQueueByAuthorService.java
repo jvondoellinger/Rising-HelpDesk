@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.ResultV1;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByAuthorQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -18,16 +18,16 @@ public class FindQueueByAuthorService implements FindQueueByAuthorQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<Pagination<QueueDetails>, String> handle(FindQueueByAuthorQuery query) {
+    public ResultV1<Pagination<QueueDetails>, String> handle(FindQueueByAuthorQuery query) {
         var pagination = repository.findByAuthor(query.authorId(), PaginationFilter.of(query.page(), query.size()));
 
         if (pagination.isEmpty()) {
-            return Result.failure("No queue found.");
+            return ResultV1.failure("No queue found.");
         }
 
         var detailsPagination = mapper.detailsPagination(pagination);
 
-        return Result.success(detailsPagination);
+        return ResultV1.success(detailsPagination);
     }
 
     @Override

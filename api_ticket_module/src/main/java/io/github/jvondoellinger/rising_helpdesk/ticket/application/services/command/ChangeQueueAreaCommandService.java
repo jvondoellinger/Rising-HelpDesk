@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueAreaCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -19,34 +20,32 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
     private final CurrentUserService currentUserService;
 
     @Override
-    public Result<Void> handle(ChangeQueueAreaCommand cmd) {
-        var optional = repository.findById(cmd.id());
+    public ResultTransformerStep<Void> handle(ChangeQueueAreaCommand cmd) {
+        return ResultTransformerStep.create()
+                .flatMap(aVOid -> {
+                    var optional = repository.findById(cmd.id());
 
-        if (optional.isEmpty()) {
-            return Result.error(new DomainError("NO_QUEUE_FOUND_WITH_THIS_ID", "No queue found with this ID."));
-        }
+                    if (optional.isEmpty())
+                        return Result.error(new DomainError("NO_QUEUE_FOUND_WITH_THIS_ID", "No queue found with this ID."));
 
-        var queue = optional.get();
-        var area = cmd.area();
+                    var queue = optional.get();
+                    var area = cmd.area();
+                    if (queue.getArea().equals(area))
+                        return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
 
+                    var updated = new Queue(
+                            queue.getId(),
+                            area,
+                            queue.getSubarea(),
+                            queue.getCreatedBy(),
+                            queue.getUpdatedAt(),
+                            LocalDateTime.now(),
+                            currentUserService.getUserId()
+                    );
 
-        if (queue.getArea().equals(area)) {
-            return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
-        }
-
-        var updated = new Queue(
-                queue.getId(),
-                area,
-                queue.getSubarea(),
-                queue.getCreatedBy(),
-                queue.getUpdatedAt(),
-                LocalDateTime.now(),
-                currentUserService.getUserId()
-        );
-
-        repository.save(updated);
-
-        return Result.success(null);
+                    repository.save(updated);
+                    return Result.success();
+                });
     }
 
     @Override

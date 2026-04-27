@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -17,17 +18,20 @@ public class FindQueueByIdService implements FindQueueByIdQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<QueueDetails> handle(FindQueueByIdQuery query) {
-        var optional = repository.findById(query.id());
+    public ResultTransformerStep<QueueDetails> handle(FindQueueByIdQuery query) {
+        return ResultTransformerStep.create()
+                .flatMap(aVoid -> {
+                    var optional = repository.findById(query.id());
 
-        if (optional.isEmpty()) {
-            return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
-        }
+                    if (optional.isEmpty()) {
+                        return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
+                    }
 
-        var queue = optional.get();
-        var details = mapper.details(queue);
+                    var queue = optional.get();
+                    var details = mapper.details(queue);
 
-        return Result.success(details);
+                    return Result.success(details);
+                });
     }
 
     @Override

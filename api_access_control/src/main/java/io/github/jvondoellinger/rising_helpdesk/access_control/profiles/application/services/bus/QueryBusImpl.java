@@ -33,6 +33,8 @@ public class QueryBusImpl implements QueryBus {
             return Result.error(new DomainError("NO_HANDLER_FOUND", "No handler found"));
         }
 
-        return  ((QueryHandler<Query<R>, R>)handler).handle(cmd);
+        return  ((QueryHandler<Query<R>, R>)handler)
+                .handle(cmd)
+                .then();
     }
 }

@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.AddTicketMentionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.AddTicketMentionHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -19,20 +20,22 @@ public class AddTicketMentionService implements AddTicketMentionHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(AddTicketMentionCommand cmd) {
-		if (!ticketRepository.existsById(cmd.ticketId())) {
-			return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
-		}
+	public ResultTransformerStep<Void> handle(AddTicketMentionCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   if (!ticketRepository.existsById(cmd.ticketId()))
+					   return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
 
-		var mention = new Mention(
-			   cmd.userId(),
-			   currentUserService.getUserId(),
-			   cmd.ticketId()
-		);
+				   var mention = new Mention(
+						 cmd.userId(),
+						 currentUserService.getUserId(),
+						 cmd.ticketId()
+				   );
 
-		mentionRepository.save(mention);
+				   mentionRepository.save(mention);
+				   return Result.success();
+			   });
 
-		return Result.success(null);
 	}
 
 	@Override

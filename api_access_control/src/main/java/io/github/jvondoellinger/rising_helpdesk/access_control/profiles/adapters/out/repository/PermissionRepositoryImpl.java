@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -87,5 +88,20 @@ public class PermissionRepositoryImpl implements PermissionRepository {
 
         var entity = optional.get();
         return Optional.of(dbMapper.toPermission(entity));
+    }
+
+    @Override
+    public boolean existsByCode(String code) {
+        return jpaPermissionRepository.existsByCode(code);
+    }
+
+    @Override
+    public boolean allExistsByCode(List<String> codes) {
+        return jpaPermissionRepository.countByCodeIn(codes) == codes.size();
+    }
+
+    @Override
+    public boolean batchExistsById(List<UUID> ids) {
+        return jpaPermissionRepository.countByIdIn(ids) == ids.size();
     }
 }

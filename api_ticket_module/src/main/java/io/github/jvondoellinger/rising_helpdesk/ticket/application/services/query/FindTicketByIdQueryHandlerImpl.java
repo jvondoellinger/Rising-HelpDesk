@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByIdQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -18,23 +19,26 @@ public class FindTicketByIdQueryHandlerImpl implements FindTicketByIdQueryHandle
 	private final TicketMapper mapper;
 
 	@Override
-	public Result<TicketDetails> handle(FindTicketByIdQuery query) {
-		var id = query.id();
+	public ResultTransformerStep<TicketDetails> handle(FindTicketByIdQuery query) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var id = query.id();
 
-		if (id == null) {
-			return Result.error(new DomainError("ID_IS_BLANK", "ID is blank."));
-		}
+				   if (id == null) {
+					   return Result.error(new DomainError("ID_IS_BLANK", "ID is blank."));
+				   }
 
-		var optional = repository.findById(id);
+				   var optional = repository.findById(id);
 
-		if (optional.isEmpty()) {
-			return Result.success(null);
-		}
+				   if (optional.isEmpty()) {
+					   return Result.success(null);
+				   }
 
-		var ticket = optional.get();
-		var details = mapper.details(ticket);
+				   var ticket = optional.get();
+				   var details = mapper.details(ticket);
 
-		return Result.success(details);
+				   return Result.success(details);
+			   });
 	}
 
 	@Override

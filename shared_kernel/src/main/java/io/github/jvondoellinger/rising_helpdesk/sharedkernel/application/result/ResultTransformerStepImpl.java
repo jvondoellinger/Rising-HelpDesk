@@ -1,21 +1,21 @@
 package io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result;
 
-public class ResultTransformerImpl<T> implements ResultTransformer<T> {
+public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 	private final T value;
 	private final DomainError error;
 
-	private ResultTransformerImpl(T value) {
+	private ResultTransformerStepImpl(T value) {
 		this.value = value;
 		this.error = null;
 	}
 
-	private ResultTransformerImpl(T value, DomainError error) {
+	private ResultTransformerStepImpl(T value, DomainError error) {
 		this.value = value;
 		this.error = error;
 	}
 
 	@Override
-	public <O> ResultTransformer<O> flatMap(ResultFunc<T, Result<O>> func) {
+	public <O> ResultTransformerStep<O> flatMap(ResultFunc<T, Result<O>> func) {
 		if (error != null) {
 			return createError(error);
 		}
@@ -33,7 +33,7 @@ public class ResultTransformerImpl<T> implements ResultTransformer<T> {
 	}
 
 	@Override
-	public ResultTransformer<T> switchIfEmpty(ResultFunc<T, Result<T>> supplier) {
+	public ResultTransformerStep<T> switchIfEmpty(ResultFunc<T, Result<T>> supplier) {
 		if (value != null) {
 			return this;
 		}
@@ -41,11 +41,11 @@ public class ResultTransformerImpl<T> implements ResultTransformer<T> {
 	}
 
 	@Override
-	public ResultTransformer<T> switchIfEmpty(T value) {
+	public ResultTransformerStep<T> switchIfEmpty(T value) {
 		if (this.value != null) {
 			return this;
 		}
-		return new ResultTransformerImpl<>(value);
+		return new ResultTransformerStepImpl<>(value);
 	}
 
 	@Override
@@ -54,15 +54,15 @@ public class ResultTransformerImpl<T> implements ResultTransformer<T> {
 	}
 
 	// Statis
-	public static <T> ResultTransformerImpl<T> create(T value) {
-		return new ResultTransformerImpl<>(value);
+	public static <T> ResultTransformerStepImpl<T> create(T value) {
+		return new ResultTransformerStepImpl<>(value);
 	}
-	public static <T> ResultTransformerImpl<T> create(T value, DomainError error) {
-		return new ResultTransformerImpl<>(value, error);
+	public static <T> ResultTransformerStepImpl<T> create(T value, DomainError error) {
+		return new ResultTransformerStepImpl<>(value, error);
 	}
 
 	// Helper
-	private static <T> ResultTransformerImpl<T> createError(DomainError error) {
-		return new ResultTransformerImpl<>(null, error);
+	private static <T> ResultTransformerStepImpl<T> createError(DomainError error) {
+		return new ResultTransformerStepImpl<>(null, error);
 	}
 }

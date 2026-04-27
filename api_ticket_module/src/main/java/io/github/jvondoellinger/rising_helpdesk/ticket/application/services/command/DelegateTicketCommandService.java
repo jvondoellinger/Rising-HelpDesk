@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.DelegateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.DelegateTicketCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
@@ -16,26 +17,29 @@ public class DelegateTicketCommandService implements DelegateTicketCommandHandle
 	private final QueueRepository queueRepository;
 
 	@Override
-	public Result<Void> handle(DelegateTicketCommand cmd) {
-		var queueOptional = queueRepository.findById(cmd.queueId());
+	public ResultTransformerStep<Void> handle(DelegateTicketCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var queueOptional = queueRepository.findById(cmd.queueId());
 
-		if (queueOptional.isEmpty()) {
-			return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found"));
-		}
-		var ticketOptional = repository.findById(cmd.ticketId());
+				   if (queueOptional.isEmpty()) {
+					   return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found"));
+				   }
+				   var ticketOptional = repository.findById(cmd.ticketId());
 
-		if (ticketOptional.isEmpty()) {
-			return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
-		}
+				   if (ticketOptional.isEmpty()) {
+					   return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
+				   }
 
-		var ticket = ticketOptional.get();
-		var queue = queueOptional.get();
+				   var ticket = ticketOptional.get();
+				   var queue = queueOptional.get();
 
-		ticket.delegate(queue);
+				   ticket.delegate(queue);
 
-		repository.save(ticket);
+				   repository.save(ticket);
 
-		return Result.success(null);
+				   return Result.success();
+			   });
 	}
 
 	@Override

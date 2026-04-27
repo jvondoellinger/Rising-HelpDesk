@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueSubareaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueSubareaCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -19,33 +20,36 @@ public class ChangeQueueSubareaCommandService implements ChangeQueueSubareaComma
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(ChangeQueueSubareaCommand cmd) {
-		var optional = repository.findById(cmd.id());
+	public ResultTransformerStep<Void> handle(ChangeQueueSubareaCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var optional = repository.findById(cmd.id());
 
-		if (optional.isEmpty()) {
-			return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
-		}
+				   if (optional.isEmpty()) {
+					   return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
+				   }
 
-		var queue = optional.get();
-		var subarea = cmd.subarea();
+				   var queue = optional.get();
+				   var subarea = cmd.subarea();
 
-		if (queue.getArea().equals(subarea)) {
-			return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
-		}
+				   if (queue.getArea().equals(subarea)) {
+					   return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
+				   }
 
-		var updated = new Queue(
-			   queue.getId(),
-			   queue.getArea(),
-			   subarea,
-			   queue.getCreatedBy(),
-			   queue.getUpdatedAt(),
-			   LocalDateTime.now(),
-			   currentUserService.getUserId()
-		);
+				   var updated = new Queue(
+						 queue.getId(),
+						 queue.getArea(),
+						 subarea,
+						 queue.getCreatedBy(),
+						 queue.getUpdatedAt(),
+						 LocalDateTime.now(),
+						 currentUserService.getUserId()
+				   );
 
-		repository.save(updated);
+				   repository.save(updated);
 
-		return Result.success(null);
+				   return Result.success();
+			   });
 	}
 
 	@Override

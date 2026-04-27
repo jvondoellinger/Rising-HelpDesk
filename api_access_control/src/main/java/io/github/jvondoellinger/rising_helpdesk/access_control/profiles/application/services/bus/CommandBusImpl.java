@@ -35,6 +35,8 @@ public class CommandBusImpl implements CommandBus {
 			return Result.error(new DomainError("NO_HANDLER_FOUND", "No handler found."));
 		}
 
-		return handler.handle(cmd);
+		return handler
+			   .handle(cmd)
+			   .then();
 	}
 }

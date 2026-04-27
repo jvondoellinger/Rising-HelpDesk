@@ -8,6 +8,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.r
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,14 @@ public class FindPermissionPaginationService implements FindPermissionPagination
 	private final PermissionMapper mapper;
 
 	@Override
-	public Result<Pagination<PermissionDetails>> handle(FindPermissionPaginationQuery query) {
-		var pagination = repository.findByPagination(PaginationFilter.of(query.page(), query.size()));
+	public ResultTransformerStep<Pagination<PermissionDetails>> handle(FindPermissionPaginationQuery query) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var pagination = repository.findByPagination(PaginationFilter.of(query.page(), query.size()));
+				   var paginationMapped = mapper.details(pagination);
 
-		var paginationMapped = mapper.details(pagination);
-		return Result.success(paginationMapped);
+				   return Result.success(paginationMapped);
+			   });
 	}
 
 	@Override

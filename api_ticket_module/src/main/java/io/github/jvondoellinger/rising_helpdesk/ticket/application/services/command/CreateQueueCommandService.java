@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -19,24 +20,27 @@ public class CreateQueueCommandService implements CreateQueueCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(CreateQueueCommand cmd) {
-		if (cmd == null) {
-			return Result.error(new DomainError("COMMAND_IS_NULL", "Command is null."));
-		}
+	public ResultTransformerStep<Void> handle(CreateQueueCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   if (cmd == null) {
+					   return Result.error(new DomainError("COMMAND_IS_NULL", "Command is null."));
+				   }
 
-		if (repository.existsByArea(cmd.area())) {
-			return Result.error(new DomainError("AREA_ALREADY_EXISTS", "Area already exists."));
-		}
+				   if (repository.existsByArea(cmd.area())) {
+					   return Result.error(new DomainError("AREA_ALREADY_EXISTS", "Area already exists."));
+				   }
 
-		var queue = new Queue(
-			   cmd.area(),
-			   cmd.subarea(),
-			   currentUserService.getUserId()
-		);
+				   var queue = new Queue(
+						 cmd.area(),
+						 cmd.subarea(),
+						 currentUserService.getUserId()
+				   );
 
-		repository.save(queue);
+				   repository.save(queue);
 
-		return Result.success(null);
+				   return Result.success();
+			   });
 	}
 
 	@Override

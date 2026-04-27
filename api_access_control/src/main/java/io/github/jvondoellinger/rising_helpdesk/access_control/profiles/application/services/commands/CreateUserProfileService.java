@@ -5,6 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.userprofile.CreateUserProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,14 @@ public class CreateUserProfileService implements CreateUserProfileHandler {
 	private final UserProfileMapper mapper;
 
 	@Override
-	public Result<Void> handle(CreateUserProfileCommand cmd) {
-		var entity = mapper.from(cmd);
-		repository.save(entity);
+	public ResultTransformerStep<Void> handle(CreateUserProfileCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+			var entity = mapper.from(cmd);
+			repository.save(entity);
 
-		return Result.success(null);
+			return Result.success();
+		});
 	}
 
 	@Override

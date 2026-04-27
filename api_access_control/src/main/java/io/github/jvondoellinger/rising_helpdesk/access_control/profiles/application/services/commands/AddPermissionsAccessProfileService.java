@@ -7,10 +7,12 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.a
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
 
 @FixAfter // reduzir codigo duplicado na hora de atualizar as permissoes!
@@ -23,31 +25,33 @@ public class AddPermissionsAccessProfileService implements AddPermissionsAccessP
 	@Override
 	@FixAfter
 	// As permissoes devem ser validadas no repositorio
-	public Result<Void> handle(AddPermissionsAccessProfileCommand cmd) {
-		var optional = repository.findById(cmd.id());
+	public ResultTransformerStep<Void> handle(AddPermissionsAccessProfileCommand cmd) {
+		return ResultTransformerStep.create()
+			   .<Void>flatMap(aVoid -> {
+				   var optional = repository.findById(cmd.id());
 
-		if (optional.isEmpty()) {
-			return Result.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
-		}
+				   if (optional.isEmpty()) {
+					   return Result.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
+				   }
 
-		var accessprofile = optional.get();
-		var permissions = mapper.from(cmd.permissions());
+				   var accessprofile = optional.get();
+				   var permissions = mapper.from(cmd.permissions());
 
-		if (accessprofile.hasAllPermissions(permissions)) {
-			return Result.error(new DomainError("PERMISSIONS_ALREADY_GRANTED", "Permissions already granted."));
-		}
+				   if (accessprofile.hasAllPermissions(permissions)) {
+					   return Result.error(new DomainError("PERMISSIONS_ALREADY_GRANTED", "Permissions already granted."));
+				   }
 
-		var newValue = new AccessProfile(
-			   accessprofile.getId(),
-			   accessprofile.getName(),
-			   permissions,
-			   accessprofile.getCreatedAt(),
-			   LocalDateTime.now()
-		);
+				   var newValue = new AccessProfile(
+						 accessprofile.getId(),
+						 accessprofile.getName(),
+						 permissions,
+						 accessprofile.getCreatedAt(),
+						 LocalDateTime.now()
+				   );
 
-		repository.save(newValue); // Atualiza no banco de dados
-
-		return Result.success(null);
+				   repository.save(newValue); // Atualiza no banco de dados
+				   return Result.success();
+			   });
 	}
 
 	@Override

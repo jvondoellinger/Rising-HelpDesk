@@ -5,6 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
 
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
@@ -12,31 +13,32 @@ import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.
 @Service
 @AllArgsConstructor
 public class DeleteUserProfileService implements DeleteUserProfileHandler {
-    private final UserProfileRepository repository;
+	private final UserProfileRepository repository;
 
-    @Override
-    public Result<Void> handle(DeleteUserProfileCommand cmd) {
-        var id = cmd.id();
+	@Override
+	public ResultTransformerStep<Void> handle(DeleteUserProfileCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var id = cmd.id();
 
-        if (id == null) {
-            return Result.error(new DomainError("ID_IS_BLANK", "ID is blank."));
-        }
+				   if (id == null)
+					   return Result.error(new DomainError("ID_IS_BLANK", "ID is blank."));
 
-        var optional = repository.findById(id);
+				   var optional = repository.findById(id);
 
-        if (optional.isEmpty()) {
-            return Result.error(new DomainError("USER_DOES_NOT_EXIST", "User does not exist!"));
-        }
+				   if (optional.isEmpty())
+					   return Result.error(new DomainError("USER_DOES_NOT_EXIST", "User does not exist!"));
 
-        var userprofile = optional.get();
+				   var userprofile = optional.get();
 
-        repository.delete(userprofile);
+				   repository.delete(userprofile);
 
-        return Result.success(null);
-    }
+				   return Result.success();
+			   });
+	}
 
-    @Override
-    public Class<DeleteUserProfileCommand> getCommandType() {
-        return DeleteUserProfileCommand.class;
-    }
+	@Override
+	public Class<DeleteUserProfileCommand> getCommandType() {
+		return DeleteUserProfileCommand.class;
+	}
 }

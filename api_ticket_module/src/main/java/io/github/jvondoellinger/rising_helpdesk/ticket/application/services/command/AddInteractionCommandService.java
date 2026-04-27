@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.AddInteractionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.InteractTicketHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -19,20 +20,23 @@ public class AddInteractionCommandService implements InteractTicketHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public Result<Void> handle(AddInteractionCommand cmd) {
-		if (!ticketRepository.existsById(cmd.ticketId())) {
-			return Result.error(new DomainError("NO_TICKETS_WERE_FOUND_TO_ADD_INTERACTION", "No tickets were found to add interaction.."));
-		}
+	public ResultTransformerStep<Void> handle(AddInteractionCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   if ( !ticketRepository.existsById(cmd.ticketId()) )
+					   return Result.error(new DomainError("NO_TICKETS_WERE_FOUND_TO_ADD_INTERACTION", "No tickets were found to add interaction.."));
 
-		var interaction = new Interaction(
-			   cmd.text(),
-			   currentUserService.getUserId(),
-			   cmd.ticketId()
-		);
+				   var interaction = new Interaction(
+						 cmd.text(),
+						 currentUserService.getUserId(),
+						 cmd.ticketId()
+				   );
 
-		repository.save(interaction);
+				   repository.save(interaction);
 
-		return Result.success(null);
+				   return Result.success();
+			   });
+
 	}
 
 	@Override

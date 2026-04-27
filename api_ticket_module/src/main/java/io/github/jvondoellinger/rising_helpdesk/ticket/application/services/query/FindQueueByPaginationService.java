@@ -3,6 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -18,24 +19,27 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
     private final QueueMapper mapper;
 
     @Override
-    public Result<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
-        var queuePagination = repository.findByPagination(PaginationFilter.of(
-                query.page(),
-                query.size()
-        ));
+    public ResultTransformerStep<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
+        return ResultTransformerStep.create()
+                .flatMap(aVoid -> {
+                    var queuePagination = repository.findByPagination(PaginationFilter.of(
+                            query.page(),
+                            query.size()
+                    ));
 
-        var details = queuePagination
-                .items()
-                .stream()
-                .map(mapper::details)
-                .toList();
+                    var details = queuePagination
+                            .items()
+                            .stream()
+                            .map(mapper::details)
+                            .toList();
 
-        var detailsPagination = Pagination.of(details,
-                query.page(),
-                queuePagination.totalPages()
-        );
+                    var detailsPagination = Pagination.of(details,
+                            query.page(),
+                            queuePagination.totalPages()
+                    );
 
-        return Result.success(detailsPagination);
+                    return Result.success(detailsPagination);
+                });
     }
 
     @Override

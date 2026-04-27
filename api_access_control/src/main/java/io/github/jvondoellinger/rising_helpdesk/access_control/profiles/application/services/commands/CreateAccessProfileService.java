@@ -6,6 +6,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
@@ -18,28 +19,24 @@ public class CreateAccessProfileService implements CreateAccessProfileHandler {
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public Result<Void> handle(CreateAccessProfileCommand cmd) {
-		var alreadyExists = repository.existsByName(cmd.name());
+	public ResultTransformerStep<Void> handle(CreateAccessProfileCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var alreadyExists = repository.existsByName(cmd.name());
 
-		if (alreadyExists) {
-			return Result.error(new DomainError("ACCESS_PROFILE_ALREADY_REGISTERED", "Access Profile already registered."));
-		}
+				   if (alreadyExists)
+					   return Result.error(new DomainError("ACCESS_PROFILE_ALREADY_REGISTERED", "Access Profile already registered."));
 
-		var match = cmd
-			   .permissions()
-			   .stream()
-			   .allMatch(permissionRepository::existsById);
+				   if (permissionRepository.batchExistsById(cmd.permissions()))
+					   return Result.error(new DomainError("ONE_OR_MORE_PERMISSIONS_WERE_NOT_REGISTERED", "One or more permissions were not registered."));
 
-		if (!match) {
-			return Result.error(new DomainError("ONE_OR_MORE_PERMISSIONS_WERE_NOT_REGISTERED", "One or more permissions were not registered."));
-		}
+				   var accessprofile = mapper.from(cmd);
+				   repository.save(accessprofile);
 
-		var accessprofile = mapper.from(cmd);
-		repository.save(accessprofile);
-
-		return Result.success(null);
-
+				   return Result.success();
+			   });
 	}
+
 
 	@Override
 	public Class<CreateAccessProfileCommand> getCommandType() {

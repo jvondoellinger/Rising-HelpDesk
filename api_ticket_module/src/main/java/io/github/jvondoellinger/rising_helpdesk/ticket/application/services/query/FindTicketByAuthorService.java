@@ -3,6 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketsByAuthorQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -18,17 +19,20 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
     private final TicketMapper mapper;
 
     @Override
-    public Result<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
-        var tks = repository.findByAuthorId(query.author(),PaginationFilter.of(query.page(), query.size()));
+    public ResultTransformerStep<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
+        return ResultTransformerStep.create()
+                .flatMap(aVoid -> {
+                    var tks = repository.findByAuthorId(query.author(),PaginationFilter.of(query.page(), query.size()));
 
-        var details = tks.items()
-                .stream()
-                .map(mapper::details)
-                .toList();
+                    var details = tks.items()
+                            .stream()
+                            .map(mapper::details)
+                            .toList();
 
-        var pagination = Pagination.of(details, tks.page(), tks.totalPages());
+                    var pagination = Pagination.of(details, tks.page(), tks.totalPages());
 
-        return Result.success(pagination);
+                    return Result.success(pagination);
+                });
     }
 
     @Override

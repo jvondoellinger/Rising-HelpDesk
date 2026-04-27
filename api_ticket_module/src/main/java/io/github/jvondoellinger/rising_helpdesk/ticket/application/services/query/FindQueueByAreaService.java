@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByAreaQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -17,17 +18,20 @@ public class FindQueueByAreaService implements FindQueueByAreaQueryHandler {
     private final QueueMapper mapper;
 
     @Override
-    public Result<QueueDetails> handle(FindQueueByAreaQuery query) {
-        var optional = repository.findBySubarea(query.area());
+    public ResultTransformerStep<QueueDetails> handle(FindQueueByAreaQuery query) {
+        return ResultTransformerStep.create()
+                .flatMap(aVoid -> {
+                    var optional = repository.findBySubarea(query.area());
 
-        if (optional.isEmpty()) {
-            return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
-        }
+                    if (optional.isEmpty()) {
+                        return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
+                    }
 
-        var queue = optional.get();
-        var mapped = mapper.details(queue);
+                    var queue = optional.get();
+                    var mapped = mapper.details(queue);
 
-        return Result.success(mapped);
+                    return Result.success(mapped);
+                });
     }
 
     @Override

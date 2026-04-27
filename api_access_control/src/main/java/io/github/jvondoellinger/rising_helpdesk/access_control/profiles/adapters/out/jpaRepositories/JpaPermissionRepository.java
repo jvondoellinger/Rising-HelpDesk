@@ -4,10 +4,14 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface JpaPermissionRepository extends JpaRepository<PermissionDbEntity, UUID> {
 	Optional<PermissionDbEntity> findByCode(String code);
+	boolean existsByCode(String code);
+	long countByCodeIn(List<String> codes);
+	long countByIdIn(List<UUID> ids);
 }

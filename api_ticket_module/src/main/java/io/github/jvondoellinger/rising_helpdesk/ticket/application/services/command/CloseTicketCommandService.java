@@ -2,6 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.com
 
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.CommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CloseTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
@@ -14,17 +15,20 @@ public class CloseTicketCommandService implements CommandHandler<CloseTicketComm
 	private final TicketRepository repository;
 
 	@Override
-	public Result<Void> handle(CloseTicketCommand cmd) {
-		var optionalTk = repository.findById(cmd.ticketId());
-		if (optionalTk.isEmpty()) {
-			return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
-		}
+	public ResultTransformerStep<Void> handle(CloseTicketCommand cmd) {
+		return ResultTransformerStep.create()
+			   .flatMap(aVoid -> {
+				   var optionalTk = repository.findById(cmd.ticketId());
+				   if (optionalTk.isEmpty()) {
+					   return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
+				   }
 
-		var tk = optionalTk.get();
-		tk.close();
-		repository.save(tk);
+				   var tk = optionalTk.get();
+				   tk.close();
+				   repository.save(tk);
 
-		return Result.success(null);
+				   return Result.success();
+			   });
 	}
 
 	@Override

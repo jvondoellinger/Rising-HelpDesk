@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.MentionsResponse;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.PageResponse;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.responses.TicketResponse;

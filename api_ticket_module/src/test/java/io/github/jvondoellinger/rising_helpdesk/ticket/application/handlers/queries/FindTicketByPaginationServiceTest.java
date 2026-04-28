@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByPaginationQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query.FindTicketByPaginationService;

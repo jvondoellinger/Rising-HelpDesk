@@ -5,8 +5,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.query.userprofile.FindUserProfilePaginationService;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.UserProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

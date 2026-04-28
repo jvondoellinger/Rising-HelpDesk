@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket.*;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.*;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.*;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByIdQuery;

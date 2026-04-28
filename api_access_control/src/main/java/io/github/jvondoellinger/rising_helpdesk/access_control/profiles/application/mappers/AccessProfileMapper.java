@@ -4,7 +4,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.AccessProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import org.springframework.stereotype.Service;
 
 @Service

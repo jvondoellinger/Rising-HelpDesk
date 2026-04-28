@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import org.springframework.stereotype.Service;

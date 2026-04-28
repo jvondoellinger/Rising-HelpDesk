@@ -1,14 +1,14 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.services.bus;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.CommandBus;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.Command;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.CommandHandler;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.Command;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.CommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service("profileCommandBus")
 public class CommandBusImpl implements CommandBus {

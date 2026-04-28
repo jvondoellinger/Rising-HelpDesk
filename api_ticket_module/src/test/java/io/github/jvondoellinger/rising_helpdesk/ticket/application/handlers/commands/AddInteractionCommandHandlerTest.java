@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.AddInteractionCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.AddInteractionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.AddInteractionCommandService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;

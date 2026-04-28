@@ -4,8 +4,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.out.mappers.AccessProfileDbMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;

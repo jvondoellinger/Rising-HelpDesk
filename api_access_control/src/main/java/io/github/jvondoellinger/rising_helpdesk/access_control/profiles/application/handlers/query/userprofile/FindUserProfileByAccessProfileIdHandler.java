@@ -2,8 +2,8 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.UserProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.userprofile.FindUserProfileByAccessProfileIdQuery;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.QueryHandler;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.QueryHandler;
 
 public interface FindUserProfileByAccessProfileIdHandler extends QueryHandler<FindUserProfileByAccessProfileIdQuery, Pagination<UserProfileDetails>> {
 }

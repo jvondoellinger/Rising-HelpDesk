@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.queue.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateQueueCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -10,7 +10,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.e
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor

@@ -5,9 +5,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.request.CreateUserProfileRequest;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.CommandBus;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

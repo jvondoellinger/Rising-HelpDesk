@@ -1,14 +1,14 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.bus;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.Query;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.QueryHandler;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.Query;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.QueryHandler;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.QueryBus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 public class QueryBusImpl implements QueryBus {

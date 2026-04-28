@@ -1,8 +1,0 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.application.commands;
-
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.Command;
-
-import java.util.UUID;
-
-public record ChangeQueueSubareaCommand(UUID id, String subarea) implements Command {
-}

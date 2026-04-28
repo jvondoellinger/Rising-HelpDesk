@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.valueObjects;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.DomainCollection;
+import io.github.jvondoellinger.rising_helpdesk.kernel.DomainCollection;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateTicketCommand;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

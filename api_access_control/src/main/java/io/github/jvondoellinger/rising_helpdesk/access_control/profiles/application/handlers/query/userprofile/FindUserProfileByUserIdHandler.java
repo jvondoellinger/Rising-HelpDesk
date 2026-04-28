@@ -2,7 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.UserProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.userprofile.FindUserProfileByUserIdQuery;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.QueryHandler;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.QueryHandler;
 
 public interface FindUserProfileByUserIdHandler extends QueryHandler<FindUserProfileByUserIdQuery, UserProfileDetails> {
 }

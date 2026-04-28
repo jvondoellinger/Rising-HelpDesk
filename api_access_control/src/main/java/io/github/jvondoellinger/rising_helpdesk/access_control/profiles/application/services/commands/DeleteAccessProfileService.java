@@ -3,11 +3,11 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.accessprofile.DeleteAccessProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.accessprofile.DeleteAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor

@@ -24,7 +24,8 @@
         <!-- SHARED KERNEL -->
         <dependency>
             <groupId>io.github.jvondoellinger</groupId>
-            <artifactId>rising-helpdesk-shared-kernel</artifactId>
+            <artifactId>rising-helpdesk-kernel</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- SPRING WEB (controllers) -->
@@ -85,5 +86,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

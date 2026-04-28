@@ -1,10 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.middlewares;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;

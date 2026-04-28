@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.CreateQueueCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.queue.CreateQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.CreateQueueCommandService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;

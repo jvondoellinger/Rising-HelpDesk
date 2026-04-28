@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.AccessProfileDetails;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.Query;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.Query;
 
 public record FindAccessProfilePaginationQuery(int page, int size) implements Query<Pagination<AccessProfileDetails>> {
 }

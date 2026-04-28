@@ -20,7 +20,7 @@
         <!-- SHARED KERNEL -->
         <dependency>
             <groupId>io.github.jvondoellinger</groupId>
-            <artifactId>rising-helpdesk-shared-kernel</artifactId>
+            <artifactId>rising-helpdesk-kernel</artifactId>
         </dependency>
 
         <!-- JPA -->

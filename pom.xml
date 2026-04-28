@@ -25,13 +25,11 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>io.github.jvondoellinger</groupId>
-                <artifactId>rising-helpdesk-shared-kernel</artifactId>
+                <artifactId>rising-helpdesk-kernel</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>io.github.jvondoellinger</groupId>
                 <artifactId>rising-helpdesk-ticket</artifactId>
@@ -49,7 +47,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>shared_kernel</module>
+        <module>kernel</module>
         <module>api_ticket_module</module>
         <module>api_access_control</module>
         <module>bootstrap</module>

@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.DelegateTicketCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.DelegateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.DelegateTicketCommandService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;

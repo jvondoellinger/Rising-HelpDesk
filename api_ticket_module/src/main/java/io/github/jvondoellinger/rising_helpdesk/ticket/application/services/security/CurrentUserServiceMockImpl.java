@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

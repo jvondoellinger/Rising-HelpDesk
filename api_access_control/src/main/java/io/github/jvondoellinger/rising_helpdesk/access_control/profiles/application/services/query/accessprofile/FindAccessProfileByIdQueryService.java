@@ -5,11 +5,11 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.AccessProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile.FindAccessProfileByIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor

@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.Permission;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.infrastructure.CrudRepository;
+import io.github.jvondoellinger.rising_helpdesk.kernel.infrastructure.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;

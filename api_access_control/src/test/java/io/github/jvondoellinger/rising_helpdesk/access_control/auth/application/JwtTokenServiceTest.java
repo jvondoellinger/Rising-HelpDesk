@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl.JwtTokenService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.impl.JwtTokenServiceImpl;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.jsonwebtoken.Claims;
@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class JwtTokenServiceTest {
 
 	@Mock
-	private JwtTokenService jwtTokenService;
+	private JwtTokenServiceImpl jwtTokenService;
 	private SecretKey secretKey;
 
 	@BeforeEach
@@ -263,7 +263,7 @@ class JwtTokenServiceTest {
 	}
 
 	private static SecretKey readSecretKey() throws Exception {
-		Field field = JwtTokenService.class.getDeclaredField("secretKey");
+		Field field = JwtTokenServiceImpl.class.getDeclaredField("secretKey");
 		field.setAccessible(true);
 		return (SecretKey) field.get(null);
 	}

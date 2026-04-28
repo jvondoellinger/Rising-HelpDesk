@@ -5,10 +5,10 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.PermissionMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.permission.FindPermissionPaginationQuery;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.PermissionRepository;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

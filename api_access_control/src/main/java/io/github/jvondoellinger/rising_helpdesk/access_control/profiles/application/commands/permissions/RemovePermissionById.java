@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.permissions;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.Command;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.Command;
 
 import java.util.UUID;
 

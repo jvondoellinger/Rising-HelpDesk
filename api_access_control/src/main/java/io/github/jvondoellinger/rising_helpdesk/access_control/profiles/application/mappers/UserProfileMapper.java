@@ -3,7 +3,7 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applica
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.commands.userprofile.CreateUserProfileCommand;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.UserProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities.UserProfile;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import org.springframework.stereotype.Service;
 
 @Service

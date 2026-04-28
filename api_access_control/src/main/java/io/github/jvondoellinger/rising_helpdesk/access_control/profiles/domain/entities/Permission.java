@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

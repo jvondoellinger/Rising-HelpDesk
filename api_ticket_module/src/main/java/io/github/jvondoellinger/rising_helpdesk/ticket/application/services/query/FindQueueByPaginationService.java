@@ -1,9 +1,9 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;

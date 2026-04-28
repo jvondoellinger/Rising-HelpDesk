@@ -1,11 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQueueByAuthorQuery;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.query.FindQueueByAuthorService;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.helpers.FakeEntityFactory;
 import org.junit.jupiter.api.BeforeEach;

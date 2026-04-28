@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ChangeQueueAreaCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.queue.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.ChangeQueueAreaCommandService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;

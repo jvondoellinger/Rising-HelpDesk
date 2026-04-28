@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.RemoveTicketMentionCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.RemoveTicketMentionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.RemoveTicketMentionService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;

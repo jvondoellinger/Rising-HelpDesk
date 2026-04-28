@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.TicketController;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket.CreateTicketRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;

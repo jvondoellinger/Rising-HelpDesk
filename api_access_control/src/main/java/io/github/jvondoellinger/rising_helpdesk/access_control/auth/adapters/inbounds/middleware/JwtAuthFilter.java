@@ -1,15 +1,13 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.adapters.inbounds.middleware;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.AuthenticateService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.impl.JwtTokenService;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.impl.JwtTokenServiceImpl;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.anotationTest.FixAfter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -17,9 +15,9 @@ import java.util.Objects;
 
 @AllArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-	private final JwtTokenService service;
-	private final AuthenticateService authenticateService;
-	private final JwtTokenService jwtTokenService;
+	private final JwtTokenServiceImpl service;
+	private final AuthenticationPipeline authenticationPipeline;
+	private final JwtTokenServiceImpl jwtTokenService;
 
 	@Override
 	@FixAfter // Validar se o fluxo vai funcionar corretamente
@@ -41,7 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		}
 
 		var content = result.getValue();
-		var valid = authenticateService.validateToken(content);
+		var valid = authenticationPipeline.validateToken(content);
 
 		if (!valid) {
 			unauthorize(response);

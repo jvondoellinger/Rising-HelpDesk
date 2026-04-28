@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.RemoveQueueCommand;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.queue.RemoveQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command.RemoveQueueService;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;

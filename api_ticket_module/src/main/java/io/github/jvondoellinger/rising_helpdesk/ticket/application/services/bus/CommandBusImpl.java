@@ -1,16 +1,15 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.bus;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.Command;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.cqrs.CommandHandler;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.Command;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.CommandHandler;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.result.DomainError;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 public class CommandBusImpl implements CommandBus {

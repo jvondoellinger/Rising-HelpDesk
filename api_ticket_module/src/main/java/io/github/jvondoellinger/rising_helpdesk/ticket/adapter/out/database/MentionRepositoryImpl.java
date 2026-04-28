@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
 
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.sharedkernel.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaMentionRepository;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.MentionRepository;

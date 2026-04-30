@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.session.impl;
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.session.services.SessionService;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.config.TokenSettings;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.settings.TokenSettings;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.session.data.SessionData;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.factory.JtiKeyFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.factory.TokenPayloadFactory;

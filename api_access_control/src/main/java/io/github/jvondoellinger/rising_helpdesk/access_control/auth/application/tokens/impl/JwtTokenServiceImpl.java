@@ -20,7 +20,7 @@ import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Domain
 
 // Adicionar um mapper que vai retornar Result<> e fazer toda conversão do jwt para o payload ou vice-versa, assim permitindo que o código fique mais limpo e leigivel!
 
-@Service
+
 @AllArgsConstructor
 @FixAfter
 public class JwtTokenServiceImpl implements TokenService {

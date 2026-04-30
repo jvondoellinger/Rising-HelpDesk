@@ -10,6 +10,7 @@ public class TokenPayload {
 	private final List<UUID> accessProfileIds;
 	private final Date expiration;
 	private final Date issueAt;
+	private boolean revoked = false;
 
 	public TokenPayload(UUID jti,
 					UUID subject,
@@ -54,5 +55,9 @@ public class TokenPayload {
 	}
 	public UUID getJti() {
 		return jti;
+	}
+
+	public void revoke() {
+		revoked = true;
 	}
 }

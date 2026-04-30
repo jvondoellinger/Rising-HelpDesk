@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.config;
+package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.settings;
 
 import lombok.Getter;
 import lombok.Setter;

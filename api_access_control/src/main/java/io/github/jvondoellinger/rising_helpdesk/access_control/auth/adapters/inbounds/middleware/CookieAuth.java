@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @AllArgsConstructor
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class CookieAuth extends OncePerRequestFilter {
 	private final TokenService service;
 
 	@Override
@@ -29,7 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		var result = service.verify(new EncodedToken(header));
+		var result = service.verify(new EncodedToken(token));
 		if (result.isError()) {
 			unauthorize(response);
 			return;

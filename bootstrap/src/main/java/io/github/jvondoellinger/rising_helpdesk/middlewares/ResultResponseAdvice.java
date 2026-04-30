@@ -21,16 +21,18 @@ public class ResultResponseAdvice implements ResponseBodyAdvice<Object> {
 	@Override
 	@FixAfter
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		var result = (Result<?>) body;
+		if (body instanceof Result<?> result) {
+			if (result.isSuccess()) {
+				return result.getValue();
+			}
 
-		if (result.isSuccess()) {
-			return result.getValue();
+			// Arrumar posteriormente esse trecho de código!
+			var error = result.getError();
+			response.setStatusCode(HttpStatus.BAD_REQUEST);
+			return error;
 		}
 
-		// Arrumar posteriormente esse trecho de código!
-		var error = result.getError();
-		response.setStatusCode(HttpStatus.BAD_REQUEST);
-
-		return error;
+		// Case isn't Result<>
+		return body;
 	}
 }

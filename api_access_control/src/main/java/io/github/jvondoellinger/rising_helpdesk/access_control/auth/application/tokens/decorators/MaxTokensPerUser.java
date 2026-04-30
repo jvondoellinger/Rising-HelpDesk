@@ -1,20 +1,17 @@
-package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.policy;
+package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.decorators;
 
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.config.TokenSettings;
+import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.settings.TokenSettings;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.impl.JwtTokenServiceImpl;
-import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.services.TokenService;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
 @AllArgsConstructor
-public class MaxTokensPerUser implements TokenService {
+public class MaxTokensPerUser implements TokenServiceDecorator {
 	private final JwtTokenServiceImpl service;
 	private final TokenSettings settings;
 

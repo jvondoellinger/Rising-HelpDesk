@@ -12,5 +12,4 @@ spring:
 
 logging:
   level:
-    org.h2: DEBUG
     com.zaxxer.hikari: DEBUG

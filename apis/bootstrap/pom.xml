@@ -8,6 +8,7 @@
 
     <properties>
         <testcontainers.version>1.21.4</testcontainers.version>
+        <rising.version>0.0.1-SNAPSHOT</rising.version>
     </properties>
 
     <!-- PAI DO PROJETO (não o Spring Boot direto) -->
@@ -27,11 +28,19 @@
         <dependency>
             <groupId>io.github.jvondoellinger</groupId>
             <artifactId>rising-helpdesk-ticket</artifactId>
+            <version>${rising.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.jvondoellinger</groupId>
             <artifactId>rising-helpdesk-access_control</artifactId>
+            <version>${rising.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.jvondoellinger</groupId>
+            <artifactId>rising-helpdesk-user</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- SPRING -->

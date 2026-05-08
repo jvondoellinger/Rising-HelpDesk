@@ -5,6 +5,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.Token
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ class JwtTokenServiceTest {
 
 		var encoded = jwtTokenService.generate(decoded);
 
-		assertThat(encoded).isNotNull();
+		Assertions.assertThat(encoded).isNotNull();
 		assertThat(encoded.toString()).isNotBlank();
 		assertThat(encoded.toString().split("\\.")).hasSize(3);
 	}
@@ -87,7 +88,7 @@ class JwtTokenServiceTest {
 			   .decode(new EncodedToken(jwt))
 			   .getValue();
 
-		assertThat(result).isNotNull();
+		Assertions.assertThat(result).isNotNull();
 		assertThat(result.getSubject()).isEqualTo(subject);
 		assertThat(result.getAccessProfileIds()).containsExactly(profileOne, profileTwo);
 		assertThat(result.getIssueAt()).isEqualTo(issuedAt);

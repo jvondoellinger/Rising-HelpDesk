@@ -6,12 +6,9 @@ import java.util.UUID;
 public class Interaction {
 	private final UUID id;
 	private final String text;
-
-	private final boolean visible;
-
+	private boolean visible;
 	private final UUID interactedBy;
 	private final LocalDateTime interactedOn;
-
 	private final UUID ticketId; // referencia ao root
 
 	public Interaction(UUID id, String text, boolean visible, UUID interactedBy, LocalDateTime interactedOn, UUID ticketId) {
@@ -58,4 +55,6 @@ public class Interaction {
 	public UUID getTicketId() {
 		return ticketId;
 	}
+
+
 }

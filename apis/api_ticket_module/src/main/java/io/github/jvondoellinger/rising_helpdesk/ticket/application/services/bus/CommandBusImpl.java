@@ -12,6 +12,7 @@ import java.util.List;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
+
 public class CommandBusImpl implements CommandBus {
 	private final HashMap<Class<Command>, CommandHandler<Command>> hashMap;
 

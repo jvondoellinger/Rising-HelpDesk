@@ -29,7 +29,7 @@ public class CookieAuth extends OncePerRequestFilter {
 			return;
 		}
 
-		var result = service.verify(new EncodedToken(token));
+		var result = service.verify(new EncodedToken(header));
 		if (result.isError()) {
 			unauthorize(response);
 			return;

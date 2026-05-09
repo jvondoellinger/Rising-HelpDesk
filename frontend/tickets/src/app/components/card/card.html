@@ -3,39 +3,39 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
 
     <p class="m-0 fw-bold text-decoration-underline small">
-      #1234
+      # {{ ticket.protocol }}
     </p>
 
     <p class="m-0 text-secondary small">
-      5 dias e 5 horas
+      {{ ticket.getDurationText() }}
     </p>
 
   </div>
 
   <h3 class="mb-4">
-    Problemas de pagamento
+    {{ ticket.title }}
   </h3>
 
   <div class="d-flex gap-2 mb-2">
     <span class="fw-semibold">Fila:</span>
-    <p class="m-0">BKO Financeiro</p>
+    <p class="m-0"> {{ ticket.queue.area }}</p>
   </div>
 
   <div class="d-flex gap-2 mb-2">
     <span class="fw-semibold">Menções:</span>
-    <p class="m-0">Joao, Pedro</p>
+    <p class="m-0"> {{ ticket.getMentionsText() }}</p>
   </div>
 
   <div class="d-flex gap-2 mb-2">
     <span class="fw-semibold">Status:</span>
     <span class="badge bg-warning text-dark">
-      Pendente
+      {{ ticket.state }}
     </span>
   </div>
 
   <div class="d-flex gap-2 mb-4">
     <span class="fw-semibold">Última atualização:</span>
-    <p class="m-0">Hoje, 19h00</p>
+    <p class="m-0"> {{ ticket.getLastUpdatedOnText() }}</p>
   </div>
 
   <button class="btn btn-primary w-100">

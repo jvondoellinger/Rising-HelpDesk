@@ -1,53 +1,11 @@
 <div class="container py-4">
 
   <div class="row g-4">
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-      <app-card></app-card>
-    </div>
-
-
+    @for (item of items; track item) {
+      <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+        <app-card [ticket]="item"></app-card>
+      </div>
+    }
   </div>
 
 </div>

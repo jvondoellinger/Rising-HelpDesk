@@ -7,7 +7,6 @@ import { Navbar } from '../navbar/navbar';
   selector: 'app-home',
   imports: [CardGrid, RouterOutlet, Navbar],
   standalone: true,
-  templateUrl: './home.html',
-  styleUrl: './home.css',
+  templateUrl: './home.html'
 })
 export class Home {}

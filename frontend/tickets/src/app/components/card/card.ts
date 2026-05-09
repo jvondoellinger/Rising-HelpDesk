@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Ticket } from '../../features/ticket-cards-service/model/ticket-model';
 
 @Component({
   selector: 'app-card',
@@ -6,4 +7,8 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './card.html',
 })
-export class Card {}
+export class Card {
+  @Input({ required: true })
+  ticket!: Ticket;
+
+}

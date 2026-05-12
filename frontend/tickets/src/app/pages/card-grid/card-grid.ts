@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import {Card} from '../card/card';
-import { ITicketCardService } from '../../features/ticket-cards-service/ITicketCardService';
-import { TICKET_CARD_SERVICE } from '../../features/ticket-cards-service/ITicketCardService';
-import { Ticket } from '../../features/ticket-cards-service/model/ticket-model';
+import { Card } from '../../components/card/card';
+import { ITicketCardService, TICKET_CARD_SERVICE } from '../../features/find-ticket-cards-service/ITicketCardService';
+import { Ticket } from '../../features/find-ticket-cards-service/model/ticket-model';
 
 @Component({
   selector: 'app-card-grid',

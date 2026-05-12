@@ -1,13 +1,19 @@
 import { Card } from '../../components/card/card';
-import { ITicketCardService } from './ITicketCardService';
+import { ITicketCardService, TICKET_CARD_SERVICE } from './ITicketCardService';
 import { Injectable } from '@angular/core';
 import { Queue, Ticket } from './model/ticket-model';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class TicketCardsService implements ITicketCardService {
-  fetchTickets(): Promise<Ticket[]> {
-    return Promise.resolve(this.factory());
+  private url = 'http://127.0.0.1:8001/api/ticket';
+  constructor(private http: HttpClient) {}
+
+  async fetchTickets(): Promise<Ticket[]> {
+    return await firstValueFrom(this.http.get<Ticket[]>(this.url));
   }
+
   public factory(): Ticket[] {
     var cards: Ticket[] = [];
 

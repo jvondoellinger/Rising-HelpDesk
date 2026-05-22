@@ -25,7 +25,12 @@ public class ResultResponseAdvice implements ResponseBodyAdvice<Object> {
 			if (result.isSuccess()) {
 				return result.getValue();
 			}
-
+			if (result.hasValue()) {
+				return result.getValue();
+			}
+			if (result.getValue() != null) {
+				return result.getValue();
+			}
 			// Arrumar posteriormente esse trecho de código!
 			var error = result.getError();
 			response.setStatusCode(HttpStatus.BAD_REQUEST);

@@ -11,17 +11,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-	/*@Bean*/
+	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
 		return http
 			   .csrf(AbstractHttpConfigurer::disable)
 			   .authorizeHttpRequests(auth -> auth
-					 .requestMatchers("/public/**")
+					 .requestMatchers("/**")
 					 .permitAll()
 					 .anyRequest()
 					 .authenticated()
 			   )
-			   .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+			   //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 			   .build();
 	}
 }

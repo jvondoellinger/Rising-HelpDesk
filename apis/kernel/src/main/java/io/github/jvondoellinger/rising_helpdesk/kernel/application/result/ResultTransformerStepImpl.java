@@ -1,5 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.kernel.application.result;
 
+import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
+
 public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 	private final T value;
 	private final DomainError error;
@@ -15,6 +17,7 @@ public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 	}
 
 	@Override
+	@FixAfter
 	public <O> ResultTransformerStep<O> flatMap(ResultFunc<T, Result<O>> func) {
 		if (error != null) {
 			return createError(error);
@@ -27,6 +30,7 @@ public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 
 			return create(result.getValue());
 		} catch (RuntimeException e) {
+			System.out.println(e.getMessage());
 			var error = new DomainError("Unexpected error", e.getMessage());
 			return createError(error);
 		}

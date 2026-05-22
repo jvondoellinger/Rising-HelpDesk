@@ -19,10 +19,10 @@ import java.util.UUID;
 @Setter
 @FixAfter
 public class TicketDbEntity {
-	@Id
+	@Id()
 	private UUID id;
 
-	@Column
+	@Column(name = "number ")
 	private String number;
 
 	@Column
@@ -55,30 +55,6 @@ public class TicketDbEntity {
 
 	@Column(name = "last_updated_by")
 	private UUID lastUpdatedBy;
-
-	@PersistenceCreator
-	public TicketDbEntity(UUID id,
-					  String number,
-					  String title,
-					  List<InteractionDbEntity> interactions,
-					  LocalDateTime deadline,
-					  QueueDbEntity queue,
-					  List<MentionDbEntity> mentions,
-					  LocalDateTime openedOn,
-					  UUID openedById,
-					  LocalDateTime lastUpdatedOn,
-					  UUID lastUpdatedById) {
-		this.number = number;
-		this.title = title;
-		this.interactions = interactions;
-		this.deadline = deadline;
-		this.queue = queue;
-		this.mentions = mentions;
-		this.openedOn = openedOn;
-		this.openedBy = openedById;
-		this.lastUpdatedOn = lastUpdatedOn;
-		this.lastUpdatedBy = lastUpdatedById;
-	}
 
 	public TicketDbEntity() {
 	}

@@ -33,12 +33,20 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>4.0.6</version>
         </dependency>
 
         <!-- ! SPRING BOOT JPA ORM -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>4.0.6</version>
+        </dependency>
+        <!-- ! SPRING BOOT JPA ORM -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.46</version>
         </dependency>
 
         <dependency>

@@ -23,7 +23,7 @@ public class MentionDbEntity {
     private UUID mentionedByUserId;
 
     @ManyToOne
-    @JoinColumn(name = "number")
+    @JoinColumn(name = "ticket")
     private TicketDbEntity ticket;
 
     @CreationTimestamp

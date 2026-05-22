@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
 
+import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.InteractionDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.QueueDbEntity;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
@@ -55,7 +56,11 @@ public class TicketDbEntityMapper {
 		return ticketDbEntity;
 	}
 
+	@FixAfter
 	public Ticket toTicket(TicketDbEntity dbEntity) {
+		if (dbEntity.getStatus() == null)
+			throw new RuntimeException("Ticket status returning null from database");
+
 		return new Ticket(
 			   dbEntity.getId(),
 			   TicketNumber.parse(dbEntity.getNumber()),

@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.TicketResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket.*;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.*;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus.CommandBus;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class TicketController {
 	private final CommandBus commandBus;
 	private final QueryBus queryBus;
+	private final TicketResponseMapper responseMapper;
 
 	@GetMapping
 	public Result<?> get(
@@ -30,7 +32,9 @@ public class TicketController {
 			   limit)
 		);
 
-		return result;
+
+
+		return Result.success(responseMapper.from(result.getValue()));
 	}
 
 	@GetMapping("/{id}")

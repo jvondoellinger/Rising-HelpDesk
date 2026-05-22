@@ -59,11 +59,15 @@ public class TicketRepositoryImpl implements TicketRepository {
 	@Override
 	public Pagination<Ticket> findByPagination(PaginationFilter filter) {
 		var pageable = PageRequest.of(filter.page(), filter.size());
+
+
 		var page = jpaTicketRepository.findAll(pageable);
 		var items = page.stream()
 			   .map(mapper::toTicket)
 			   .toList();
+		
 		return Pagination.of(items, page.getNumber(), page.getTotalPages());
+
 	}
 
 	@Override

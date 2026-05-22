@@ -23,8 +23,11 @@ public class FindTicketByPaginationService implements FindTicketByPaginationQuer
         return ResultTransformerStep.create()
                 .flatMap(aVoid -> {
                     var filter = PaginationFilter.of(query.page(), query.size());
-                    var pagination = repository.findByPagination(filter);
-                    var details = mapper.detailsPagination(pagination);
+
+                     var pagination = repository.findByPagination(filter);
+                     System.out.println("AQui?");
+                     var details = mapper.detailsPagination(pagination);
+
 
                     return Result.success(details);
                 });

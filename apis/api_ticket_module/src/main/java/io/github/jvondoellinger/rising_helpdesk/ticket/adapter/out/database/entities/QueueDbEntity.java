@@ -21,7 +21,9 @@ public class QueueDbEntity{
 	@Id
 	private UUID id;
 
+	@Column
 	private String area;
+	@Column
 	private String subarea;
 
 	@Column(name = "author")

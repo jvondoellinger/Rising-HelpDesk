@@ -2,8 +2,9 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.QueueDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindQueueByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.QueueMapper;
@@ -11,6 +12,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindQ
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -19,8 +21,8 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
     private final QueueMapper mapper;
 
     @Override
-    public ResultTransformerStep<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
-        return ResultTransformerStep.create()
+    public ResultB<Pagination<QueueDetails>> handle(FindQueueByPaginationQuery query) {
+        return ResultB.create()
                 .flatMap(aVoid -> {
                     var queuePagination = repository.findByPagination(PaginationFilter.of(
                             query.page(),
@@ -38,7 +40,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationQueryH
                             queuePagination.totalPages()
                     );
 
-                    return Result.success(detailsPagination);
+                    return ResultB.of(detailsPagination);
                 });
     }
 

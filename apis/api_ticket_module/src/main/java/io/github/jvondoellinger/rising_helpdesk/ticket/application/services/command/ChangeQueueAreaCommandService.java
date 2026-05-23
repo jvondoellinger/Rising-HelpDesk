@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.queue.ChangeQueueAreaCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.ChangeQueueAreaCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -20,18 +19,18 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
     private final CurrentUserService currentUserService;
 
     @Override
-    public ResultTransformerStep<Void> handle(ChangeQueueAreaCommand cmd) {
-        return ResultTransformerStep.create()
+    public ResultB<Void> handle(ChangeQueueAreaCommand cmd) {
+        return ResultB.create()
                 .flatMap(aVOid -> {
                     var optional = repository.findById(cmd.id());
 
                     if (optional.isEmpty())
-                        return Result.error(new DomainError("NO_QUEUE_FOUND_WITH_THIS_ID", "No queue found with this ID."));
+                        return ResultB.error(new DomainError("NO_QUEUE_FOUND_WITH_THIS_ID", "No queue found with this ID."));
 
                     var queue = optional.get();
                     var area = cmd.area();
                     if (queue.getArea().equals(area))
-                        return Result.error(new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
+                        return (ResultB<Void>)(ResultB<?>)ResultB.create().map(v -> new DomainError("THE_QUEUE_ALREADY_HAS_THIS_SUBAREA", "The queue already has this subarea."));
 
                     var updated = new Queue(
                             queue.getId(),
@@ -44,7 +43,7 @@ public class ChangeQueueAreaCommandService implements ChangeQueueAreaCommandHand
                     );
 
                     repository.save(updated);
-                    return Result.success();
+                    return ResultB.create();
                 });
     }
 

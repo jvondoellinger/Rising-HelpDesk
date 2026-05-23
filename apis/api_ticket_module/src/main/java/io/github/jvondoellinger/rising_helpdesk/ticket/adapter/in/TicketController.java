@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.TicketResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.ticket.*;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.*;
@@ -23,7 +24,7 @@ public class TicketController {
 	private final TicketResponseMapper responseMapper;
 
 	@GetMapping
-	public Result<?> get(
+	public ResultB<?> get(
 		   @RequestParam(defaultValue = "0") int page,
 		   @RequestParam(defaultValue = "100") int limit
 	) {
@@ -31,14 +32,12 @@ public class TicketController {
 			   page,
 			   limit)
 		);
-
-
-
-		return Result.success(responseMapper.from(result.getValue()));
+		var response = responseMapper.from(result.getOrDefault(null));
+		return ResultB.of(response);
 	}
 
 	@GetMapping("/{id}")
-	public Result<?> getById(@PathVariable UUID id) {
+	public ResultB<?> getById(@PathVariable UUID id) {
 		var result = queryBus.send(new FindTicketByIdQuery(
 			   id
 		));
@@ -47,7 +46,7 @@ public class TicketController {
 	}
 
 	@PostMapping
-	public Result<?> create(@RequestBody CreateTicketRequest request) {
+	public ResultB<?> create(@RequestBody CreateTicketRequest request) {
 		var result = commandBus.send(new CreateTicketCommand(
 			   request.title(),
 			   request.queueId(),
@@ -58,7 +57,7 @@ public class TicketController {
 	}
 
 	@PostMapping("/delegate")
-	public Result<?> delegateToQueue(@RequestBody DelegateTicketRequest request) {
+	public ResultB<?> delegateToQueue(@RequestBody DelegateTicketRequest request) {
 		var result = commandBus.send(new DelegateTicketCommand(
 			   request.ticketId(),
 			   request.queueId()
@@ -68,7 +67,7 @@ public class TicketController {
 	}
 
 	@PostMapping("/mention")
-	public Result<?> addMention(@RequestBody AddTicketMentionRequest request) {
+	public ResultB<?> addMention(@RequestBody AddTicketMentionRequest request) {
 		var result = commandBus.send(new AddTicketMentionCommand(
 			   request.ticketId(),
 			   request.userId()
@@ -78,7 +77,7 @@ public class TicketController {
 	}
 
 	@DeleteMapping("/mention")
-	public Result<?> removeMention(@RequestBody RemoveTicketMentionRequest request) {
+	public ResultB<?> removeMention(@RequestBody RemoveTicketMentionRequest request) {
 		var result = commandBus.send(new RemoveTicketMentionCommand(
 			   request.ticketId(),
 			   request.userId()
@@ -88,7 +87,7 @@ public class TicketController {
 
 
 	@PostMapping("/interact")
-	public Result<?> interact(@RequestBody AddInteractionRequest request) {
+	public ResultB<?> interact(@RequestBody AddInteractionRequest request) {
 		var result = commandBus.send(new AddInteractionCommand(
 			   request.interaction(),
 			   request.ticketId()
@@ -97,10 +96,9 @@ public class TicketController {
 	}
 
 	@PatchMapping("/status/{id}")
-	public Result<?> closeTicket(@PathVariable UUID id) {
-		var result = commandBus.send(new CloseTicketCommand(
+	public ResultB<?> closeTicket(@PathVariable UUID id) {
+		return commandBus.send(new CloseTicketCommand(
 			   id
 		));
-		return result;
 	}
 }

@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.queue.RemoveQueueCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.RemoveQueueHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
@@ -15,18 +14,18 @@ public class RemoveQueueService implements RemoveQueueHandler {
 	private final QueueRepository repository;
 
 	@Override
-	public ResultTransformerStep<Void> handle(RemoveQueueCommand cmd) {
-		return ResultTransformerStep.create()
+	public ResultB<Void> handle(RemoveQueueCommand cmd) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optional = repository.findById(cmd.queueId());
 
 				   if (optional.isEmpty()) {
-					   return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
+					   return ResultB.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
 				   }
 
 				   repository.delete(optional.get());
 
-				   return Result.success();
+				   return ResultB.create();
 			   });
 	}
 

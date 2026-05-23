@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.RemoveTicketMentionCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.RemoveTicketMentionHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -20,11 +19,11 @@ public class RemoveTicketMentionService implements RemoveTicketMentionHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public ResultTransformerStep<Void> handle(RemoveTicketMentionCommand cmd) {
-		return ResultTransformerStep.create()
+	public ResultB<Void> handle(RemoveTicketMentionCommand cmd) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   if (ticketRepository.existsById(cmd.ticketId())) {
-					   return Result.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
+					   return ResultB.error(new DomainError("NO_TICKET_FOUND", "No ticket found."));
 				   }
 
 				   var mention = new Mention(
@@ -34,7 +33,7 @@ public class RemoveTicketMentionService implements RemoveTicketMentionHandler {
 				   );
 
 				   mentionRepository.save(mention);
-				   return Result.success();
+				   return ResultB.create();
 			   });
 	}
 

@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.mapper.QueueResponseMapper;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeAreaRequest;
 import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.in.requests.queue.ChangeSubareaRequest;
@@ -28,7 +29,7 @@ public class QueueController {
 	private final CommandBus commandBus;
 
 	@PostMapping
-	public Result<?> createQueue(@RequestBody CreateQueueRequest request) {
+	public ResultB<?> createQueue(@RequestBody CreateQueueRequest request) {
 		return commandBus.send(new CreateQueueCommand(
 			   request.area(),
 			   request.subarea()
@@ -36,14 +37,14 @@ public class QueueController {
 	}
 
 	@DeleteMapping("/{queueId}")
-	public Result<?> deleteQueue(@PathVariable UUID queueId) {
+	public ResultB<?> deleteQueue(@PathVariable UUID queueId) {
 		return commandBus.send(new RemoveQueueCommand(
 			   queueId
 		));
 	}
 
 	@PatchMapping("/area")
-	public Result<?> changeQueueArea(@RequestBody ChangeAreaRequest request) {
+	public ResultB<?> changeQueueArea(@RequestBody ChangeAreaRequest request) {
 		return commandBus.send(new ChangeQueueAreaCommand(
 			   request.id(),
 			   request.area()
@@ -52,7 +53,7 @@ public class QueueController {
 	}
 
 	@PatchMapping("/subarea")
-	public Result<?> changeQueueSubarea(@RequestBody ChangeSubareaRequest request) {
+	public ResultB<?> changeQueueSubarea(@RequestBody ChangeSubareaRequest request) {
 		return commandBus.send(new ChangeQueueSubareaCommand(
 			   request.id(),
 			   request.subarea()
@@ -62,33 +63,38 @@ public class QueueController {
 
 	// ! Get routes
 	@GetMapping
-	public Result<?> findByPagination(@RequestParam(value = "page", defaultValue = "0") int page,
-									  @RequestParam(value = "size", defaultValue = "100") int size) {
+	public ResultB<?> findByPagination(@RequestParam(value = "page", defaultValue = "0") int page,
+								@RequestParam(value = "size", defaultValue = "100") int size) {
 		var result = queryBus.send(new FindQueueByPaginationQuery(
 			   page,
 			   size
 		));
 
-		if (result.isError()) {
+		if (result.hasErrors()) {
 			return result;
 		}
 
-		var response = responseMapper.from(result.getValue());
-		return Result.success(response);
+		var response = result
+			   .map(responseMapper::from)
+			   .getOrDefault(null);
+
+		return ResultB.of(response);
 	}
 
 	@GetMapping("/{id}")
-	public Result<?> getById(@PathVariable UUID id) {
+	public ResultB<?> getById(@PathVariable UUID id) {
 		var result = queryBus.send(new FindQueueByIdQuery(
 			   id
 		));
 
-		if (result.isError()) {
+		if (result.hasErrors()) {
 			return result;
 		}
 
-		var response = responseMapper.from(result.getValue());
+		var response = result
+			   .map(responseMapper::from)
+			   .getOrDefault(null);
 
-		return Result.success(response);
+		return ResultB.of(response);
 	}
 }

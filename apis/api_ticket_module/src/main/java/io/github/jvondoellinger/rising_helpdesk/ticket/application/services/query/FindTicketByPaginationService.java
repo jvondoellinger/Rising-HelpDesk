@@ -2,8 +2,7 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketByPaginationQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -15,26 +14,24 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class FindTicketByPaginationService implements FindTicketByPaginationQueryHandler {
-    private final TicketRepository repository;
-    private final TicketMapper mapper;
+	private final TicketRepository repository;
+	private final TicketMapper mapper;
 
-    @Override
-    public ResultTransformerStep<Pagination<TicketDetails>> handle(FindTicketByPaginationQuery query) {
-        return ResultTransformerStep.create()
-                .flatMap(aVoid -> {
-                    var filter = PaginationFilter.of(query.page(), query.size());
+	@Override
+	public ResultB<Pagination<TicketDetails>> handle(FindTicketByPaginationQuery query) {
+		return ResultB.create()
+			   .flatMap(aVoid -> {
+				   var filter = PaginationFilter.of(query.page(), query.size());
 
-                     var pagination = repository.findByPagination(filter);
-                     System.out.println("AQui?");
-                     var details = mapper.detailsPagination(pagination);
+				   var pagination = repository.findByPagination(filter);
+				   var details = mapper.detailsPagination(pagination);
 
+				   return ResultB.of(details);
+			   });
+	}
 
-                    return Result.success(details);
-                });
-    }
-
-    @Override
-    public Class<FindTicketByPaginationQuery> getQueryType() {
-        return FindTicketByPaginationQuery.class;
-    }
+	@Override
+	public Class<FindTicketByPaginationQuery> getQueryType() {
+		return FindTicketByPaginationQuery.class;
+	}
 }

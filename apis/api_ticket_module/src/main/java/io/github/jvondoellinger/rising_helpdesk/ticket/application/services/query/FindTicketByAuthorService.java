@@ -2,8 +2,9 @@ package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.que
 
 import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries.FindTicketsByAuthorQueryHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.mappers.TicketMapper;
@@ -11,6 +12,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindT
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
 @Service
 @AllArgsConstructor
@@ -19,8 +21,8 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
     private final TicketMapper mapper;
 
     @Override
-    public ResultTransformerStep<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
-        return ResultTransformerStep.create()
+    public ResultB<Pagination<TicketDetails>> handle(FindTicketsByAuthorQuery query) {
+        return ResultB.create()
                 .flatMap(aVoid -> {
                     var tks = repository.findByAuthorId(query.author(),PaginationFilter.of(query.page(), query.size()));
 
@@ -31,7 +33,7 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandle
 
                     var pagination = Pagination.of(details, tks.page(), tks.totalPages());
 
-                    return Result.success(pagination);
+                    return ResultB.of(pagination);
                 });
     }
 

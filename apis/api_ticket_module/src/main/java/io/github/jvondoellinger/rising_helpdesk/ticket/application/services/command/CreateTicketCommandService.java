@@ -1,7 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.ticket.application.services.command;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.commands.ticket.CreateTicketCommand;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.commands.CreateTicketCommandHandler;
 import io.github.jvondoellinger.rising_helpdesk.ticket.application.services.security.CurrentUserService;
@@ -20,13 +19,13 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 	private final CurrentUserService currentUserService;
 
 	@Override
-	public ResultTransformerStep<Void> handle(CreateTicketCommand cmd) {
-		return ResultTransformerStep.create()
+	public ResultB<Void> handle(CreateTicketCommand cmd) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var queueOptional = queueRepository.findById(cmd.queueId());
 
 				   if (queueOptional.isEmpty()){
-					   return Result.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
+					   return ResultB.error(new DomainError("NO_QUEUE_FOUND", "No queue found."));
 				   }
 
 				   var ticket = new Ticket(
@@ -37,7 +36,7 @@ public class CreateTicketCommandService implements CreateTicketCommandHandler {
 				   );
 
 				   repository.save(ticket);
-				   return Result.success();
+				   return ResultB.create();
 			   });
 	}
 

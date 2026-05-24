@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.api_user_module.features.create_user;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,10 @@ public class CreateUserEndpoint {
 	private final CreateUserHandler handler;
 
 	@PostMapping
-	public Result<?> createUser(@RequestBody CreateUserDto createUserDto) {
+	public ResultB<?> createUser(@RequestBody CreateUserDto createUserDto) {
 		var cmd = new CreateUser(createUserDto.nickname(), createUserDto.email(), createUserDto.password());
 
-		var result = handler.handle(cmd).then();
+		var result = handler.handle(cmd);
 		return result;
 	}
 

@@ -6,8 +6,7 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +24,19 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 	private final PermissionMapper mapper;
 
 	@Override
-	public ResultTransformerStep<Void> handle(RemovePermissionsAccessProfileCommand cmd) {
-		return ResultTransformerStep.create()
+	public ResultB<Void> handle(RemovePermissionsAccessProfileCommand cmd) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optional = repository.findById(cmd.id());
 
 				   if (optional.isEmpty())
-					   return Result.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
+					   return ResultB.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
 
 				   var accessprofile = optional.get();
 				   var permissions = mapper.from(cmd.permissions());
 
 				   if (accessprofile.hasAllPermissions(permissions))
-					   return Result.error(new DomainError("PERMISSIONS_ALREADY_GRANTED", "Permissions already granted."));
+					   return (ResultB<Void>)(ResultB<?>)ResultB.create().map(v -> new DomainError("PERMISSIONS_ALREADY_GRANTED", "Permissions already granted."));
 
 				   var newValue = new AccessProfile(
 						 accessprofile.getId(),
@@ -49,7 +48,7 @@ public class RemovePermissionsAccessProfileService implements RemovePermissionsA
 
 				   repository.save(newValue);
 
-				   return Result.success();
+				   return ResultB.create();
 			   });
 	}
 

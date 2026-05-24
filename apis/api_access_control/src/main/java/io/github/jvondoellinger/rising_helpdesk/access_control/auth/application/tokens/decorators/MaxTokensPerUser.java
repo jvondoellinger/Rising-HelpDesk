@@ -5,7 +5,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 
 import java.util.UUID;
@@ -16,52 +17,52 @@ public class MaxTokensPerUser implements TokenServiceDecorator {
 	private final TokenSettings settings;
 
 	@Override
-	public Result<EncodedToken> generate(TokenPayload payload) {
+	public ResultB<EncodedToken> generate(TokenPayload payload) {
 		var countResult = countJtiByUser(payload.getSubject());
 
-		if (countResult.isError()) {
-			return countResult.castWhenError();
+		if (countResult.hasErrors()) {
+			return countResult.<EncodedToken>map(x -> null);
 		}
 
-		if (countResult.getValue() > settings.getMaxTokensPerUser()) {
-			return Result.error(new DomainError("MAXIMUM_NUMBER_OF_TOKENS_REACHED_PER_USER", "Maximum number of tokens reached per user!"));
+		if (countResult.getOrDefault(Long.MAX_VALUE) > settings.getMaxTokensPerUser()) {
+			return ResultB.error(new DomainError("MAXIMUM_NUMBER_OF_TOKENS_REACHED_PER_USER", "Maximum number of tokens reached per user!"));
 		}
 
 		return service.generate(payload);
 	}
 
 	@Override
-	public Result<EncodedToken> generate() {
+	public ResultB<EncodedToken> generate() {
 		return service.generate();
 	}
 
 	@Override
-	public Result<TokenPayload> verify(EncodedToken token) {
+	public ResultB<TokenPayload> verify(EncodedToken token) {
 		return service.verify(token);
 	}
 
 	@Override
-	public Result<Void> revoke(EncodedToken encodedToken) {
+	public ResultB<Void> revoke(EncodedToken encodedToken) {
 		return service.revoke(encodedToken);
 	}
 
 	@Override
-	public Result<Void> revokeAll(UUID userId) {
+	public ResultB<Void> revokeAll(UUID userId) {
 		return service.revokeAll(userId);
 	}
 
 	@Override
-	public Result<Boolean> isRevoked(EncodedToken encodedToken) {
+	public ResultB<Boolean> isRevoked(EncodedToken encodedToken) {
 		return service.isRevoked(encodedToken);
 	}
 
 	@Override
-	public Result<Boolean> isRevoked(UUID jti, UUID userId) {
+	public ResultB<Boolean> isRevoked(UUID jti, UUID userId) {
 		return service.isRevoked(jti,userId);
 	}
 
 	@Override
-	public Result<Long> countJtiByUser(UUID userId) {
+	public ResultB<Long> countJtiByUser(UUID userId) {
 		return service.countJtiByUser(userId);
 	}
 }

@@ -28,6 +28,7 @@ public class TicketController {
 		   @RequestParam(defaultValue = "0") int page,
 		   @RequestParam(defaultValue = "100") int limit
 	) {
+		System.out.println("ROTA GETB");
 		var result = queryBus.send(new FindTicketByPaginationQuery(
 			   page,
 			   limit)

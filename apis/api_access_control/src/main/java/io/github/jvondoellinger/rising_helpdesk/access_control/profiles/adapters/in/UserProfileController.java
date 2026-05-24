@@ -5,7 +5,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.adapters.in.request.CreateUserProfileRequest;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.CommandBus;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class UserProfileController {
 	private final UserProfileResponseMapper responseMapper;
 
 	@PostMapping
-	public Result<?> create(@RequestBody CreateUserProfileRequest requestDTO) {
+	public ResultB<?> create(@RequestBody CreateUserProfileRequest requestDTO) {
 		var cmd = commandMapper.toCommand(requestDTO);
 		var result = commandBus.send(cmd);
 

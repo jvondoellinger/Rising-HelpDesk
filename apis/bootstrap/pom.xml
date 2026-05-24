@@ -16,7 +16,6 @@
         <groupId>io.github.jvondoellinger</groupId>
         <artifactId>rising-helpdesk</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rising-helpdesk-bootstrap</artifactId>
@@ -40,7 +39,12 @@
         <dependency>
             <groupId>io.github.jvondoellinger</groupId>
             <artifactId>rising-helpdesk-user</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${rising.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.jvondoellinger</groupId>
+            <artifactId>rising-helpdesk-kernel</artifactId>
+            <version>${rising.version}</version>
         </dependency>
 
         <!-- SPRING -->

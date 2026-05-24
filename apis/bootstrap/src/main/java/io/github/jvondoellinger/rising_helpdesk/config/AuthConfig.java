@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class AuthConfig {
-	@Bean
+	//@Bean
 	public JwtAuthFilter jwtAuthFilter(TokenService service) {
 		return new JwtAuthFilter(service);
 	}

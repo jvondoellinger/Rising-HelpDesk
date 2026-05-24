@@ -3,7 +3,7 @@ package io.github.jvondoellinger.api_user_module.features.create_user;
 import io.github.jvondoellinger.api_user_module.domain.User;
 import io.github.jvondoellinger.api_user_module.domain.UserRepository;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.CommandHandler;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,14 @@ public class CreateUserHandler implements CommandHandler<CreateUser> {
 	private final CreateUserMapper mapper;
 
 	@Override
-	public ResultTransformerStep<Void> handle(CreateUser cmd) {
-		return null;
+	public ResultB<Void> handle(CreateUser cmd) {
+		return ResultB.create()
+			   .map(x -> {
+				   var entity = mapper.toUser(cmd);
+				   repository.save(entity);
+
+				   return null;
+			   });
 	}
 
 	@Override

@@ -1,9 +1,10 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.translator;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 
 import java.util.function.Supplier;
 
 public interface ExceptionTranslator<T> {
-	Result<T> translate(Supplier<T> func);
+	ResultB<T> translate(Supplier<T> func);
 }

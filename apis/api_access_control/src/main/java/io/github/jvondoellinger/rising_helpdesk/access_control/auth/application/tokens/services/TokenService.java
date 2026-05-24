@@ -2,29 +2,30 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application
 
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 
 import java.util.UUID;
 
 public interface TokenService {
 	// gen and validate
-	Result<EncodedToken> generate(TokenPayload content);
+	ResultB<EncodedToken> generate(TokenPayload content);
 
 	/**
 	 *
 	 * @return Short-term guest token
 	 */
-	Result<EncodedToken> generate();
+	ResultB<EncodedToken> generate();
 
-	// Result<EncodedToken> generate();
-	Result<TokenPayload> verify(EncodedToken token);
+	// ResultA<EncodedToken> generate();
+	ResultB<TokenPayload> verify(EncodedToken token);
 
 	// Revoke
-	Result<Void> revoke(EncodedToken encodedToken);
-	Result<Void> revokeAll(UUID userId);
-	Result<Boolean> isRevoked(EncodedToken encodedToken);
-	Result<Boolean> isRevoked(UUID jti, UUID userId);
+	ResultB<Void> revoke(EncodedToken encodedToken);
+	ResultB<Void> revokeAll(UUID userId);
+	ResultB<Boolean> isRevoked(EncodedToken encodedToken);
+	ResultB<Boolean> isRevoked(UUID jti, UUID userId);
 
 	// Counters
-	Result<Long> countJtiByUser(UUID userId);
+	ResultB<Long> countJtiByUser(UUID userId);
 }

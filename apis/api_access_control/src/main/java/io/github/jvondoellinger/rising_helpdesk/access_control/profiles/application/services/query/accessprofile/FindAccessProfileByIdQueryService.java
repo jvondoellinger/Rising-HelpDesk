@@ -5,8 +5,9 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.dtos.AccessProfileDetails;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile.FindAccessProfileByIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
@@ -18,21 +19,20 @@ public class FindAccessProfileByIdQueryService implements FindAccessProfileByIdQ
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public ResultTransformerStep<AccessProfileDetails> handle(FindAccessProfileByIdQuery query) {
-		return ResultTransformerStep.create()
-			   .flatMap(aVoid -> {
+	public ResultB<AccessProfileDetails> handle(FindAccessProfileByIdQuery query) {
+		return ResultB.create()
+			   .flatMap(() -> {
 				   var optional = repository.findById(query.id());
 
 				   if (optional.isEmpty()) {
-					   return Result.error(new DomainError("NO_ACCESS_PROFILE_FOUND", "No Access Profile found."));
+					   return ResultB.error(new DomainError("NO_ACCESS_PROFILE_FOUND", "No Access Profile found."));
 				   }
 
 				   var accessprofile = optional.get();
 				   var mapped = mapper.details(accessprofile);
 
-				   return Result.success(mapped);
+				   return ResultB.of(mapped);
 			   });
-
 	}
 
 	@Override

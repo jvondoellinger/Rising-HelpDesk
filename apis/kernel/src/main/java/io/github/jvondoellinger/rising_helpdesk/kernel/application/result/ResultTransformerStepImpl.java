@@ -18,7 +18,7 @@ public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 
 	@Override
 	@FixAfter
-	public <O> ResultTransformerStep<O> flatMap(ResultFunc<T, Result<O>> func) {
+	public <O> ResultTransformerStep<O> flatMap(ResultFunc<T, ResultA<O>> func) {
 		if (error != null) {
 			return createError(error);
 		}
@@ -37,7 +37,7 @@ public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 	}
 
 	@Override
-	public ResultTransformerStep<T> switchIfEmpty(ResultFunc<T, Result<T>> supplier) {
+	public ResultTransformerStep<T> switchIfEmpty(ResultFunc<T, ResultA<T>> supplier) {
 		if (value != null) {
 			return this;
 		}
@@ -53,8 +53,8 @@ public class ResultTransformerStepImpl<T> implements ResultTransformerStep<T> {
 	}
 
 	@Override
-	public Result<T> then() {
-		return new ResultImpl<>(value, error);
+	public ResultA<T> then() {
+		return new ResultAImpl<>(value, error);
 	}
 
 	// Statis

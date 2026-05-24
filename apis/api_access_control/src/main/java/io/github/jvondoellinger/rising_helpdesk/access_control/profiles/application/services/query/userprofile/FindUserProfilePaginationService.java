@@ -7,8 +7,9 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,13 @@ public class FindUserProfilePaginationService implements FindUserProfilePaginati
 	private final UserProfileMapper mapper;
 
 	@Override
-	public ResultTransformerStep<Pagination<UserProfileDetails>> handle(FindUserProfilePaginationQuery query) {
-		return ResultTransformerStep.create()
+	public ResultB<Pagination<UserProfileDetails>> handle(FindUserProfilePaginationQuery query) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var pagination = repository.findByPagination(PaginationFilter.of(query.page(), query.size()));
 				   var paginationMapped = mapper.detailsPagination(pagination);
 
-				   return Result.success(paginationMapped);
+				   return ResultB.of(paginationMapped);
 			   });
 	}
 

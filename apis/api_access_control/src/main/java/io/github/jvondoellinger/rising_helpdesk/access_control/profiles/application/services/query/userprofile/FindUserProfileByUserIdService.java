@@ -5,8 +5,9 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.mappers.UserProfileMapper;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.userprofile.FindUserProfileByUserIdQuery;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
@@ -18,18 +19,18 @@ public class FindUserProfileByUserIdService implements FindUserProfileByUserIdHa
 	private final UserProfileMapper mapper;
 
 	@Override
-	public ResultTransformerStep<UserProfileDetails> handle(FindUserProfileByUserIdQuery query) {
-		return ResultTransformerStep.create()
+	public ResultB<UserProfileDetails> handle(FindUserProfileByUserIdQuery query) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optional = repository.findById(query.userId());
 
 				   if (optional.isEmpty()) {
-					   return Result.error(new DomainError("NO_USER_PROFILE_FOUND", "No User Profile found."));
+					   return ResultB.error(new DomainError("NO_USER_PROFILE_FOUND", "No User Profile found."));
 				   }
 				   var userprofile = optional.get();
 				   var details = mapper.details(userprofile);
 
-				   return Result.success(details);
+				   return ResultB.of(details);
 			   });
 	}
 

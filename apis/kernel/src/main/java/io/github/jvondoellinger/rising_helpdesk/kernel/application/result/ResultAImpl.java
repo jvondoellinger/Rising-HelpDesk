@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.rising_helpdesk.kernel.application.result;
 
-public record ResultImpl<T>(T value, DomainError error) implements Result<T> {
+public record ResultAImpl<T>(T value, DomainError error) implements ResultA<T> {
 	@Override
 	public boolean isError() {
 		return error != null;
@@ -25,7 +25,7 @@ public record ResultImpl<T>(T value, DomainError error) implements Result<T> {
 	}
 	
 	@Override
-	public <T1> Result<T1> castWhenError() {
-		return new ResultImpl<>(null, error);
+	public <T1> ResultA<T1> castWhenError() {
+		return new ResultAImpl<>(null, error);
 	}
 }

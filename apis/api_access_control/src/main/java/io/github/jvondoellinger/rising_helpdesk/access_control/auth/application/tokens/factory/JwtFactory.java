@@ -3,7 +3,8 @@ package io.github.jvondoellinger.rising_helpdesk.access_control.auth.application
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.secretKey.ApiSecretKey;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.translator.JwtExceptionsTranslator;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class JwtFactory {
 	private final ApiSecretKey secretKey;
 
 	// Methods
-	public Result<String> factory(TokenPayload payload) {
+	public ResultB<String> factory(TokenPayload payload) {
 		if (!payload.getExpiration().after(new Date())) {
-			return Result.error(new DomainError("EXPIRATION_EQUAL_TO_CURRENT_TIME", "Expiration equal to current time."));
+			return ResultB.error(new DomainError("EXPIRATION_EQUAL_TO_CURRENT_TIME", "Expiration equal to current time."));
 		}
 
 		return translator.translate(() -> {
@@ -48,7 +49,7 @@ public class JwtFactory {
 	}
 
 	// Methods
-	public Result<String> factory() {
+	public ResultB<String> factory() {
 		return translator.translate(() -> {
 			var expiration = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
 			return Jwts

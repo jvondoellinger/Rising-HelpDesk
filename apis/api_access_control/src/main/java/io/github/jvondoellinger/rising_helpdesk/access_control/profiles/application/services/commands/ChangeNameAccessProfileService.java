@@ -4,9 +4,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.commands.accessprofile.ChangeNameAccessProfileHandler;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.aggregate.AccessProfile;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +19,17 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 	private final AccessProfileRepository repository;
 
 	@Override
-	public ResultTransformerStep<Void> handle(ChangeNameAccessProfileCommand cmd) {
-		return ResultTransformerStep.create()
+	public ResultB<Void> handle(ChangeNameAccessProfileCommand cmd) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optional = repository.findById(cmd.id());
 
 				   if (optional.isEmpty()) {
-					   return Result.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
+					   return ResultB.error(new DomainError("NO_ACCESS_FOUND_ON_PERSISTENCE", "No access found on persistence."));
 				   }
 
 				   if (repository.existsByName(cmd.name())) {
-					   return Result.error(new DomainError("ALREADY_EXISTS_A_PROFILE_WITH_THIS_NAME", "Already exists a profile with this name!"));
+					   return ResultB.error(new DomainError("ALREADY_EXISTS_A_PROFILE_WITH_THIS_NAME", "Already exists a profile with this name!"));
 				   }
 
 				   var accessprofile = optional.get();
@@ -44,7 +43,7 @@ public class ChangeNameAccessProfileService implements ChangeNameAccessProfileHa
 
 				   repository.save(updated);
 
-				   return Result.success(null);
+				   return ResultB.create();
 			   });
 	}
 

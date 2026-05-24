@@ -1,18 +1,18 @@
 package io.github.jvondoellinger.rising_helpdesk.kernel.application.result;
 
-public interface Result<T> {
-	static <T> Result<T> error(DomainError error) {
-		return new ResultImpl<>(null, error);
+public interface ResultA<T> {
+	static <T> ResultA<T> error(DomainError error) {
+		return new ResultAImpl<>(null, error);
 	}
-	static <T> Result<T> error(String code, String description) {
+	static <T> ResultA<T> error(String code, String description) {
 		var error = new DomainError(code, description);
-		return new ResultImpl<>(null, error);
+		return new ResultAImpl<>(null, error);
 	}
-	static <T> Result<T> success() {
-		return new ResultImpl<>(null, null);
+	static <T> ResultA<T> success() {
+		return new ResultAImpl<>(null, null);
 	}
-	static <T> Result<T> success(T value) {
-		return new ResultImpl<>(value, null);
+	static <T> ResultA<T> success(T value) {
+		return new ResultAImpl<>(value, null);
 	}
 
 	boolean isError();
@@ -22,5 +22,5 @@ public interface Result<T> {
 	T getValue();
 	DomainError getError();
 
-	<T> Result<T> castWhenError();
+	<T> ResultA<T> castWhenError();
 }

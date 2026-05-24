@@ -7,8 +7,9 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.AccessProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
@@ -20,17 +21,17 @@ public final class FindAccessProfilePaginationService implements FindAccessProfi
 	private final AccessProfileMapper mapper;
 
 	@Override
-	public ResultTransformerStep<Pagination<AccessProfileDetails>> handle(FindAccessProfilePaginationQuery query) {
-		return ResultTransformerStep.create()
+	public ResultB<Pagination<AccessProfileDetails>> handle(FindAccessProfilePaginationQuery query) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   if (query.size() < 0 || query.page() < 0) {
-					   return Result.error(new DomainError("SIZE_OR_PAGE_NUMBER_CANNOT_BE_SMALLER_0", "Size or page number cannot be smaller 0."));
+					   return ResultB.error(new DomainError("SIZE_OR_PAGE_NUMBER_CANNOT_BE_SMALLER_0", "Size or page number cannot be smaller 0."));
 				   }
 
 				   var pagination = repository.findByPagination(PaginationFilter.of(query.page(), query.size()));
 				   var paginationMapped = mapper.detailsPagination(pagination);
 
-				   return Result.success(paginationMapped);
+				   return ResultB.of(paginationMapped);
 			   });
 	}
 

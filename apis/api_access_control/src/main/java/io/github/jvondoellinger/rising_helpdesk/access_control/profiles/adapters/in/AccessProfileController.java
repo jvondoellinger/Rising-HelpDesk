@@ -14,7 +14,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.accessprofile.FindAccessProfileByIdQuery;
 
 import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class AccessProfileController {
     private final AccessProfileResponseMapper responseMapper;
 
     @GetMapping
-    public Result<?> search(@RequestParam UUID id) {
+    public ResultB<?> search(@RequestParam UUID id) {
         var query = new FindAccessProfileByIdQuery(id);
         var result = queryBus.send(query);
 
@@ -41,7 +42,7 @@ public class AccessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Result<?> create(@RequestBody CreateAccessProfileRequest request) {
+    public ResultB<?> create(@RequestBody CreateAccessProfileRequest request) {
         var cmd = commandMapper.from(request);
         var result = commandBus.send(cmd);
 
@@ -50,7 +51,7 @@ public class AccessProfileController {
     }
 
     @PutMapping("/name")
-    public Result<?> changeNameAccessProfile(@RequestBody ChangeAccessProfileNameRequest request) {
+    public ResultB<?> changeNameAccessProfile(@RequestBody ChangeAccessProfileNameRequest request) {
         var cmd = commandMapper.from(request);
         var result = commandBus.send(cmd);
 
@@ -59,7 +60,7 @@ public class AccessProfileController {
 
     @FixAfter
     @PatchMapping("/permissions/remove")
-    public Result<?> removePermissionAccessProfile(@RequestBody RemoveAccessProfilePermissionRequest request) {
+    public ResultB<?> removePermissionAccessProfile(@RequestBody RemoveAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
         var cmd = new RemovePermissionsAccessProfileCommand(request.id(), permissions);
         var result = commandBus.send(cmd);
@@ -69,7 +70,7 @@ public class AccessProfileController {
 
     @FixAfter
     @PatchMapping("/permissions/add")
-    public Result<?> addPermissionAccessProfile(@RequestBody AddAccessProfilePermissionRequest request) {
+    public ResultB<?> addPermissionAccessProfile(@RequestBody AddAccessProfilePermissionRequest request) {
         var permissions = new PermissionsDTO(request.permissions());
         var cmd = new AddPermissionsAccessProfileCommand(request.id(), permissions);
         var result = commandBus.send(cmd);

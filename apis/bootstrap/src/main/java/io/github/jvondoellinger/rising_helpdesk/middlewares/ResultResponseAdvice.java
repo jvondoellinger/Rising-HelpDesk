@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.middlewares;
 
 import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,13 +15,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class ResultResponseAdvice implements ResponseBodyAdvice<Object> {
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-		return Result.class.isAssignableFrom(returnType.getParameterType());
+		return ResultA.class.isAssignableFrom(returnType.getParameterType());
 	}
 
 	@Override
 	@FixAfter
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		if (body instanceof Result<?> result) {
+		if (body instanceof ResultA<?> result) {
 			if (result.isSuccess()) {
 				return result.getValue();
 			}
@@ -37,7 +37,7 @@ public class ResultResponseAdvice implements ResponseBodyAdvice<Object> {
 			return error;
 		}
 
-		// Case isn't Result<>
+		// Case isn't ResultA<>
 		return body;
 	}
 }

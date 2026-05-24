@@ -30,11 +30,10 @@ public class CookieAuth extends OncePerRequestFilter {
 		}
 
 		var result = service.verify(new EncodedToken(header));
-		if (result.isError()) {
+		if (result.hasErrors()) {
 			unauthorize(response);
 			return;
 		}
-		var content = result.getValue();
 
 		filterChain.doFilter(request, response);
 	}

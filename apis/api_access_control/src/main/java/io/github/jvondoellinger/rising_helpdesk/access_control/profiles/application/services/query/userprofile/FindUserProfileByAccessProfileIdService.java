@@ -7,8 +7,9 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.domain.repository.UserProfileRepository;
 import io.github.jvondoellinger.rising_helpdesk.kernel.PaginationFilter;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStep;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultTransformerStepImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
@@ -20,19 +21,19 @@ public class FindUserProfileByAccessProfileIdService implements FindUserProfileB
 	private final UserProfileMapper mapper;
 
 	@Override
-	public ResultTransformerStep<Pagination<UserProfileDetails>> handle(FindUserProfileByAccessProfileIdQuery query) {
-		return ResultTransformerStep.create()
+	public ResultB<Pagination<UserProfileDetails>> handle(FindUserProfileByAccessProfileIdQuery query) {
+		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var filter = PaginationFilter.of(query.page(), query.size());
 				   var pagination = repository.findByAccessProfileId(query.accessProfileId(), filter);
 
 				   if (pagination.isEmpty()) {
-					   return Result.error(new DomainError("NO_PROFILE_FOUND", "No profile found."));
+					   return ResultB.error(new DomainError("NO_PROFILE_FOUND", "No profile found."));
 				   }
 
 				   var detailsPagination = mapper.detailsPagination(pagination);
 
-				   return Result.success(detailsPagination);
+				   return ResultB.of(detailsPagination);
 			   });
 	}
 

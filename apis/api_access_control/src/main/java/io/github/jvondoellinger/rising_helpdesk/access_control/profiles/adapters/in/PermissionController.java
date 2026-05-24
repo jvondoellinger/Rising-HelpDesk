@@ -7,7 +7,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.applicat
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.CommandBus;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.handlers.bus.QueryBus;
 import io.github.jvondoellinger.rising_helpdesk.access_control.profiles.application.queries.permission.FindPermissionPaginationQuery;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class PermissionController {
     private final QueryBus queryBus;
 
     @GetMapping
-    public Result<?> get(
+    public ResultB<?> get(
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
         var query = new FindPermissionPaginationQuery(page, size);
@@ -29,7 +30,7 @@ public class PermissionController {
     }
 
     @PostMapping
-    public Result<?> post(@RequestBody CreatePermissionRequest request) {
+    public ResultB<?> post(@RequestBody CreatePermissionRequest request) {
         var cmd = new CreatePermissionCommand(request.permission());
         var result = commandBus.send(cmd);
 
@@ -37,7 +38,7 @@ public class PermissionController {
     }
 
     @PutMapping("{permission}")
-    public Result<?> replace(
+    public ResultB<?> replace(
             @PathVariable("permission") String permission,
             @RequestBody ChangePermissionCodeRequest request) {
         var cmd = new ChangePermissionCode(request.code());

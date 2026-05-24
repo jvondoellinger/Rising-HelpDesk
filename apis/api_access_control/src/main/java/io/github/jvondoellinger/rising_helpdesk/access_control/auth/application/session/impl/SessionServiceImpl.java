@@ -7,7 +7,8 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.tokens.factory.TokenPayloadFactory;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -29,33 +30,33 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	@FixAfter
-	public Result<SessionData> create(TokenPayload payload) {
+	public ResultB<SessionData> create(TokenPayload payload) {
 		return null;
 	}
 
 	@Override
-	public Result<Boolean> canIssueNewToken(UUID userId) {
+	public ResultB<Boolean> canIssueNewToken(UUID userId) {
 		var key = keyFactory.getJtiKey(userId);
 		var activeTokens = template.opsForSet().size(key);
 
 		if (Objects.isNull(activeTokens)) {
-			return Result.error(new DomainError("UNEXPECTED_ERROR_COUNT_VALUE_RETURNED_IS_NULL", "Unexpected error! Count value returned is null."));
+			return ResultB.error(new DomainError("UNEXPECTED_ERROR_COUNT_VALUE_RETURNED_IS_NULL", "Unexpected error! Count value returned is null."));
 		}
 
 		if (activeTokens >= settings.getMaxTokensPerUser()) {
-			return Result.success(false);
+			return ResultB.of(false);
 		}
 
-		return Result.success(true);
+		return ResultB.of(true);
 	}
 
 	@Override
-	public Result<Integer> getActiveTokensCount(UUID userId) {
+	public ResultB<Integer> getActiveTokensCount(UUID userId) {
 		return null;
 	}
 
 	@Override
-	public Result<List<SessionData>> getActiveSessions(UUID userId) {
+	public ResultB<List<SessionData>> getActiveSessions(UUID userId) {
 		return null;
 	}
 }

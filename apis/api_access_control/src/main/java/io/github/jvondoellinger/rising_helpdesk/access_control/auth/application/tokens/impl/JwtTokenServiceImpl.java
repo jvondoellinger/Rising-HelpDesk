@@ -7,10 +7,10 @@ import io.github.jvondoellinger.rising_helpdesk.access_control.auth.application.
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.TokenPayload;
 import io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain.EncodedToken;
 import io.github.jvondoellinger.rising_helpdesk.kernel.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.Result;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
+import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.UUID;
 import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.DomainError;
 
-// Adicionar um mapper que vai retornar Result<> e fazer toda conversão do jwt para o payload ou vice-versa, assim permitindo que o código fique mais limpo e leigivel!
+// Adicionar um mapper que vai retornar ResultA<> e fazer toda conversão do jwt para o payload ou vice-versa, assim permitindo que o código fique mais limpo e leigivel!
 
 
 @AllArgsConstructor
@@ -30,136 +30,116 @@ public class JwtTokenServiceImpl implements TokenService {
 	private final JtiKeyFactory keyFactory;
 
 	@Override
-	public Result<EncodedToken> generate(TokenPayload payload) {
-		Result<String> jwtResult = jwtFactory.factory(payload);
+	public ResultB<EncodedToken> generate(TokenPayload payload) {
+		ResultB<String> jwtResult = jwtFactory.factory(payload);
 
-		if (jwtResult.isError()) {
-			return jwtResult.castWhenError();
+		if (jwtResult.hasErrors()) {
+			return jwtResult.boxingError();
 		}
 
-		var jwt = jwtResult.getValue();
+		var jwt = jwtResult.getOrDefault("");
 		var encodedToken = new EncodedToken(jwt);
 
-		return Result.success(encodedToken);
+		return ResultB.of(encodedToken);
 	}
 
 	@Override
-	public Result<EncodedToken> generate() {
-		var jwtResult = jwtFactory.factory();
-
-		if (jwtResult.isError()) {
-			return jwtResult.castWhenError();
-		}
-
-		var jwt = jwtResult.getValue();
-		var encodedToken = new EncodedToken(jwt);
-
-		return Result.success(encodedToken);
+	public ResultB<EncodedToken> generate() {
+		return jwtFactory.factory()
+			   .map(token -> {
+				   var encodedToken = new EncodedToken(token);
+				   return encodedToken;
+			   });
 	}
 
 	@Override
-	public Result<TokenPayload> verify(EncodedToken encodedToken) {
-		// Payload result
-		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
-		if (payloadResult.isError()) return payloadResult;
+	public ResultB<TokenPayload> verify(EncodedToken encodedToken) {
+		return payloadFactory.fromEncodedToken(encodedToken)
+			   .flatMap(payload -> {
 
-		// Payload Value
-		var payload = payloadResult.getValue();
-
-		// Revoke result
-		var revokedResult = isRevoked(payload.getJti(), payload.getSubject());
-		if (revokedResult.isError()) return Result.error(new DomainError("WE_WERE_UNABLE_TO_VERIFY_IF_THE_TOKEN_HAS_BEEN_REVOKED", "We were unable to verify if the token has been revoked!"));
-
-		// Revoke Value
-		var isRevoked = revokedResult.getValue();
-		if (isRevoked) return Result.error(new DomainError("TOKEN_REVOKED", "Token revoked!"));
-
-		return Result.success(payload);
+				   return isRevoked(payload.getJti(), payload.getSubject())
+						 .mapIfError(x -> new DomainError("WE_WERE_UNABLE_TO_VERIFY_IF_THE_TOKEN_HAS_BEEN_REVOKED", "We were unable to verify if the token has been revoked!"))
+						 .flatMap(revoked -> ResultB.error(new DomainError("TOKEN_REVOKED", "Token revoked!")));
+			   });
 	}
 	@Override
-	public Result<Void> revoke(EncodedToken token) {
-		// Payload result
-		var payloadResult = payloadFactory.fromEncodedToken(token);
-		if (payloadResult.isError()) return payloadResult.castWhenError();
+	public ResultB<Void> revoke(EncodedToken token) {
+		return payloadFactory.fromEncodedToken(token)
+			   .flatMap(payload -> {
+				   var userId = payload.getSubject();
+				   var jti = payload.getJti().toString();
 
-		// Arrange
-		var payload = payloadResult.getValue();
-		var userId = payload.getSubject();
-		var jti = payload.getJti().toString();
+				   // Check duration
+				   if (payload.isExpired()) return ResultB.error(new DomainError("EXPIRED_TOKEN", "Expired token!"));
 
-		// Check duration
-		var duration = Duration.between(Instant.now(), payload.getExpiration().toInstant());
-		if (duration.isNegative() || duration.isZero()) return Result.error(new DomainError("EXPIRED_TOKEN", "Expired token!"));
+				   // Redis keys
+				   var revokeKey = keyFactory.getJtiRevokedKey(userId);
+				   var activeKey = keyFactory.getJtiKey(userId);
 
-		// Redis keys
-		var revokeKey = keyFactory.getJtiRevokedKey(userId);
-		var activeKey = keyFactory.getJtiKey(userId);
+				   // Removing jti from active tokens
+				   template.opsForSet().remove(activeKey, jti);
 
-		// Removing jti from active tokens
-		template.opsForSet().remove(activeKey, jti);
+				   // Including jti in revoked tokens
+				   template.opsForSet().add(revokeKey, jti);
+				   template.expire(revokeKey, payload.getRemainTime());
 
-		// Including jti in revoked tokens
-		template.opsForSet().add(revokeKey, jti);
-		template.expire(revokeKey, duration);
-
-		return Result.success(null);
+				   return ResultB.of(null);
+			   });
 	}
 	@Override
-	public Result<Void> revokeAll(UUID userId) {
-		var revokeKey = keyFactory.getJtiRevokedKey(userId);
-		var activeKey = keyFactory.getJtiKey(userId);
+	public ResultB<Void> revokeAll(UUID userId) {
+		return ResultB.of(null)
+			   .flatMap(aVoid -> {
+				   var revokeKey = keyFactory.getJtiRevokedKey(userId);
+				   var activeKey = keyFactory.getJtiKey(userId);
 
-		// Getting JTIs in Set<>
-		var jtisSet = template.opsForSet().members(activeKey);
+				   // Getting JTIs in Set<>
+				   var jtisSet = template.opsForSet().members(activeKey);
 
-		if (Objects.isNull(jtisSet) || jtisSet.isEmpty()) {
-			return Result.error(new DomainError("NO_ACTIVE_TOKENS_REGISTERED", "No active tokens registered!"));
-		}
+				   if (Objects.isNull(jtisSet) || jtisSet.isEmpty()) {
+					   return ResultB.error(new DomainError("NO_ACTIVE_TOKENS_REGISTERED", "No active tokens registered!"));
+				   }
 
-		// Removing jti from active tokens
-		template.delete(activeKey);
+				   // Removing jti from active tokens
+				   template.delete(activeKey);
 
-		// Including jti in revoked tokens
-		template.opsForSet().add(revokeKey, jtisSet.toArray(new String[0]));
-		template.expire(revokeKey, Duration.ofHours(24));
+				   // Including jti in revoked tokens
+				   template.opsForSet().add(revokeKey, jtisSet.toArray(new String[0]));
+				   template.expire(revokeKey, Duration.ofHours(24));
 
-		return Result.success();
+				   return ResultB.of(null);
+			   });
+
 	}
 	@Override
-	public Result<Boolean> isRevoked(EncodedToken encodedToken) {
-		var payloadResult = payloadFactory.fromEncodedToken(encodedToken);
+	public ResultB<Boolean> isRevoked(EncodedToken encodedToken) {
+		return payloadFactory.fromEncodedToken(encodedToken)
+			   .map(payload -> {
+				   var jti = payload.getJti();
+				   var userId = payload.getSubject();
+				   var key = keyFactory.getJtiRevokedKey(userId);
 
-		if (payloadResult.isError()) {
-			return payloadResult.castWhenError();
-		}
-
-		var payload = payloadResult.getValue();
-		var jti = payload.getJti();
-		var userId = payload.getSubject();
+				   return template
+						 .opsForSet()
+						 .isMember(key, jti);
+			   });
+	}
+	@Override
+	public ResultB<Boolean> isRevoked(UUID jti, UUID userId) {
 		var key = keyFactory.getJtiRevokedKey(userId);
 
 		var isMember = template
 			   .opsForSet()
 			   .isMember(key, jti);
 
-		return Result.success(isMember);
+		return ResultB.of(isMember);
 	}
 	@Override
-	public Result<Boolean> isRevoked(UUID jti, UUID userId) {
-		var key = keyFactory.getJtiRevokedKey(userId);
-
-		var isMember = template
-			   .opsForSet()
-			   .isMember(key, jti);
-
-		return Result.success(isMember);
-	}
-	@Override
-	public Result<Long> countJtiByUser(UUID userId) {
+	public ResultB<Long> countJtiByUser(UUID userId) {
 		var key = keyFactory.getJtiKey(userId);
 		var size = template.opsForSet().size(key);
 
-		return Result.success(size);
+		return ResultB.of(size);
 	}
 }
 

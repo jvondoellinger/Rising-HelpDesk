@@ -1,5 +1,7 @@
 package io.github.jvondoellinger.rising_helpdesk.access_control.auth.domain;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -59,5 +61,12 @@ public class TokenPayload {
 
 	public void revoke() {
 		revoked = true;
+	}
+	public Duration getRemainTime() {
+		return Duration.between(Instant.now(), this.getExpiration().toInstant());
+	}
+	public boolean isExpired() {
+		var duration = getRemainTime();
+		return duration.isNegative() || duration.isZero();
 	}
 }

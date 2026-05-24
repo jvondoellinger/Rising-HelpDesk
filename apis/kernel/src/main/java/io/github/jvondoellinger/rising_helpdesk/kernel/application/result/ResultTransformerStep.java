@@ -10,9 +10,9 @@ public interface ResultTransformerStep<I> {
 
 	// <O> ResultTransformerStep<O> map(ResultFunc<I, O> supplier);
 
-	<O> ResultTransformerStep<O> flatMap(ResultFunc<I, Result<O>> supplier);
-	ResultTransformerStep<I> switchIfEmpty(ResultFunc<I, Result<I>> supplier);
+	<O> ResultTransformerStep<O> flatMap(ResultFunc<I, ResultA<O>> supplier);
+	ResultTransformerStep<I> switchIfEmpty(ResultFunc<I, ResultA<I>> supplier);
 	ResultTransformerStep<I> switchIfEmpty(I value);
 
-	Result<I> then();
+	ResultA<I> then();
 }

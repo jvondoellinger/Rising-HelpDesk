@@ -1,0 +1,9 @@
+package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.queries;
+
+import io.github.jvondoellinger.rising_helpdesk.shared.application.Pagination;
+import io.github.jvondoellinger.rising_helpdesk.shared.application.cqrs.QueryHandler;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.dtos.TicketDetails;
+import io.github.jvondoellinger.rising_helpdesk.ticket.application.queries.FindTicketByPaginationQuery;
+
+public interface FindTicketByPaginationQueryHandler extends QueryHandler<FindTicketByPaginationQuery, Pagination<TicketDetails>> {
+}

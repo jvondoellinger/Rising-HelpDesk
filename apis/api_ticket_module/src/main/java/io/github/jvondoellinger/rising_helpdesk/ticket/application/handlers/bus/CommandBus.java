@@ -1,9 +1,0 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.application.handlers.bus;
-
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.cqrs.Command;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.result.ResultA;
-import io.github.jvondoellinger.rising_helpdesk.kernel.application.short_circuiting.ResultB;
-
-public interface CommandBus {
-    ResultB<Void> send(Command cmd);
-}

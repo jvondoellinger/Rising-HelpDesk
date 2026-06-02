@@ -7,6 +7,7 @@ import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.e
 import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.InteractionRepository;
 import io.github.jvondoellinger.rising_helpdesk.shared.PaginationFilter;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
@@ -15,58 +16,100 @@ import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
+@Log4j2
 public class InteractionRepositoryImpl implements InteractionRepository {
 	private final JpaInteractionRepository jpaInteractionRepository;
 	private final InteractionDbMapper mapper;
 
 	@Override
 	public void save(Interaction entity) {
-		var dbEntity = mapper.from(entity);
+		log.info("Saving Interaction to the database.");
 
+		var dbEntity = mapper.from(entity);
 		jpaInteractionRepository.save(dbEntity);
+
+		log.info("Interaction saved to the database.");
 	}
 
 	@Override
 	public void update(Interaction entity) {
+		log.info("Updating Interaction in the database.");
 		var dbEntity = mapper.from(entity);
 
 		jpaInteractionRepository.save(dbEntity);
+
+		log.info("Interaction updated in the database.");
 	}
 
 	@Override
 	public void delete(Interaction entity) {
+		log.info("Deleting Interaction from the database.");
+
 		jpaInteractionRepository.deleteById(entity.getId());
+
+		log.info("Interaction deleted from the database.");
 	}
 
 	@Override
 	public Optional<Interaction> findById(UUID id) {
-		var optional = jpaInteractionRepository.findById(id);
+		log.info("Retrieving Interaction by id {} from the database.", id);
+		var optionalDbEntity = jpaInteractionRepository.findById(id);
 
-		if (optional.isEmpty()) {
+		if (optionalDbEntity.isEmpty()) {
+			log.info("Interaction not found. id='{}'", id);
 			return Optional.empty();
 		}
 
-		var interaction = optional.get();
-		return Optional.of(mapper.toInteraction(interaction));
+		var interaction = optionalDbEntity.get();
+		var optionalEntity = Optional.of(mapper.toInteraction(interaction));
+
+		log.info("Interaction retrieved from the database.");
+
+		return optionalEntity;
 	}
 
 	@Override
 	public boolean existsById(UUID interactionId) {
-		return jpaInteractionRepository.existsById(interactionId);
+		log.info("Checking existence of Interaction by id '{}'", interactionId);
+
+		var exists = jpaInteractionRepository.existsById(interactionId);
+
+		if (exists) {
+			log.info("Interaction with id '{}' exists.", interactionId);
+		} else {
+			log.info("Interaction with id '{}' does not exist.", interactionId);
+		}
+
+		return exists;
 	}
 
 	@Override
 	public Pagination<Interaction> findByPagination(PaginationFilter filter) {
+		log.info("Retrieving paginated Interaction from the database.");
+
 		var request = PageRequest.of(filter.page(), filter.size());
 		var page = jpaInteractionRepository.findAll(request);
 		var items = page.stream()
 			   .map(mapper::toInteraction)
 			   .toList();
+
+		log.info(
+			   "Interaction pagination completed. page={}, size={}, returnedItems={}, totalItems={}",
+			   filter.page(),
+			   filter.size(),
+			   page.getNumberOfElements(),
+			   page.getTotalElements()
+		);
+
 		return Pagination.of(items, page.getNumber(), page.getTotalPages());
 	}
 
 	@Override
 	public long total() {
-		return jpaInteractionRepository.count();
+		log.info("Counting total Interaction records in the database.");
+
+		var total  =jpaInteractionRepository.count();
+		log.info("Total Interaction records counted: {}", total);
+		return total;
 	}
 }

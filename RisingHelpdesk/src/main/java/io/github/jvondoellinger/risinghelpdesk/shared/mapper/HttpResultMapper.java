@@ -1,0 +1,19 @@
+package io.github.jvondoellinger.rising_helpdesk.shared.adapters;
+
+import io.github.jvondoellinger.rising_helpdesk.shared.application.short_circuiting.ResultB;
+import org.springframework.http.ResponseEntity;
+
+public final class HttpResultMapper {
+	public static <T> ResponseEntity<?> from(ResultB<T> result) {
+		var pair = result.get();
+
+		if (pair.getValue2() != null) {
+			return ResponseEntity
+				   .badRequest()
+				   .body(pair.getValue2().toString());
+		}
+
+		return ResponseEntity.ok(pair.getValue1());
+	}
+
+}

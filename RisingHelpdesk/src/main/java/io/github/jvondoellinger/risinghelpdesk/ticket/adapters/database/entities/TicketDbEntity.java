@@ -1,6 +1,5 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.anotationTest.FixAfter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,6 @@ import java.util.UUID;
 @Table(name = "tb_tickets")
 @Getter
 @Setter
-@FixAfter
 public class TicketDbEntity {
 	@Id()
 	private UUID id;

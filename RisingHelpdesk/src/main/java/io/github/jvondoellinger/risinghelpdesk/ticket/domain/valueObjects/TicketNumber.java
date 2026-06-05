@@ -1,6 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects;
-
-import io.github.jvondoellinger.rising_helpdesk.shared.anotationTest.FixAfter;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.valueObjects;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,11 +24,12 @@ public class TicketNumber {
     public static TicketNumber create() {
         return new TicketNumber();
     }
-    @FixAfter
+
     public static TicketNumber parse(String n) {
         LocalDateTime time = LocalDateTime.parse(n, formatter);
 
-        if (time.isAfter(LocalDateTime.now())) throw new RuntimeException("The ticket number received is invalid and could not be analyzed!");
+        if (time.isAfter(LocalDateTime.now()))
+            throw new RuntimeException("The ticket number received is invalid and could not be analyzed!");
 
         return new TicketNumber(n);
     }

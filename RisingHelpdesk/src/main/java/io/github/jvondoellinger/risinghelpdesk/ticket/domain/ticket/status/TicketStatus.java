@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.status;
 
 // Status do chamado
 public enum TicketStatus {

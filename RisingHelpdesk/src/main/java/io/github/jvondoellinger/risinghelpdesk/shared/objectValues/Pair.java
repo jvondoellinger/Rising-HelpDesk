@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.application.objectValues;
+package io.github.jvondoellinger.risinghelpdesk.shared.objectValues;
 
 public class Pair<P, V> {
 	private final P value1;

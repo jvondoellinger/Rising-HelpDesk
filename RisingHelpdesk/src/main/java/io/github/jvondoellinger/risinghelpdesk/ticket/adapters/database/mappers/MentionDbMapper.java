@@ -1,8 +1,8 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.MentionDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.TicketDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.MentionDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.TicketDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Mention;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

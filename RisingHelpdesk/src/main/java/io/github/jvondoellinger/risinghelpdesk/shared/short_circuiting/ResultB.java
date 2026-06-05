@@ -1,7 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.application.short_circuiting;
+package io.github.jvondoellinger.risinghelpdesk.shared.short_circuiting;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.application.objectValues.Pair;
-import io.github.jvondoellinger.rising_helpdesk.shared.application.result.DomainError;
+import io.github.jvondoellinger.risinghelpdesk.shared.objectValues.Pair;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -168,7 +167,5 @@ public abstract class ResultB<T> {
 			return supplier.get();
 		}
 		// </editor-fold>
-
-
 	}
 }

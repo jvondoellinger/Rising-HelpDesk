@@ -1,6 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.state;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status.TicketStatus;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.status.TicketStatus;
 
 public final class TicketStateFactory {
 	public static TicketState from(TicketStatus status) {

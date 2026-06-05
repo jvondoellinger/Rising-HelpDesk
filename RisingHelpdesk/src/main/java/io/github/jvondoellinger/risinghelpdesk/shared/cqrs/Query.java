@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.application.cqrs;
+package io.github.jvondoellinger.risinghelpdesk.shared.cqrs;
 
 public interface Query<R> {
 }

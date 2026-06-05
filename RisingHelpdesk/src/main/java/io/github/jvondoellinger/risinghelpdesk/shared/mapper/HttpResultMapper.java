@@ -1,6 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.adapters;
+package io.github.jvondoellinger.risinghelpdesk.shared.mapper;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.application.short_circuiting.ResultB;
+import io.github.jvondoellinger.risinghelpdesk.shared.short_circuiting.ResultB;
 import org.springframework.http.ResponseEntity;
 
 public final class HttpResultMapper {

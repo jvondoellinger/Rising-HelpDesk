@@ -1,9 +1,9 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.shared.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.shared.infrastructure.CrudRepository;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.CrudRepository;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.Pagination;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.PaginationFilter;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Queue;
 
 import java.util.Optional;
 import java.util.UUID;

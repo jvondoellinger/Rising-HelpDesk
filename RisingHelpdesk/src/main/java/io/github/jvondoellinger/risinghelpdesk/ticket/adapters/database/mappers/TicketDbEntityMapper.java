@@ -1,18 +1,17 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.mappers;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.anotationTest.FixAfter;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.InteractionDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.QueueDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.Ticket;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketStateFactory;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status.TicketStatus;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.MentionDbEntity;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.TicketDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.InteractionDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.QueueDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.MentionDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.TicketDbEntity;
 
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.Ticket;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Interaction;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Mention;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Queue;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.state.TicketStateFactory;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.status.TicketStatus;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.valueObjects.TicketNumber;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,7 +55,6 @@ public class TicketDbEntityMapper {
 		return ticketDbEntity;
 	}
 
-	@FixAfter
 	public Ticket toTicket(TicketDbEntity dbEntity) {
 		if (dbEntity.getStatus() == null)
 			throw new RuntimeException("Ticket status returning null from database");

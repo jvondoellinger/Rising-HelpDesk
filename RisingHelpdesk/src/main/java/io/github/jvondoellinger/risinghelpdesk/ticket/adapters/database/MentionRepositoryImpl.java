@@ -1,10 +1,10 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.shared.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaMentionRepository;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.MentionRepository;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.Pagination;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.PaginationFilter;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.jpa.JpaMentionRepository;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.MentionRepository;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Mention;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.application.Pagination;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa.JpaQueueRepository;
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.mappers.QueueDbMapper;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository.QueueRepository;
-import io.github.jvondoellinger.rising_helpdesk.shared.PaginationFilter;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.Pagination;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.PaginationFilter;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.jpa.JpaQueueRepository;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.mappers.QueueDbMapper;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.QueueRepository;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Queue;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;

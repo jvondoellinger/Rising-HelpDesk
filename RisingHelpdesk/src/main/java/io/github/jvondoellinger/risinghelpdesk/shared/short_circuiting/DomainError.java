@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.application.result;
+package io.github.jvondoellinger.risinghelpdesk.shared.short_circuiting;
 
 public record DomainError(String code, String description) {
 	public static final DomainError NONE = new DomainError("","");

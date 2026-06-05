@@ -1,7 +1,7 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.repository;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository;
 
-import io.github.jvondoellinger.rising_helpdesk.shared.infrastructure.CrudRepository;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
+import io.github.jvondoellinger.risinghelpdesk.shared.repository.CrudRepository;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Mention;
 
 import java.util.UUID;
 

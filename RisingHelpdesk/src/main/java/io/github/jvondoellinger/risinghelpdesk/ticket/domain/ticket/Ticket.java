@@ -1,13 +1,12 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Mention;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Queue;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities.Interaction;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketClosedState;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketState;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.state.TicketStateFactory;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.status.TicketStatus;
-import io.github.jvondoellinger.rising_helpdesk.ticket.domain.valueObjects.TicketNumber;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Interaction;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Mention;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities.Queue;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.state.TicketState;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.state.TicketStateFactory;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.status.TicketStatus;
+import io.github.jvondoellinger.risinghelpdesk.ticket.domain.valueObjects.TicketNumber;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.shared;
+package io.github.jvondoellinger.risinghelpdesk.shared.repository;
 
 /**
  * The type Pagination filter.

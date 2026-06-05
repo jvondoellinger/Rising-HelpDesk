@@ -1,6 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.jpa;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.InteractionDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.InteractionDbEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

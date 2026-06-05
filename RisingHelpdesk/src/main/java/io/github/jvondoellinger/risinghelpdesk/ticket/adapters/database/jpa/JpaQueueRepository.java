@@ -1,6 +1,6 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.jpa;
+package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.jpa;
 
-import io.github.jvondoellinger.rising_helpdesk.ticket.adapter.out.database.entities.QueueDbEntity;
+import io.github.jvondoellinger.risinghelpdesk.ticket.adapters.database.entities.QueueDbEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.ticket.domain.aggregate.ticket.entities;
+package io.github.jvondoellinger.risinghelpdesk.ticket.domain.ticket.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,7 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.infrastructure;
-
-import io.github.jvondoellinger.rising_helpdesk.shared.PaginationFilter;
-import io.github.jvondoellinger.rising_helpdesk.shared.application.Pagination;
+package io.github.jvondoellinger.risinghelpdesk.shared.repository;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.rising_helpdesk.shared.application;
+package io.github.jvondoellinger.risinghelpdesk.shared.repository;
 
 import java.util.ArrayList;
 import java.util.List;

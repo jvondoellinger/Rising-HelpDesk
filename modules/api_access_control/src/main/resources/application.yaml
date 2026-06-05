@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: agp-protocol
-auth:
-  jwt:
-    max-tokens-per-user: 5
-    timeout: 12h

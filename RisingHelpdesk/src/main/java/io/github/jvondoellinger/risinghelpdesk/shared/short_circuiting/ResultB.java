@@ -149,7 +149,7 @@ public abstract class ResultB<T> {
 
 		@Override
 		public boolean hasErrors() {
-			return Objects.isNull(error);
+			return !Objects.isNull(error);
 		}
 		// </editor-fold>
 

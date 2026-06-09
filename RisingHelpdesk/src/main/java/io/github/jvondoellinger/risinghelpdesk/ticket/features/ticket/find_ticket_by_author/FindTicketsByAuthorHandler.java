@@ -4,5 +4,5 @@ import io.github.jvondoellinger.risinghelpdesk.shared.cqrs.QueryHandler;
 import io.github.jvondoellinger.risinghelpdesk.shared.repository.Pagination;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketDetails;
 
-public interface FindTicketsByAuthorQueryHandler extends QueryHandler<FindTicketsByAuthor, Pagination<TicketDetails>> {
+public interface FindTicketsByAuthorHandler extends QueryHandler<FindTicketsByAuthor, Pagination<TicketDetails>> {
 }

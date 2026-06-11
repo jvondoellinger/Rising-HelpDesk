@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.risinghelpdesk.ticket.configs;
+package io.github.jvondoellinger.risinghelpdesk.ticket.infrastructure.configs;
 
 import io.github.jvondoellinger.risinghelpdesk.shared.security.AuthenticatedUser;
 import org.springframework.stereotype.Component;

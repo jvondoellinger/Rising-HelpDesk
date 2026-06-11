@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.risinghelpdesk.ticket.adapters.cache;
+package io.github.jvondoellinger.risinghelpdesk.ticket.infrastructure.serializer.cache;
 
 import io.github.jvondoellinger.risinghelpdesk.shared.short_circuiting.ResultB;
 import lombok.AllArgsConstructor;
@@ -16,13 +16,13 @@ public class ResultRedisSerializer implements RedisSerializer<ResultB<?>> {
 	@Override
 	public byte[] serialize(@Nullable ResultB<?> value) throws SerializationException {
 		if (value.hasErrors()) {
-			throw new SerializationException(value.getErrorOrNull().toString());
+			return null;
 		}
 
 		var resultValue = value.getOrDefault(null);
 
 		if (resultValue == null) {
-			throw new SerializationException("Result value is null");
+			return null;
 		}
 
 		return mapper.writeValueAsBytes(resultValue);

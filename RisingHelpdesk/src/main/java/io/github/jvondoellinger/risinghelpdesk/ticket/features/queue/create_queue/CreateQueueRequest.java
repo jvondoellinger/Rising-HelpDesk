@@ -1,4 +1,5 @@
 package io.github.jvondoellinger.risinghelpdesk.ticket.features.queue.create_queue;
 
-public record CreateQueueRequest() {
+public record CreateQueueRequest(String area,
+						   String subarea) {
 }

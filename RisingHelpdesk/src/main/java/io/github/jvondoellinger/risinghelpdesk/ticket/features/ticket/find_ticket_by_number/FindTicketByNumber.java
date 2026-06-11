@@ -4,5 +4,5 @@ import io.github.jvondoellinger.risinghelpdesk.shared.cqrs.Query;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketDetails;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.valueObjects.TicketNumber;
 
-public record FindTicketByNumberQuery(TicketNumber number) implements Query<TicketDetails> {
+public record FindTicketByNumber(TicketNumber number) implements Query<TicketDetails> {
 }

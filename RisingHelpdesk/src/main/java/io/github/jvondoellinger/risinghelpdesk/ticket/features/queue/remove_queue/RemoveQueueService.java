@@ -12,7 +12,7 @@ public class RemoveQueueService implements RemoveQueueHandler {
 	private final QueueRepository repository;
 
 	@Override
-	public ResultB<Void> handle(RemoveQueue cmd) {
+	public ResultB handle(RemoveQueue cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optional = repository.findById(cmd.queueId());

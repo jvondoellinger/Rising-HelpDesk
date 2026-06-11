@@ -27,6 +27,7 @@ public abstract class ResultB<T> {
 	abstract public ResultB<T> mapIfError(Consumer<DomainError> error);
 	abstract public <O> ResultB<O> doOnNext(Supplier<O> value);
 	abstract public T getOrDefault(T other);
+	abstract public DomainError getErrorOrNull();
 	abstract public <T> ResultB<T> boxingError();
 	abstract public Pair<T, DomainError> get();
 	//abstract public ResultB<T> intercept(ResultB<?> interceptor);
@@ -135,6 +136,11 @@ public abstract class ResultB<T> {
 			}
 
 			return obj;
+		}
+
+		@Override
+		public DomainError getErrorOrNull() {
+			return error;
 		}
 
 		@Override

@@ -15,7 +15,7 @@ public class CreateQueueService implements CreateQueueHandler {
 	private final AuthenticatedUser authenticatedUser;
 
 	@Override
-	public ResultB<Void> handle(CreateQueue cmd) {
+	public ResultB handle(CreateQueue cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   if (cmd == null) {

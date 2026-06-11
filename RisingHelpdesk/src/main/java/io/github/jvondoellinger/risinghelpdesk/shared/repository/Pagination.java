@@ -3,20 +3,12 @@ package io.github.jvondoellinger.risinghelpdesk.shared.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pagination<T> {
-	private final List<T> items;
-	private final int page;
-	private final int size;
-	private final int totalPages;
-	private Pagination(List<T> items,
-				   int page,
-				   int size,
-				   int totalPages) {
-		this.items = items;
-		this.page = page;
-		this.size = size;
-		this.totalPages = totalPages;
-	}
+public record Pagination<T>(
+	   List<T> items,
+	   int page,
+	   int size,
+	   int totalPages
+) {
 	public static <T> Pagination<T> of(List<T> items,
 								int page,
 								int totalPages) {
@@ -29,21 +21,5 @@ public class Pagination<T> {
 
 	public boolean isEmpty() {
 		return items.isEmpty();
-	}
-
-	public List<T> items() {
-		return items;
-	}
-
-	public int page() {
-		return page;
-	}
-
-	public int size() {
-		return size;
-	}
-
-	public int totalPages() {
-		return totalPages;
 	}
 }

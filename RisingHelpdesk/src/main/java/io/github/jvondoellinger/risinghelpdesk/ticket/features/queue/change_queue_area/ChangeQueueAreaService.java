@@ -17,7 +17,7 @@ public class ChangeQueueAreaService implements ChangeQueueAreaHandler {
     private final AuthenticatedUser authenticatedUser;
 
     @Override
-    public ResultB<Void> handle(ChangeQueueArea cmd) {
+    public ResultB handle(ChangeQueueArea cmd) {
         return ResultB.create()
                 .flatMap(aVOid -> {
                     var optional = repository.findById(cmd.id());

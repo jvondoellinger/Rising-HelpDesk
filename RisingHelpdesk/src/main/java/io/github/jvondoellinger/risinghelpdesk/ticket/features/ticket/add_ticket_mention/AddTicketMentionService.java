@@ -17,7 +17,7 @@ public class AddTicketMentionService implements AddTicketMentionHandler {
 	private final AuthenticatedUser authenticatedUser;
 
 	@Override
-	public ResultB<Void> handle(AddTicketMention cmd) {
+	public ResultB handle(AddTicketMention cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   if (!ticketRepository.existsById(cmd.ticketId()))

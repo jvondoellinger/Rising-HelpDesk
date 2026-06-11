@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class FindTicketByAuthorService implements FindTicketsByAuthorQueryHandler{
+public class FindTicketByAuthorService implements FindTicketsByAuthorHandler {
     private final TicketRepository repository;
     private final TicketMapper mapper;
 

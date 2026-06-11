@@ -17,7 +17,7 @@ public class ChangeQueueSubareaService implements ChangeQueueSubareaHandler {
 	private final AuthenticatedUser authenticatedUser;
 
 	@Override
-	public ResultB<Void> handle(ChangeQueueSubarea cmd) {
+	public ResultB handle(ChangeQueueSubarea cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optional = repository.findById(cmd.id());

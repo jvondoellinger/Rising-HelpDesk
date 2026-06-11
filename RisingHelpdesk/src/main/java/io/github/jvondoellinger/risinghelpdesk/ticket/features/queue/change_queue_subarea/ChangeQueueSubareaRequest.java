@@ -1,4 +1,6 @@
 package io.github.jvondoellinger.risinghelpdesk.ticket.features.queue.change_queue_subarea;
 
-public class ChangeQueueSubareaRequest {
+import java.util.UUID;
+
+public record ChangeQueueSubareaRequest(UUID id, String subarea) {
 }

@@ -29,6 +29,7 @@ public class TicketDbEntityMapper {
 		ticketDbEntity.setOpenedBy(ticket.getOpenedBy());
 		ticketDbEntity.setLastUpdatedBy(ticket.getLastUpdatedBy() == null ? null : ticket.getLastUpdatedBy());
 		ticketDbEntity.setLastUpdatedOn(ticket.getLastUpdatedOn());
+		ticketDbEntity.setStatus(ticket.getState().getStatus().toString());
 
 		// !! OBS: Não adicionar o Ticket em setTicket, pode trazer bugs/inconsistencias!
 		var queueDbEntity = new QueueDbEntity();

@@ -14,7 +14,7 @@ public class ChangeTicketQueueService implements ChangeTicketQueueHandler {
 	private final QueueRepository queueRepository;
 
 	@Override
-	public ResultB<Void> handle(ChangeTicketQueue cmd) {
+	public ResultB handle(ChangeTicketQueue cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var queueOptional = queueRepository.findById(cmd.queueId());

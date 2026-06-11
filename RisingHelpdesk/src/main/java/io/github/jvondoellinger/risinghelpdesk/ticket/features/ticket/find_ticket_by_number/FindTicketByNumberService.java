@@ -18,7 +18,7 @@ public class FindTicketByNumberService
 
 	@Override
 	// @Cacheable(value = "queue-by-number", key = "#query.number()")
-	public ResultB<TicketDetails> handle(FindTicketByNumberQuery query) {
+	public ResultB<TicketDetails> handle(FindTicketByNumber query) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var num = query.number();
@@ -38,7 +38,7 @@ public class FindTicketByNumberService
 	}
 
 	@Override
-	public Class<FindTicketByNumberQuery> getQueryType() {
-		return FindTicketByNumberQuery.class;
+	public Class<FindTicketByNumber> getQueryType() {
+		return FindTicketByNumber.class;
 	}
 }

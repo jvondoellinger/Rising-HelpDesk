@@ -1,4 +1,6 @@
 package io.github.jvondoellinger.risinghelpdesk.ticket.features.queue.change_queue_area;
 
-public record ChangeQueueAreaRequest() {
+import java.util.UUID;
+
+public record ChangeQueueAreaRequest(UUID id, String area) {
 }

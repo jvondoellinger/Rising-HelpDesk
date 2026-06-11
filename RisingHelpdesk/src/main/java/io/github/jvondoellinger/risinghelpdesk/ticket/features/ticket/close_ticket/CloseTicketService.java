@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.risinghelpdesk.ticket.features.ticket.close_ticket;
 
-import io.github.jvondoellinger.risinghelpdesk.shared.cqrs.CommandHandler;
 import io.github.jvondoellinger.risinghelpdesk.shared.short_circuiting.DomainError;
 import io.github.jvondoellinger.risinghelpdesk.shared.short_circuiting.ResultB;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.TicketRepository;
@@ -13,7 +12,7 @@ public class CloseTicketService implements CloseTicketHandler {
 	private final TicketRepository repository;
 
 	@Override
-	public ResultB<Void> handle(CloseTicket cmd) {
+	public ResultB handle(CloseTicket cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   var optionalTk = repository.findById(cmd.ticketId());

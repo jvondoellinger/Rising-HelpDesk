@@ -17,7 +17,7 @@ public class RemoveTicketMentionService implements RemoveTicketMentionHandler {
 	private final AuthenticatedUser authenticatedUser;
 
 	@Override
-	public ResultB<Void> handle(RemoveTicketMention cmd) {
+	public ResultB handle(RemoveTicketMention cmd) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
 				   if (ticketRepository.existsById(cmd.ticketId())) {

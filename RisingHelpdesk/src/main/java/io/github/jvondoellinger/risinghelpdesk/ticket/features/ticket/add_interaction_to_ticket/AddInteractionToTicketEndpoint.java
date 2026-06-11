@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.risinghelpdesk.ticket.features.ticket.add_interaction_to_ticket;
 
+import io.github.jvondoellinger.risinghelpdesk.shared.mapper.HttpResultMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AddInteractionToTicketEndpoint {
 	private final AddInteractionToTicketHandler handler;
 
-	@PatchMapping
+	@PatchMapping("/add/interaction")
 	ResponseEntity<?> addInteractionOnTicket(@RequestBody AddInteractionToTicketRequest request) {
 		var cmd = new AddInteractionToTicket(request.text(), request.ticketId());
 		var result = handler.handle(cmd);
 
-		return ResponseEntity.ok().build();
+		return HttpResultMapper.from(result);
 	}
 }

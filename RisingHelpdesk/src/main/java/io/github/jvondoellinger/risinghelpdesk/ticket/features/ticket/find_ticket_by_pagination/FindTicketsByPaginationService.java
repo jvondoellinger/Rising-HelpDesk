@@ -7,6 +7,7 @@ import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketDetails;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketMapper;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class FindTicketsByPaginationService implements FindTicketsByPaginationHa
 	private final TicketMapper mapper;
 
 	@Override
-	// @Cacheable(value = "queue-by-pagination", key = "#query.page() + ':' + #query.size()")
+	@Cacheable(value = "queue-by-pagination", key = "#query.page() + ':' + #query.size()")
 	public ResultB<Pagination<TicketDetails>> handle(FindTicketsByPagination query) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {
@@ -34,3 +35,4 @@ public class FindTicketsByPaginationService implements FindTicketsByPaginationHa
 		return FindTicketsByPagination.class;
 	}
 }
+

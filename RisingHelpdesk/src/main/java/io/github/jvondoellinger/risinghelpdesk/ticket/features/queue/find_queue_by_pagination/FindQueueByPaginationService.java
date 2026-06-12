@@ -7,6 +7,7 @@ import io.github.jvondoellinger.risinghelpdesk.ticket.application.QueueDetails;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.QueueMapper;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class FindQueueByPaginationService implements FindQueueByPaginationHandle
     private final QueueMapper mapper;
 
     @Override
-    // @Cacheable(value = "queue-by-pagination", key = "#query.page() + ':' + #query.size()")
+    @Cacheable(value = "queue-by-pagination", key = "#query.page() + ':' + #query.size()")
     public ResultB<Pagination<QueueDetails>> handle(FindQueueByPagination query) {
         return ResultB.create()
                 .flatMap(aVoid -> {

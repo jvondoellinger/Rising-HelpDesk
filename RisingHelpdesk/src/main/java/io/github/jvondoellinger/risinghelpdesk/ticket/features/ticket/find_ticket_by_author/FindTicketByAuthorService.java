@@ -7,6 +7,7 @@ import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketDetails;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketMapper;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class FindTicketByAuthorService implements FindTicketsByAuthorHandler {
     private final TicketMapper mapper;
 
     @Override
-    // @Cacheable(value = "ticket-by-area", key = "#query.author() + ':' + #query.page() + ':' + #query.size()")
+    @Cacheable(value = "ticket-by-area", key = "#query.author() + ':' + #query.page() + ':' + #query.size()")
     public ResultB<Pagination<TicketDetails>> handle(FindTicketsByAuthor query) {
         return ResultB.create()
                 .flatMap(aVoid -> {

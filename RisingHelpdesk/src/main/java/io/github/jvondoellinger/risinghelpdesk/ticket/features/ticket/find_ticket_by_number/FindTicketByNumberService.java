@@ -6,6 +6,7 @@ import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketDetails;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.TicketMapper;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.TicketRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +18,7 @@ public class FindTicketByNumberService
 	private final TicketMapper mapper;
 
 	@Override
-	// @Cacheable(value = "queue-by-number", key = "#query.number()")
+	@Cacheable(value = "queue-by-number", key = "#query.number()")
 	public ResultB<TicketDetails> handle(FindTicketByNumber query) {
 		return ResultB.create()
 			   .flatMap(aVoid -> {

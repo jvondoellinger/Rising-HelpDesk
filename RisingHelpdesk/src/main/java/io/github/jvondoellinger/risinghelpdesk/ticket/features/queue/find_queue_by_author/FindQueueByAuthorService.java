@@ -8,6 +8,7 @@ import io.github.jvondoellinger.risinghelpdesk.ticket.application.QueueDetails;
 import io.github.jvondoellinger.risinghelpdesk.ticket.application.QueueMapper;
 import io.github.jvondoellinger.risinghelpdesk.ticket.domain.repository.QueueRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +18,7 @@ public class FindQueueByAuthorService implements FindQueueByAuthorHandler {
     private final QueueMapper mapper;
 
     @Override
-    // @Cacheable(value = "queue-by-author", key = "#query.authorId()")
+    @Cacheable(value = "queue-by-author", key = "#query.authorId()")
     public ResultB<Pagination<QueueDetails>> handle(FindQueueByAuthor query) {
         return ResultB.create()
                 .flatMap(aVoid -> {
